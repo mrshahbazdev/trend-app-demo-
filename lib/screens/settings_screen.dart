@@ -8,12 +8,15 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: Row(
           children: [
-            const Icon(Icons.shield, color: AppColors.primary, size: 22),
+            Image.asset('assets/images/logo.png', width: 28, height: 28),
             const SizedBox(width: 8),
-            const Text('TrendUp', style: TextStyle(fontWeight: FontWeight.w700)),
+            const Text('Settings', style: TextStyle(fontWeight: FontWeight.w700)),
           ],
         ),
       ),
@@ -37,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             _sectionHeader('Privacy & Security'),
-            _settingsTile(context, Icons.shield_outlined, 'Secure Mode', trailing: _statusBadge('Active', AppColors.success)),
+            _settingsTile(context, Icons.shield_outlined, 'Secure Mode', trailing: _statusBadge('Active', AppColors.success), onTap: () => Navigator.pushNamed(context, '/secure-mode')),
             _settingsTile(context, Icons.lock_outline, 'E2EE Status', trailing: _statusBadge('Active', AppColors.success)),
             _settingsTile(context, Icons.timer_outlined, 'Auto-lock timer', trailing: const Text('15m', style: TextStyle(color: AppColors.textSecondary, fontSize: 13))),
             _sectionHeader('Notifications'),
@@ -87,6 +90,11 @@ class SettingsScreen extends StatelessWidget {
             _settingsTile(context, Icons.wallet, 'Wallet', onTap: () => Navigator.pushNamed(context, '/wallet')),
             _settingsTile(context, Icons.block, 'Blocked Users', onTap: () => Navigator.pushNamed(context, '/blocked')),
             _settingsTile(context, Icons.notifications_outlined, 'Notifications', onTap: () => Navigator.pushNamed(context, '/notifications')),
+            _settingsTile(context, Icons.qr_code, 'QR Code', onTap: () => Navigator.pushNamed(context, '/qr-share')),
+            _settingsTile(context, Icons.person_add, 'Invite Friends', onTap: () => Navigator.pushNamed(context, '/invite')),
+            _settingsTile(context, Icons.restore, 'Recovery', onTap: () => Navigator.pushNamed(context, '/recovery')),
+            _settingsTile(context, Icons.verified_user, 'Safety Number', onTap: () => Navigator.pushNamed(context, '/safety')),
+            _settingsTile(context, Icons.timer, 'Disappearing Messages', onTap: () => Navigator.pushNamed(context, '/disappearing')),
             _settingsTile(context, Icons.info_outline, 'About TrendUp'),
             const SizedBox(height: 16),
             Center(

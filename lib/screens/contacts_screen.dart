@@ -16,7 +16,10 @@ class ContactsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: const Text('Contacts', style: TextStyle(fontWeight: FontWeight.w700)),
         actions: [
           IconButton(icon: const Icon(Icons.person_add_outlined), onPressed: () => Navigator.pushNamed(context, '/add-contact')),

@@ -9,10 +9,13 @@ class InboxScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: Row(
           children: [
-            const Icon(Icons.shield, color: AppColors.primary, size: 22),
+            Image.asset('assets/images/logo.png', width: 28, height: 28),
             const SizedBox(width: 8),
             const Text('TrendUp', style: TextStyle(fontWeight: FontWeight.w700)),
           ],

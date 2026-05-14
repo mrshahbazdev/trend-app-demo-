@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/bottom_nav.dart';
+import '../widgets/app_drawer.dart';
 import 'inbox_screen.dart';
 import 'groups_screen.dart';
 import 'contacts_screen.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: TrendUpBottomNav(
         currentIndex: _currentIndex,

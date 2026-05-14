@@ -10,7 +10,7 @@ class HubScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            const Icon(Icons.shield, color: AppColors.primary, size: 22),
+            Image.asset('assets/images/logo.png', width: 28, height: 28),
             const SizedBox(width: 8),
             const Text('TrendUp Hub', style: TextStyle(fontWeight: FontWeight.w700)),
           ],

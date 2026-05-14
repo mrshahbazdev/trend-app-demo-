@@ -9,16 +9,20 @@ class GroupsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: Row(
           children: [
-            const Icon(Icons.shield, color: AppColors.primary, size: 22),
+            Image.asset('assets/images/logo.png', width: 28, height: 28),
             const SizedBox(width: 8),
-            const Text('TrendUp', style: TextStyle(fontWeight: FontWeight.w700)),
+            const Text('Groups', style: TextStyle(fontWeight: FontWeight.w700)),
           ],
         ),
         actions: [
-          IconButton(icon: const Icon(Icons.search, color: AppColors.textSecondary), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.search, color: AppColors.textSecondary), onPressed: () => Navigator.pushNamed(context, '/search')),
+          IconButton(icon: const Icon(Icons.group_add, color: AppColors.textSecondary), onPressed: () => Navigator.pushNamed(context, '/create-group')),
         ],
       ),
       body: SingleChildScrollView(

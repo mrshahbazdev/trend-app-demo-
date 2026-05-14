@@ -19,7 +19,7 @@ class _SignInScreenState extends State<SignInScreen> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.shield, color: AppColors.primary, size: 20),
+            Image.asset('assets/images/logo.png', width: 24, height: 24),
             const SizedBox(width: 8),
             const Text('TrendUp'),
           ],
