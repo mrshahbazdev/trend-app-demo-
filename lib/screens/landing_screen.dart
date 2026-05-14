@@ -13,15 +13,7 @@ class LandingScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(flex: 2),
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.shield, size: 50, color: AppColors.primary),
-              ),
+              Image.asset('assets/images/logo.png', width: 100, height: 100),
               const SizedBox(height: 24),
               const Text(
                 'TrendUp',
