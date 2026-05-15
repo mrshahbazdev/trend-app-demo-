@@ -25,7 +25,7 @@ class InviteScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.border)),
+              decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
               child: Column(
                 children: [
                   const Text('Your Invite Link', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),

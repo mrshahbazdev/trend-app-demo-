@@ -5,6 +5,14 @@ import '../models/mock_data.dart';
 class ContactsScreen extends StatelessWidget {
   const ContactsScreen({super.key});
 
+  static const _avatarGradients = [
+    [Color(0xFF6366F1), Color(0xFFA855F7)],
+    [Color(0xFFF43F5E), Color(0xFFFB923C)],
+    [Color(0xFF10B981), Color(0xFF3B82F6)],
+    [Color(0xFFF59E0B), Color(0xFFD946EF)],
+    [Color(0xFFDFF352), Color(0xFF10B981)],
+  ];
+
   @override
   Widget build(BuildContext context) {
     final grouped = <String, List<MockUser>>{};
@@ -17,23 +25,40 @@ class ContactsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.menu),
+          icon: const Icon(Icons.menu, size: 22),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
-        title: const Text('Contacts', style: TextStyle(fontWeight: FontWeight.w700)),
+        title: const Text('Contacts', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18)),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: Colors.white.withValues(alpha: 0.06)),
+        ),
         actions: [
-          IconButton(icon: const Icon(Icons.person_add_outlined), onPressed: () => Navigator.pushNamed(context, '/add-contact')),
+          IconButton(
+            icon: Icon(Icons.person_add_outlined, size: 20, color: AppColors.textPrimary.withValues(alpha: 0.5)),
+            onPressed: () => Navigator.pushNamed(context, '/add-contact'),
+          ),
         ],
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Search contacts',
-                prefixIcon: Icon(Icons.search, size: 20, color: AppColors.textMuted),
-                contentPadding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search contacts',
+                  prefixIcon: Icon(Icons.search, size: 18, color: AppColors.textMuted),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  hintStyle: TextStyle(fontSize: 13, color: AppColors.textMuted),
+                ),
+                style: const TextStyle(fontSize: 13),
               ),
             ),
           ),
@@ -65,7 +90,7 @@ class ContactsScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           child: Text(letter, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w700, fontSize: 14)),
                         ),
-                        ...contacts.map((c) => _contactTile(context, c)),
+                        ...contacts.asMap().entries.map((e) => _contactTile(context, e.value, e.key)),
                       ],
                     );
                   },
@@ -98,25 +123,36 @@ class ContactsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: active ? AppColors.primary.withValues(alpha: 0.15) : AppColors.surface,
+        color: active ? AppColors.primary.withValues(alpha: 0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: active ? AppColors.primary.withValues(alpha: 0.3) : AppColors.border),
+        border: Border.all(color: active ? AppColors.primary.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08)),
       ),
       child: Text(label, style: TextStyle(color: active ? AppColors.primary : AppColors.textSecondary, fontSize: 12)),
     );
   }
 
-  Widget _contactTile(BuildContext context, MockUser user) {
+  Widget _contactTile(BuildContext context, MockUser user, int index) {
+    final colors = _avatarGradients[index % _avatarGradients.length];
     return InkWell(
       onTap: () => Navigator.pushNamed(context, '/peer-profile'),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: AppColors.surfaceLight,
-              child: Text(user.avatar, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: colors,
+                ),
+                borderRadius: BorderRadius.circular(22),
+              ),
+              child: Center(
+                child: Text(user.avatar, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white)),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -125,7 +161,7 @@ class ContactsScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(user.name, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+                      Text(user.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
                       if (user.isVerified) ...[
                         const SizedBox(width: 4),
                         const Icon(Icons.verified, size: 14, color: AppColors.accent),

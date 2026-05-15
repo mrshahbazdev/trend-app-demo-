@@ -21,7 +21,7 @@ class DisappearingMessagesScreen extends StatelessWidget {
                 children: [
                   const Icon(Icons.timer, size: 40, color: AppColors.primary),
                   const SizedBox(height: 8),
-                  const Text('Burn-After-Read', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                  const Text('Burn-After-Read', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 4),
                   const Text('Messages will self-destruct after the set time.', textAlign: TextAlign.center, style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                 ],

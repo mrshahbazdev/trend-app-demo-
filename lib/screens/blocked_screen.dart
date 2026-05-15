@@ -14,7 +14,7 @@ class BlockedUsersScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(8)),
+              decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(8)),
               child: const Text(
                 'Blocked users cannot send you messages, see your online status, or invite you to groups.',
                 style: TextStyle(color: AppColors.textSecondary, fontSize: 13),

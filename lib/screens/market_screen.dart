@@ -9,7 +9,7 @@ class MarketScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Markets', style: TextStyle(fontWeight: FontWeight.w700)),
+        title: const Text('Markets', style: TextStyle(fontWeight: FontWeight.w800)),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
         ],
@@ -22,9 +22,9 @@ class MarketScreen extends StatelessWidget {
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: const Color(0xFF1E293B).withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class MarketScreen extends StatelessWidget {
       children: [
         Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
         const SizedBox(height: 4),
-        Text(value, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+        Text(value, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
         Text(change, style: TextStyle(color: positive ? AppColors.success : AppColors.error, fontSize: 12)),
       ],
     );
@@ -109,7 +109,7 @@ class MarketScreen extends StatelessWidget {
           CircleAvatar(
             radius: 16,
             backgroundColor: AppColors.surfaceLight,
-            child: Text(crypto.symbol[0], style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12)),
+            child: Text(crypto.symbol[0], style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 12)),
           ),
           const SizedBox(width: 10),
           Expanded(

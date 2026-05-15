@@ -67,7 +67,7 @@ class DevicesScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: isCurrent ? AppColors.success.withValues(alpha: 0.3) : AppColors.border),
       ),

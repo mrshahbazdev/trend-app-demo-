@@ -49,7 +49,7 @@ class PollsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: active ? AppColors.primary.withValues(alpha: 0.3) : AppColors.border),
       ),
@@ -71,7 +71,7 @@ class PollsScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Text(question, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+          Text(question, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
           const SizedBox(height: 16),
           ...options.map((o) => _pollOptionBar(o, active)),
           const SizedBox(height: 8),
@@ -92,7 +92,7 @@ class PollsScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.background,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
             ),
           ),
           FractionallySizedBox(

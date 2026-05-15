@@ -16,19 +16,19 @@ class QrShareScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: const Color(0xFF1E293B).withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
               ),
               child: Column(
                 children: [
                   const CircleAvatar(
                     radius: 32,
                     backgroundColor: AppColors.primary,
-                    child: Text('S', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w700)),
+                    child: Text('S', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w800)),
                   ),
                   const SizedBox(height: 12),
-                  const Text('shahbaz', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                  const Text('shahbaz', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
                   const Text('@shahbazdev', style: TextStyle(color: AppColors.textMuted)),
                   const SizedBox(height: 20),
                   Container(

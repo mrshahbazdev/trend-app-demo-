@@ -43,7 +43,7 @@ class StickersScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final emojis = ['\u{1F512}', '\u{1F525}', '\u{1F6E1}', '\u{2705}', '\u{1F4B0}', '\u{1F680}', '\u{1F30D}', '\u{26A1}', '\u{1F4AA}', '\u{1F440}', '\u{2764}', '\u{1F389}', '\u{1F4AC}', '\u{2B50}', '\u{1F451}', '\u{1F3AF}'];
                 return Container(
-                  decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12)),
                   child: Center(child: Text(emojis[index], style: const TextStyle(fontSize: 28))),
                 );
               },

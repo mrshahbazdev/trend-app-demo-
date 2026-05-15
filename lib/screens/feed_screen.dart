@@ -5,87 +5,121 @@ import '../models/mock_data.dart';
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
 
+  static const _avatarGradients = [
+    [Color(0xFF6366F1), Color(0xFFA855F7)],
+    [Color(0xFFF43F5E), Color(0xFFFB923C)],
+    [Color(0xFF10B981), Color(0xFF3B82F6)],
+    [Color(0xFFF59E0B), Color(0xFFD946EF)],
+    [Color(0xFFDFF352), Color(0xFF10B981)],
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Feed', style: TextStyle(fontWeight: FontWeight.w700)),
+        title: const Text('Feed', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18)),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: Colors.white.withValues(alpha: 0.06)),
+        ),
         actions: [
-          IconButton(icon: const Icon(Icons.edit_square), onPressed: () => Navigator.pushNamed(context, '/compose')),
+          IconButton(
+            icon: Icon(Icons.edit_square, size: 20, color: AppColors.textPrimary.withValues(alpha: 0.5)),
+            onPressed: () => Navigator.pushNamed(context, '/compose'),
+          ),
         ],
       ),
-      body: ListView.separated(
+      body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: MockData.feedPosts.length,
-        separatorBuilder: (_, _) => const Divider(height: 24),
-        itemBuilder: (context, index) => _postCard(MockData.feedPosts[index]),
+        itemBuilder: (context, index) => _postCard(MockData.feedPosts[index], index),
       ),
     );
   }
 
-  Widget _postCard(MockPost post) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: AppColors.surfaceLight,
-              child: Text(post.user.avatar, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11)),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(post.user.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                      if (post.user.isVerified) ...[
-                        const SizedBox(width: 4),
-                        const Icon(Icons.verified, size: 14, color: AppColors.accent),
-                      ],
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(post.user.handle, style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
-                      const SizedBox(width: 8),
-                      Text('\u2022  ${post.time}', style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.more_horiz, color: AppColors.textMuted, size: 20),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Text(post.content, style: const TextStyle(fontSize: 14, height: 1.5)),
-        if (post.burnTimer != null) ...[
-          const SizedBox(height: 8),
+  Widget _postCard(MockPost post, int index) {
+    final colors = _avatarGradients[index % _avatarGradients.length];
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Row(
             children: [
-              Icon(Icons.timer, size: 12, color: AppColors.primary),
-              const SizedBox(width: 4),
-              Text('Burn timer: ${post.burnTimer}', style: const TextStyle(color: AppColors.primary, fontSize: 11)),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: colors),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(post.user.avatar, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: Colors.white)),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(post.user.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                        if (post.user.isVerified) ...[
+                          const SizedBox(width: 4),
+                          const Icon(Icons.verified, size: 14, color: AppColors.accent),
+                        ],
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(post.user.handle, style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                        const SizedBox(width: 8),
+                        Text('\u2022  ${post.time}', style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.more_horiz, color: AppColors.textMuted, size: 20),
             ],
           ),
-        ],
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            _actionButton(Icons.favorite_border, _formatCount(post.likes)),
-            const SizedBox(width: 24),
-            _actionButton(Icons.chat_bubble_outline, _formatCount(post.comments)),
-            const SizedBox(width: 24),
-            _actionButton(Icons.repeat, _formatCount(post.reposts)),
-            const Spacer(),
-            const Icon(Icons.bookmark_border, size: 18, color: AppColors.textMuted),
+          const SizedBox(height: 12),
+          Text(post.content, style: const TextStyle(fontSize: 14, height: 1.5)),
+          if (post.burnTimer != null) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(Icons.timer, size: 12, color: AppColors.primary.withValues(alpha: 0.7)),
+                const SizedBox(width: 4),
+                Text('Burn timer: ${post.burnTimer}', style: TextStyle(color: AppColors.primary.withValues(alpha: 0.7), fontSize: 11)),
+              ],
+            ),
           ],
-        ),
-      ],
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.only(top: 12),
+            decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.04)))),
+            child: Row(
+              children: [
+                _actionButton(Icons.favorite_border, _formatCount(post.likes)),
+                const SizedBox(width: 24),
+                _actionButton(Icons.chat_bubble_outline, _formatCount(post.comments)),
+                const SizedBox(width: 24),
+                _actionButton(Icons.repeat, _formatCount(post.reposts)),
+                const Spacer(),
+                Icon(Icons.bookmark_border, size: 18, color: AppColors.textMuted),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -112,17 +146,25 @@ class ComposeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Compose'),
+        title: const Text('Compose', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18)),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: Colors.white.withValues(alpha: 0.06)),
+        ),
         actions: [
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              minimumSize: Size.zero,
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Post', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700)),
+              ),
             ),
-            child: const Text('Post'),
           ),
-          const SizedBox(width: 8),
         ],
       ),
       body: Padding(
@@ -132,10 +174,16 @@ class ComposeScreen extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
-                  radius: 20,
-                  backgroundColor: AppColors.primary,
-                  child: Text('S', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(colors: [Color(0xFFDC2626), Color(0xFF991B1B)]),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Center(
+                    child: Text('S', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16)),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -156,13 +204,13 @@ class ComposeScreen extends StatelessWidget {
             const Spacer(),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 12),
-              decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.border))),
+              decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06)))),
               child: Row(
                 children: [
-                  IconButton(icon: const Icon(Icons.image, color: AppColors.primary, size: 22), onPressed: () {}),
-                  IconButton(icon: const Icon(Icons.attach_file, color: AppColors.primary, size: 22), onPressed: () {}),
-                  IconButton(icon: const Icon(Icons.poll, color: AppColors.primary, size: 22), onPressed: () {}),
-                  IconButton(icon: const Icon(Icons.timer, color: AppColors.primary, size: 22), onPressed: () {}),
+                  IconButton(icon: Icon(Icons.image, color: AppColors.primary, size: 22), onPressed: () {}),
+                  IconButton(icon: Icon(Icons.attach_file, color: AppColors.primary, size: 22), onPressed: () {}),
+                  IconButton(icon: Icon(Icons.poll, color: AppColors.primary, size: 22), onPressed: () {}),
+                  IconButton(icon: Icon(Icons.timer, color: AppColors.primary, size: 22), onPressed: () {}),
                   const Spacer(),
                   Row(
                     children: [
