@@ -12,7 +12,7 @@ class HubScreen extends StatelessWidget {
           children: [
             Image.asset('assets/images/logo.png', width: 28, height: 28),
             const SizedBox(width: 8),
-            const Text('TrendUp Hub', style: TextStyle(fontWeight: FontWeight.w700)),
+            const Text('TrendUp Hub', style: TextStyle(fontWeight: FontWeight.w800)),
           ],
         ),
         actions: [
@@ -46,7 +46,7 @@ class HubScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            const Text('Quick Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            const Text('Quick Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
             const SizedBox(height: 12),
             Row(
               children: [
@@ -71,7 +71,7 @@ class HubScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: const Color(0xFF1E293B).withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withValues(alpha: 0.2)),
         ),
@@ -95,7 +95,7 @@ class HubScreen extends StatelessWidget {
         onTap: () => Navigator.pushNamed(context, route),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 14),
-          decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.border)),
+          decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
           child: Column(
             children: [
               Icon(icon, color: AppColors.primary, size: 22),

@@ -42,7 +42,7 @@ class _SecuringScreenState extends State<SecuringScreen> with SingleTickerProvid
                 children: [
                   const Icon(Icons.shield, color: AppColors.primary, size: 24),
                   const SizedBox(width: 8),
-                  const Text('TrendUp', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                  const Text('TrendUp', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                 ],
               ),
               const Spacer(),

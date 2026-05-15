@@ -39,7 +39,7 @@ class LiveStreamScreen extends StatelessWidget {
                       children: [
                         Container(width: 6, height: 6, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
                         const SizedBox(width: 4),
-                        const Text('LIVE', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w700)),
+                        const Text('LIVE', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w800)),
                       ],
                     ),
                   ),
@@ -84,7 +84,7 @@ class LiveStreamScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const CircleAvatar(radius: 16, backgroundColor: AppColors.surfaceLight, child: Text('T', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12))),
+                      const CircleAvatar(radius: 16, backgroundColor: AppColors.surfaceLight, child: Text('T', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12))),
                       const SizedBox(width: 8),
                       const Text('TrendUp Official', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                       const SizedBox(width: 4),
@@ -111,7 +111,7 @@ class LiveStreamScreen extends StatelessWidget {
                       Expanded(
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(20)),
+                          decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(20)),
                           child: const TextField(
                             decoration: InputDecoration(hintText: 'Send a message...', border: InputBorder.none, contentPadding: EdgeInsets.symmetric(vertical: 10)),
                           ),

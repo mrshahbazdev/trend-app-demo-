@@ -12,9 +12,9 @@ class ChatInfoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const CircleAvatar(radius: 40, backgroundColor: AppColors.surfaceLight, child: Text('S', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700))),
+            const CircleAvatar(radius: 40, backgroundColor: AppColors.surfaceLight, child: Text('S', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800))),
             const SizedBox(height: 12),
-            const Text('stevej', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
+            const Text('stevej', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
             const Text('@stevej', style: TextStyle(color: AppColors.textMuted)),
             const SizedBox(height: 8),
             Row(
@@ -66,7 +66,7 @@ class ChatInfoScreen extends StatelessWidget {
           Container(
             width: 48,
             height: 48,
-            decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.border)),
+            decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
             child: Icon(icon, color: AppColors.primary, size: 22),
           ),
           const SizedBox(height: 6),
@@ -78,7 +78,7 @@ class ChatInfoScreen extends StatelessWidget {
 
   Widget _infoCard(List<Widget> children) {
     return Container(
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.border)),
+      decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
       child: Column(children: children),
     );
   }

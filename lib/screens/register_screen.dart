@@ -181,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: const Color(0xFF1E293B).withValues(alpha: 0.7),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
             ),
@@ -190,7 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 Row(
                   children: [
-                    const Text('Recovery Phrase', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                    const Text('Recovery Phrase', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -215,7 +215,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.background,
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
                       ),
                       child: Center(
                         child: RichText(
@@ -285,7 +285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               color: AppColors.success.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text('REGISTRATION COMPLETE', style: TextStyle(color: AppColors.success, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 1)),
+            child: const Text('REGISTRATION COMPLETE', style: TextStyle(color: AppColors.success, fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1)),
           ),
           const SizedBox(height: 24),
           const Text("You're all set!", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),

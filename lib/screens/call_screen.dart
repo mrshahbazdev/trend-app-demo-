@@ -16,13 +16,13 @@ class CallScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
-              child: const Text('E2EE ACTIVE \u2022 HD Voice', style: TextStyle(color: AppColors.success, fontSize: 10, fontWeight: FontWeight.w700)),
+              child: const Text('E2EE ACTIVE \u2022 HD Voice', style: TextStyle(color: AppColors.success, fontSize: 10, fontWeight: FontWeight.w800)),
             ),
             const Spacer(),
             const CircleAvatar(
               radius: 56,
               backgroundColor: AppColors.surfaceLight,
-              child: Text('S', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700)),
+              child: Text('S', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w800)),
             ),
             const SizedBox(height: 24),
             const Text('stevej', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
@@ -65,7 +65,7 @@ class CallScreen extends StatelessWidget {
         Container(
           width: 52,
           height: 52,
-          decoration: BoxDecoration(color: AppColors.surface, shape: BoxShape.circle, border: Border.all(color: AppColors.border)),
+          decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), shape: BoxShape.circle, border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
           child: Icon(icon, color: AppColors.textPrimary, size: 22),
         ),
         const SizedBox(height: 6),

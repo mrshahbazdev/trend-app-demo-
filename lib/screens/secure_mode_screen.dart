@@ -24,7 +24,7 @@ class SecureModeScreen extends StatelessWidget {
               margin: const EdgeInsets.only(top: 4),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(20)),
-              child: const Text('ACTIVE', style: TextStyle(color: AppColors.success, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 1)),
+              child: const Text('ACTIVE', style: TextStyle(color: AppColors.success, fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1)),
             ),
             const SizedBox(height: 8),
             const Text('Enhanced privacy protections are enabled.', style: TextStyle(color: AppColors.textSecondary)),
@@ -61,7 +61,7 @@ class SecureModeScreen extends StatelessWidget {
           Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(10)),
             child: Icon(icon, color: enabled ? AppColors.success : AppColors.textMuted, size: 20),
           ),
           const SizedBox(width: 14),

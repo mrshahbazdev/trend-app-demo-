@@ -15,10 +15,20 @@ class ChatScreen extends StatelessWidget {
           onTap: () => Navigator.pushNamed(context, '/chat-info'),
           child: Row(
             children: [
-              const CircleAvatar(
-                radius: 18,
-                backgroundColor: AppColors.surfaceLight,
-                child: Text('S', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF6366F1), Color(0xFFA855F7)],
+                  ),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: const Center(
+                  child: Text('S', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white)),
+                ),
               ),
               const SizedBox(width: 10),
               Column(
@@ -26,28 +36,45 @@ class ChatScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Text('stevej', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      const Text('stevej', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
                       const SizedBox(width: 4),
                       const Icon(Icons.verified, size: 14, color: AppColors.accent),
                     ],
                   ),
-                  const Text('E2EE Active', style: TextStyle(color: AppColors.success, fontSize: 11)),
+                  Row(
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(color: AppColors.success, shape: BoxShape.circle),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text('E2EE Active', style: TextStyle(color: AppColors.success, fontSize: 11)),
+                    ],
+                  ),
                 ],
               ),
             ],
           ),
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: Colors.white.withValues(alpha: 0.06)),
+        ),
         actions: [
-          IconButton(icon: const Icon(Icons.call_outlined, size: 22), onPressed: () => Navigator.pushNamed(context, '/call')),
-          IconButton(icon: const Icon(Icons.videocam_outlined, size: 22), onPressed: () => Navigator.pushNamed(context, '/video-call')),
-          IconButton(icon: const Icon(Icons.more_vert, size: 22), onPressed: () {}),
+          IconButton(icon: Icon(Icons.call_outlined, size: 20, color: AppColors.textPrimary.withValues(alpha: 0.5)), onPressed: () => Navigator.pushNamed(context, '/call')),
+          IconButton(icon: Icon(Icons.videocam_outlined, size: 20, color: AppColors.textPrimary.withValues(alpha: 0.5)), onPressed: () => Navigator.pushNamed(context, '/video-call')),
+          IconButton(icon: Icon(Icons.more_vert, size: 20, color: AppColors.textPrimary.withValues(alpha: 0.5)), onPressed: () {}),
         ],
       ),
       body: Column(
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 6),
-            color: AppColors.surface.withValues(alpha: 0.5),
+            decoration: BoxDecoration(
+              color: AppColors.surface.withValues(alpha: 0.5),
+              border: Border(bottom: BorderSide(color: Colors.white.withValues(alpha: 0.04))),
+            ),
             child: const Center(child: E2eeBadge(text: 'End-to-End Encrypted')),
           ),
           Expanded(
@@ -82,7 +109,7 @@ class ChatScreen extends StatelessWidget {
                   bottomLeft: Radius.circular(msg.isMe ? 16 : 4),
                   bottomRight: Radius.circular(msg.isMe ? 4 : 16),
                 ),
-                border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,6 +120,7 @@ class ChatScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.background.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -134,32 +162,39 @@ class ChatScreen extends StatelessWidget {
   Widget _buildInputBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.border)),
+        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
       ),
       child: SafeArea(
         child: Row(
           children: [
-            IconButton(
-              icon: const Icon(Icons.add, color: AppColors.textSecondary, size: 22),
-              onPressed: () {},
-              constraints: const BoxConstraints(),
-              padding: const EdgeInsets.all(8),
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: AppColors.background,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+              ),
+              child: const Icon(Icons.add, color: AppColors.textSecondary, size: 20),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: 8),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: AppColors.background,
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
                 ),
                 child: Row(
                   children: [
                     Icon(Icons.timer, size: 14, color: AppColors.primary.withValues(alpha: 0.6)),
                     const SizedBox(width: 4),
-                    Text('1d', style: TextStyle(color: AppColors.primary.withValues(alpha: 0.6), fontSize: 10)),
+                    Text('1d', style: TextStyle(color: AppColors.primary.withValues(alpha: 0.6), fontSize: 10, fontWeight: FontWeight.w600)),
+                    const SizedBox(width: 8),
+                    Container(width: 1, height: 16, color: Colors.white.withValues(alpha: 0.08)),
                     const SizedBox(width: 8),
                     const Expanded(
                       child: TextField(
@@ -169,7 +204,7 @@ class ChatScreen extends StatelessWidget {
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(vertical: 10),
-                          hintStyle: TextStyle(fontSize: 14),
+                          hintStyle: TextStyle(fontSize: 14, color: AppColors.textMuted),
                         ),
                       ),
                     ),
@@ -177,12 +212,15 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 4),
-            IconButton(
-              icon: const Icon(Icons.send, color: AppColors.primary, size: 22),
-              onPressed: () {},
-              constraints: const BoxConstraints(),
-              padding: const EdgeInsets.all(8),
+            const SizedBox(width: 8),
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: const Icon(Icons.send, color: Colors.white, size: 18),
             ),
           ],
         ),

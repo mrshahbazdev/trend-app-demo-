@@ -14,9 +14,9 @@ class TrendUpBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.bottomNavBg,
-        border: Border(top: BorderSide(color: AppColors.border, width: 0.5)),
+        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 0.5)),
       ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,

@@ -48,7 +48,7 @@ class _LockScreenState extends State<LockScreen> {
               children: [
                 const Icon(Icons.shield, color: AppColors.primary, size: 24),
                 const SizedBox(width: 8),
-                const Text('TrendUp', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                const Text('TrendUp', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
               ],
             ),
             const Spacer(flex: 2),
@@ -60,7 +60,7 @@ class _LockScreenState extends State<LockScreen> {
                 color: AppColors.success.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Text('E2EE ACTIVE', style: TextStyle(color: AppColors.success, fontSize: 10, fontWeight: FontWeight.w700, letterSpacing: 1)),
+              child: const Text('E2EE ACTIVE', style: TextStyle(color: AppColors.success, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1)),
             ),
             const SizedBox(height: 16),
             const Text('Enter your 6-digit PIN', style: TextStyle(color: AppColors.textSecondary)),

@@ -51,9 +51,9 @@ class ChannelsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class ChannelsScreen extends StatelessWidget {
               CircleAvatar(
                 radius: 20,
                 backgroundColor: AppColors.surfaceLight,
-                child: Text(name[0], style: const TextStyle(fontWeight: FontWeight.w700)),
+                child: Text(name[0], style: const TextStyle(fontWeight: FontWeight.w800)),
               ),
               const SizedBox(width: 12),
               Expanded(

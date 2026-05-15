@@ -30,7 +30,7 @@ class StoriesScreen extends StatelessWidget {
             const Divider(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Text('Recent Updates', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+              child: Text('Recent Updates', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
             ),
             _storyFeedItem('stevej', 'Encrypted status update', '2h', true),
             _storyFeedItem('alex', 'Just verified my wallet!', '4h', true),

@@ -8,7 +8,7 @@ class NewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News', style: TextStyle(fontWeight: FontWeight.w700)),
+        title: const Text('News', style: TextStyle(fontWeight: FontWeight.w800)),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
           IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
@@ -35,7 +35,7 @@ class NewsScreen extends StatelessWidget {
             _featuredNews(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Text('Latest', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+              child: Text('Latest', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
             ),
             _newsTile('Bitcoin Surpasses \$97K Amid ETF Inflows', 'CryptoDaily', '2h', 'Crypto'),
             _newsTile('EU Passes Landmark Encryption Protection Act', 'TechWatch', '4h', 'Security'),
@@ -80,10 +80,10 @@ class NewsScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(4)),
-            child: const Text('BREAKING', style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w700)),
+            child: const Text('BREAKING', style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w800)),
           ),
           const SizedBox(height: 12),
-          const Text('TrendUp Protocol v4.0 Released with Enhanced Zero-Knowledge Messaging', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, height: 1.3)),
+          const Text('TrendUp Protocol v4.0 Released with Enhanced Zero-Knowledge Messaging', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, height: 1.3)),
           const SizedBox(height: 8),
           const Text('The latest update introduces revolutionary privacy features including burn-after-read proofs and device-bound encryption.', style: TextStyle(color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
           const SizedBox(height: 12),
@@ -128,7 +128,7 @@ class NewsScreen extends StatelessWidget {
                     const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(4)),
+                      decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(4)),
                       child: Text(category, style: const TextStyle(fontSize: 10, color: AppColors.textSecondary)),
                     ),
                   ],

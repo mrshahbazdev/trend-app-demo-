@@ -8,7 +8,7 @@ class VotingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Governance', style: TextStyle(fontWeight: FontWeight.w700)),
+        title: const Text('Governance', style: TextStyle(fontWeight: FontWeight.w800)),
         actions: [
           IconButton(icon: const Icon(Icons.history), onPressed: () {}),
         ],
@@ -22,9 +22,9 @@ class VotingScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: const Color(0xFF1E293B).withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
               ),
               child: Row(
                 children: [
@@ -33,7 +33,7 @@ class VotingScreen extends StatelessWidget {
                     children: [
                       const Text('Voting Power', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
                       const SizedBox(height: 4),
-                      const Text('2,450 TRU', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                      const Text('2,450 TRU', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
                     ],
                   ),
                   const Spacer(),
@@ -42,7 +42,7 @@ class VotingScreen extends StatelessWidget {
                     children: [
                       const Text('Active Proposals', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
                       const SizedBox(height: 4),
-                      const Text('2', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.primary)),
+                      const Text('2', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: AppColors.primary)),
                     ],
                   ),
                 ],
@@ -90,7 +90,7 @@ class VotingScreen extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: isActive ? AppColors.primary.withValues(alpha: 0.3) : AppColors.border),
       ),
@@ -105,14 +105,14 @@ class VotingScreen extends StatelessWidget {
                   color: (isActive ? AppColors.success : AppColors.textMuted).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Text(status, style: TextStyle(color: isActive ? AppColors.success : AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.w700)),
+                child: Text(status, style: TextStyle(color: isActive ? AppColors.success : AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.w800)),
               ),
               const Spacer(),
               Text(timeLeft, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
             ],
           ),
           const SizedBox(height: 12),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
           const SizedBox(height: 6),
           Text(description, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
           const SizedBox(height: 16),

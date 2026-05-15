@@ -20,6 +20,9 @@ class AppColors {
   static const Color chatBubbleReceived = Color(0xFF1E293B);
   static const Color bottomNavBg = Color(0xFF0D1117);
   static const Color e2eeBadge = Color(0xFF166534);
+  static const Color glassCard = Color(0xB31E293B);
+  static const Color glassBorder = Color(0x0FFFFFFF);
+  static const Color redGlow = Color(0x26DC2626);
 }
 
 class AppTheme {
@@ -59,11 +62,11 @@ class AppTheme {
         fillColor: AppColors.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -77,19 +80,21 @@ class AppTheme {
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          elevation: 4,
+          shadowColor: AppColors.redGlow,
           textStyle: GoogleFonts.inter(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textPrimary,
-          side: const BorderSide(color: AppColors.border),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           textStyle: GoogleFonts.inter(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -97,15 +102,15 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        color: AppColors.surface,
+        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.border, width: 0.5),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.06)),
         ),
       ),
-      dividerTheme: const DividerThemeData(
-        color: AppColors.border,
+      dividerTheme: DividerThemeData(
+        color: Colors.white.withValues(alpha: 0.06),
         thickness: 0.5,
       ),
     );

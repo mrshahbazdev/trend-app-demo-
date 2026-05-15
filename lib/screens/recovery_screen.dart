@@ -52,9 +52,9 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
             itemBuilder: (context, index) {
               return Container(
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: const Color(0xFF1E293B).withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
                 ),
                 child: Center(
                   child: Text('${index + 1}.  ${MockData.recoveryPhrase[index]}', style: const TextStyle(fontSize: 12)),
