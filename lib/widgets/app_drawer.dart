@@ -52,9 +52,9 @@ class AppDrawer extends StatelessWidget {
                 children: [
                   _sectionLabel('MAIN'),
                   _navItem(context, Icons.home_rounded, 'Hub', '/hub'),
-                  _navItem(context, Icons.chat_bubble_rounded, 'Messages', '/home'),
-                  _navItem(context, Icons.group_rounded, 'Groups', '/home'),
-                  _navItem(context, Icons.contacts_rounded, 'Contacts', '/home'),
+                  _navItem(context, Icons.chat_bubble_rounded, 'Messages', '/chats', arguments: 0),
+                  _navItem(context, Icons.group_rounded, 'Groups', '/chats', arguments: 1),
+                  _navItem(context, Icons.contacts_rounded, 'Contacts', '/chats', arguments: 2),
                   _sectionLabel('SOCIAL'),
                   _navItem(context, Icons.dynamic_feed_rounded, 'Feed', '/feed'),
                   _navItem(context, Icons.auto_stories_rounded, 'Stories', '/stories'),
@@ -89,7 +89,7 @@ class AppDrawer extends StatelessWidget {
                   _navItem(context, Icons.emoji_emotions_rounded, 'Stickers', '/stickers'),
                   _navItem(context, Icons.group_add_rounded, 'Create Group', '/create-group'),
                   _navItem(context, Icons.restore_rounded, 'Recovery', '/recovery'),
-                  _navItem(context, Icons.settings_rounded, 'Settings', '/home'),
+                  _navItem(context, Icons.settings_rounded, 'Settings', '/chats', arguments: 3),
                 ],
               ),
             ),
@@ -157,7 +157,7 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _navItem(BuildContext context, IconData icon, String label, String route) {
+  Widget _navItem(BuildContext context, IconData icon, String label, String route, {Object? arguments}) {
     return ListTile(
       leading: Container(
         width: 32,
@@ -174,8 +174,9 @@ class AppDrawer extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       onTap: () {
-        Navigator.pop(context);
-        Navigator.pushNamed(context, route);
+        final navigator = Navigator.of(context);
+        navigator.pop();
+        navigator.pushNamed(route, arguments: arguments);
       },
     );
   }

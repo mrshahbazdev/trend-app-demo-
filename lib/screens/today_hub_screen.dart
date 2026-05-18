@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/grid_background.dart';
 import '../theme/app_theme.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/bottom_nav.dart';
 
 class TodayHubScreen extends StatefulWidget {
   const TodayHubScreen({super.key});
@@ -25,13 +27,14 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      drawer: const AppDrawer(),
       body: GridBackground(
         child: SafeArea(child: Column(children: [
           _header(),
           Expanded(child: [_newsTab(), _forYouTab(), _marketTab()][_tab]),
         ])),
       ),
-      bottomNavigationBar: _bottomNav(),
+      bottomNavigationBar: const AppBottomNav(currentIndex: 0),
     );
   }
 
@@ -45,6 +48,13 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
       ),
       child: Column(children: [
         Row(children: [
+          Builder(
+            builder: (context) => GestureDetector(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: _iconBox(Icons.menu_rounded),
+            ),
+          ),
+          const SizedBox(width: 10),
           ClipRRect(borderRadius: BorderRadius.circular(10),
             child: Image.asset('assets/images/logo.png', width: 30, height: 30)),
           const SizedBox(width: 10),

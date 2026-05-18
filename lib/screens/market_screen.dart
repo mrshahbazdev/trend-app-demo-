@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../models/mock_data.dart';
+import '../widgets/bottom_nav.dart';
 
 class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
@@ -150,6 +151,7 @@ class _MarketScreenState extends State<MarketScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const AppBottomNav(currentIndex: 3),
     );
   }
 

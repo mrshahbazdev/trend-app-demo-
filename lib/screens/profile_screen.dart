@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../models/mock_data.dart';
+import '../widgets/bottom_nav.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -156,6 +157,7 @@ class ProfileScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const AppBottomNav(currentIndex: 4),
     );
   }
 

@@ -63,6 +63,7 @@ class TrendUpApp extends StatelessWidget {
         '/lock': (_) => const LockScreen(),
         '/securing': (_) => const SecuringScreen(),
         '/home': (_) => const TodayHubScreen(),
+        '/chats': (_) => const HomeScreen(),
         '/notifications': (_) => const NotificationsScreen(),
         '/chat': (_) => const ChatScreen(),
         '/chat-info': (_) => const ChatInfoScreen(),
