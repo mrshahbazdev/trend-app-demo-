@@ -1,81 +1,81 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
-import '../models/mock_data.dart';
+import '../widgets/grid_background.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
+  static const _red = Color(0xFFDC2626);
+  static const _bg = Color(0xFF0F172A);
+  static const _cardBg = Color(0xFF1E293B);
+  static const _muted = Color(0xFF94A3B8);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _bg,
       appBar: AppBar(
-        title: const Text('Notifications'),
-        actions: [
-          TextButton(onPressed: () {}, child: const Text('Mark all read', style: TextStyle(color: AppColors.primary, fontSize: 13))),
-        ],
+        backgroundColor: _bg,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('All Notifications', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white)),
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(color: Colors.white.withValues(alpha: 0.06), height: 1),
+        ),
       ),
-      body: ListView.separated(
-        itemCount: MockData.notifications.length,
-        separatorBuilder: (_, _) => const Divider(height: 1),
-        itemBuilder: (context, index) {
-          final n = MockData.notifications[index];
-          return _notificationTile(n);
-        },
-      ),
-    );
-  }
-
-  Widget _notificationTile(MockNotification n) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(color: _iconColor(n.type).withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),
-            child: Icon(_iconData(n.icon), color: _iconColor(n.type), size: 20),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(n.title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                const SizedBox(height: 2),
-                Text(n.description, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-              ],
+      body: GridBackground(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(bottom: 12, left: 4),
+              child: Text('New', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
             ),
-          ),
-          const SizedBox(width: 8),
-          Text(n.time, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
-        ],
+            _notifItem(Icons.bolt_rounded, 'Breaking News', 'Agency publishes raw data report', '2m', true),
+            _notifItem(Icons.how_to_vote_rounded, 'Governance', 'Sell limits poll - quorum reached 72%', '15m', true),
+            _notifItem(Icons.trending_up_rounded, 'Market Alert', 'BTC crossed \$68,000 resistance', '32m', true),
+            
+            const Padding(
+              padding: EdgeInsets.only(top: 16, bottom: 12, left: 4),
+              child: Text('Earlier', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
+            ),
+            _notifItem(Icons.person_add_rounded, 'New Follower', '\$creator started following you', '1h', false),
+            _notifItem(Icons.chat_bubble_rounded, 'Comment', 'Julia replied to your post', '2h', false),
+            _notifItem(Icons.sensors_rounded, 'Live Stream', 'Morning newsroom is starting now', '3h', false),
+            _notifItem(Icons.verified_rounded, 'Verified', 'Your source was fact-checked', '4h', false),
+            _notifItem(Icons.account_balance_wallet_rounded, 'Wallet', 'Deposit confirmed - 0.5 ETH', '5h', false),
+            _notifItem(Icons.how_to_vote_rounded, 'Governance', 'Fee tier pilot proposal passed', '1d', false),
+            _notifItem(Icons.person_add_rounded, 'New Follower', 'Markets desk started following you', '2d', false),
+            _notifItem(Icons.chat_bubble_rounded, 'Comment', 'Truth desk cited your video', '2d', false),
+          ],
+        ),
       ),
     );
   }
 
-  IconData _iconData(String icon) {
-    switch (icon) {
-      case 'chat': return Icons.chat_bubble_outline;
-      case 'group': return Icons.group;
-      case 'shield': return Icons.shield_outlined;
-      case 'device': return Icons.devices;
-      case 'warning': return Icons.warning_amber;
-      case 'wallet': return Icons.account_balance_wallet;
-      default: return Icons.notifications;
-    }
-  }
-
-  Color _iconColor(String type) {
-    switch (type) {
-      case 'message': return AppColors.accent;
-      case 'group': return AppColors.success;
-      case 'security': return AppColors.warning;
-      case 'device': return AppColors.accent;
-      case 'warning': return AppColors.error;
-      case 'wallet': return AppColors.primary;
-      default: return AppColors.textSecondary;
-    }
-  }
+  Widget _notifItem(IconData ic, String title, String sub, String time, bool unread) => Container(
+    margin: const EdgeInsets.only(bottom: 10), padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16),
+      color: unread ? _red.withValues(alpha: 0.04) : _cardBg.withValues(alpha: 0.5),
+      border: Border.all(color: unread ? _red.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.06))),
+    child: Row(children: [
+      Container(width: 44, height: 44, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
+        color: (unread ? _red : _muted).withValues(alpha: 0.1)),
+        child: Icon(ic, size: 20, color: unread ? _red : _muted)),
+      const SizedBox(width: 14),
+      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: unread ? Colors.white : _muted)),
+        const SizedBox(height: 4),
+        Text(sub, style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
+      ])),
+      Column(children: [
+        Text(time, style: const TextStyle(fontSize: 11, color: _muted, fontWeight: FontWeight.w600)),
+        if (unread) ...[const SizedBox(height: 6), Container(width: 8, height: 8, decoration: const BoxDecoration(shape: BoxShape.circle, color: _red))],
+      ]),
+    ]),
+  );
 }

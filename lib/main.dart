@@ -6,6 +6,7 @@ import 'screens/register_screen.dart';
 import 'screens/lock_screen.dart';
 import 'screens/securing_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/today_hub_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/chat_info_screen.dart';
 import 'screens/new_message_screen.dart';
@@ -15,6 +16,7 @@ import 'screens/wallet_screen.dart';
 import 'screens/notifications_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/recovery_screen.dart';
+import 'screens/forgot_password_screen.dart';
 import 'screens/hub_screen.dart';
 import 'screens/news_screen.dart';
 import 'screens/market_screen.dart';
@@ -38,6 +40,7 @@ import 'screens/create_group_screen.dart';
 import 'screens/qr_share_screen.dart';
 import 'screens/file_share_screen.dart';
 import 'screens/secure_mode_screen.dart';
+import 'screens/notifications_screen.dart';
 
 void main() {
   runApp(const TrendUpApp());
@@ -59,7 +62,8 @@ class TrendUpApp extends StatelessWidget {
         '/register': (_) => const RegisterScreen(),
         '/lock': (_) => const LockScreen(),
         '/securing': (_) => const SecuringScreen(),
-        '/home': (_) => const HomeScreen(),
+        '/home': (_) => const TodayHubScreen(),
+        '/notifications': (_) => const NotificationsScreen(),
         '/chat': (_) => const ChatScreen(),
         '/chat-info': (_) => const ChatInfoScreen(),
         '/new-message': (_) => const NewMessageScreen(),
@@ -72,6 +76,7 @@ class TrendUpApp extends StatelessWidget {
         '/notifications': (_) => const NotificationsScreen(),
         '/search': (_) => const SearchScreen(),
         '/recovery': (_) => const RecoveryScreen(),
+        '/forgot': (_) => const ForgotPasswordScreen(),
         '/hub': (_) => const HubScreen(),
         '/news': (_) => const NewsScreen(),
         '/market': (_) => const MarketScreen(),

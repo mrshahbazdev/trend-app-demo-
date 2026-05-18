@@ -281,8 +281,8 @@ class MockData {
   ];
 
   static const List<String> recoveryPhrase = [
-    'ocean', 'breeze', 'metal', 'guard', 'vessel', 'trophy',
-    'active', 'winter', 'legacy', 'shield', 'crypto', 'trend',
+    'anchor', 'fossil', 'velvet', 'canyon', 'blaze', 'prism',
+    'summit', 'drift', 'ember', 'nexus', 'forge', 'pulse',
   ];
 
   static const List<Map<String, String>> callHistory = [

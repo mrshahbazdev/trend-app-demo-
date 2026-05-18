@@ -1,0 +1,23 @@
+TrendUp Today Hub — static handoff bundle
+=========================================
+
+Required for GitHub Pages / static hosting:
+  index.html
+  today-hub.html
+  today-hub-mobile.html
+  where-we-are.html
+  .nojekyll
+  assets/trendup-mark.png
+  assets/trendup-mark.svg
+  assets/brand-logo.svg
+
+Recommended:
+  .gitignore
+  README.md
+  START_HERE.md
+  FIGMA.md
+  FIGMA_FOR_DEVS.md
+  DESIGN_TOKENS_FOR_FIGMA.md
+  DEV_HANDOFF_NEXTJS_SEO_AND_DRAWER.md
+  FILE_MANIFEST.txt (this file)
+  _preview-server.cjs (optional local preview)
