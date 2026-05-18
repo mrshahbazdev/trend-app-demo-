@@ -171,7 +171,7 @@ class WalletScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
@@ -189,7 +189,7 @@ class WalletScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+          color: AppColors.surfaceLight.withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
         ),

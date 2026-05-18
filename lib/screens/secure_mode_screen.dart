@@ -61,7 +61,7 @@ class SecureModeScreen extends StatelessWidget {
           Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.7), borderRadius: BorderRadius.circular(10)),
             child: Icon(icon, color: enabled ? AppColors.success : AppColors.textMuted, size: 20),
           ),
           const SizedBox(width: 14),

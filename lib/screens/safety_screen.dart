@@ -29,7 +29,7 @@ class SafetyNumberScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
+              decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
               child: const Text(
                 '37829 12472 18293 84712\n92847 38192 47281 19283\n28471 93827 41829 37182',
                 textAlign: TextAlign.center,

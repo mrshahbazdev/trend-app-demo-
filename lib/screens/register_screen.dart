@@ -24,13 +24,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _password = '';
   String _confirmPassword = '';
   String _handle = '';
-
-  static const Color _red600 = Color(0xFFDC2626);
-  static const Color _amber500 = Color(0xFFF59E0B);
-  static const Color _emerald500 = Color(0xFF10B981);
-  static const Color _emerald600 = Color(0xFF059669);
-  static const Color _slate400 = Color(0xFF94A3B8);
-  static const Color _slate300 = Color(0xFFCBD5E1);
+  
+  
+  
+  
+  
 
   // Password checks
   bool get _has8Chars => _password.length >= 8;
@@ -53,11 +51,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Color get _strengthColor {
     switch (_strengthCount) {
-      case 0: case 1: return _red600;
-      case 2: return _amber500;
-      case 3: return _emerald500;
-      case 4: return _emerald600;
-      default: return _slate400;
+      case 0: case 1: return AppColors.primary;
+      case 2: return AppColors.warning;
+      case 3: return AppColors.success;
+      case 4: return AppColors.successDark;
+      default: return AppColors.textSecondary;
     }
   }
 
@@ -103,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Container(
                         width: 40, height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E293B),
+                          color: AppColors.surfaceLight,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                         ),
@@ -118,12 +116,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: _currentStep == 2 ? _emerald500.withValues(alpha: 0.15) : _red600.withValues(alpha: 0.15),
+                        color: _currentStep == 2 ? AppColors.success.withValues(alpha: 0.15) : AppColors.primary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         '${_currentStep + 1}/3',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: _currentStep == 2 ? _emerald500 : _red600),
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: _currentStep == 2 ? AppColors.success : AppColors.primary),
                       ),
                     ),
                   ],
@@ -151,7 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Container(
       height: 52,
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
@@ -162,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         decoration: InputDecoration(
           hintText: hint,
           prefixText: prefixText,
-          prefixStyle: TextStyle(color: _slate400, fontWeight: FontWeight.w500),
+          prefixStyle: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.w500),
           hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.2)),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -182,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           // Step indicator
           Row(
             children: [
-              Text('STEP 1 OF 3', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _red600, letterSpacing: 1.5)),
+              Text('STEP 1 OF 3', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.primary, letterSpacing: 1.5)),
               const SizedBox(width: 12),
               Expanded(
                 child: ClipRRect(
@@ -190,7 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: LinearProgressIndicator(
                     value: 0.33,
                     backgroundColor: Colors.white.withValues(alpha: 0.08),
-                    valueColor: AlwaysStoppedAnimation(_red600),
+                    valueColor: AlwaysStoppedAnimation(AppColors.primary),
                     minHeight: 4,
                   ),
                 ),
@@ -207,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const SizedBox(height: 28),
 
           // Handle
-          Text('TRENDUP HANDLE', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _slate400, letterSpacing: 1.5)),
+          Text('TRENDUP HANDLE', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textSecondary, letterSpacing: 1.5)),
           const SizedBox(height: 8),
           _glassInput(
             controller: _handleController,
@@ -217,7 +215,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ? null
                 : Icon(
                     _handleValid ? Icons.check_circle : Icons.cancel,
-                    color: _handleValid ? _emerald500 : _red600,
+                    color: _handleValid ? AppColors.success : AppColors.primary,
                     size: 20,
                   ),
           ),
@@ -229,12 +227,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icon(
                   _handleValid ? Icons.check : Icons.close,
                   size: 12,
-                  color: _handleValid ? _emerald500 : _red600,
+                  color: _handleValid ? AppColors.success : AppColors.primary,
                 ),
                 const SizedBox(width: 4),
                 Text(
                   _handleValid ? 'Handle is available' : 'Min 3 characters required',
-                  style: TextStyle(color: _handleValid ? _emerald500 : _red600, fontSize: 11, fontWeight: FontWeight.w500),
+                  style: TextStyle(color: _handleValid ? AppColors.success : AppColors.primary, fontSize: 11, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -242,13 +240,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const SizedBox(height: 20),
 
           // Display name
-          Text('DISPLAY NAME', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _slate400, letterSpacing: 1.5)),
+          Text('DISPLAY NAME', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textSecondary, letterSpacing: 1.5)),
           const SizedBox(height: 8),
           _glassInput(controller: _displayController, hint: 'How others see you'),
           const SizedBox(height: 20),
 
           // Password
-          Text('PASSWORD', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _slate400, letterSpacing: 1.5)),
+          Text('PASSWORD', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textSecondary, letterSpacing: 1.5)),
           const SizedBox(height: 8),
           _glassInput(
             controller: _passController,
@@ -275,8 +273,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 4,
                     decoration: BoxDecoration(
                       color: _password.isEmpty
-                          ? const Color(0xFF334155)
-                          : i < _strengthCount ? _strengthColor : const Color(0xFF334155),
+                          ? AppColors.borderLight
+                          : i < _strengthCount ? _strengthColor : AppColors.borderLight,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -290,14 +288,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(_strengthLabel, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _strengthColor)),
-                Text('${(_strengthCount * 25)}% Secure', style: TextStyle(fontSize: 10, color: _slate400)),
+                Text('${(_strengthCount * 25)}% Secure', style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
               ],
             ),
           ],
           const SizedBox(height: 20),
 
           // Confirm password
-          Text('CONFIRM PASSWORD', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _slate400, letterSpacing: 1.5)),
+          Text('CONFIRM PASSWORD', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textSecondary, letterSpacing: 1.5)),
           const SizedBox(height: 8),
           _glassInput(
             controller: _confirmController,
@@ -319,12 +317,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icon(
                   _passwordsMatch ? Icons.check_circle : Icons.cancel,
                   size: 12,
-                  color: _passwordsMatch ? _emerald500 : _red600,
+                  color: _passwordsMatch ? AppColors.success : AppColors.primary,
                 ),
                 const SizedBox(width: 4),
                 Text(
                   _passwordsMatch ? 'Passwords match' : 'Passwords do not match',
-                  style: TextStyle(color: _passwordsMatch ? _emerald500 : _red600, fontSize: 11, fontWeight: FontWeight.w500),
+                  style: TextStyle(color: _passwordsMatch ? AppColors.success : AppColors.primary, fontSize: 11, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -335,7 +333,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E293B).withValues(alpha: 0.4),
+              color: AppColors.surfaceLight.withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
             ),
@@ -362,11 +360,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: ElevatedButton(
               onPressed: () => setState(() => _currentStep = 1),
               style: ElevatedButton.styleFrom(
-                backgroundColor: _red600,
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 elevation: 6,
-                shadowColor: _red600.withValues(alpha: 0.3),
+                shadowColor: AppColors.primary.withValues(alpha: 0.3),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -388,7 +386,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Text('Already have an account? ', style: TextStyle(color: Colors.white.withValues(alpha: 0.4), fontSize: 13)),
                 GestureDetector(
                   onTap: () => Navigator.pushReplacementNamed(context, '/signin'),
-                  child: const Text('Sign in', style: TextStyle(color: _red600, fontSize: 13, fontWeight: FontWeight.w700)),
+                  child: const Text('Sign in', style: TextStyle(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w700)),
                 ),
               ],
             ),
@@ -425,7 +423,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           // Step indicator
           Row(
             children: [
-              const Text('STEP 2 OF 3', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _red600, letterSpacing: 1.5)),
+              const Text('STEP 2 OF 3', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.primary, letterSpacing: 1.5)),
               const SizedBox(width: 12),
               Expanded(
                 child: ClipRRect(
@@ -433,7 +431,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: LinearProgressIndicator(
                     value: 0.66,
                     backgroundColor: Colors.white.withValues(alpha: 0.08),
-                    valueColor: const AlwaysStoppedAnimation(_red600),
+                    valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                     minHeight: 4,
                   ),
                 ),
@@ -456,10 +454,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+                color: AppColors.surfaceLight.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: _securityOption == 0 ? _red600.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08),
+                  color: _securityOption == 0 ? AppColors.primary.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08),
                   width: _securityOption == 0 ? 1.5 : 1,
                 ),
               ),
@@ -471,10 +469,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Container(
                         width: 40, height: 40,
                         decoration: BoxDecoration(
-                          color: _securityOption == 0 ? _red600.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
+                          color: _securityOption == 0 ? AppColors.primary.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Icon(Icons.key, color: _securityOption == 0 ? _red600 : _slate400, size: 18),
+                        child: Icon(Icons.key, color: _securityOption == 0 ? AppColors.primary : AppColors.textSecondary, size: 18),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -485,8 +483,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const SizedBox(height: 2),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(color: _emerald500.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),
-                              child: const Text('RECOMMENDED', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: _emerald500)),
+                              decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),
+                              child: const Text('RECOMMENDED', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: AppColors.success)),
                             ),
                           ],
                         ),
@@ -508,13 +506,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF0F172A).withValues(alpha: 0.6),
+                            color: AppColors.background.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 16, child: Text('${index + 1}', style: TextStyle(color: _slate400, fontSize: 11))),
+                              SizedBox(width: 16, child: Text('${index + 1}', style: TextStyle(color: AppColors.textSecondary, fontSize: 11))),
                               const SizedBox(width: 6),
                               Text(MockData.recoveryPhrase[index], style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
                             ],
@@ -528,8 +526,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 44,
                       child: OutlinedButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.copy, size: 14, color: _slate400),
-                        label: Text('Copy to clipboard', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _slate400)),
+                        icon: Icon(Icons.copy, size: 14, color: AppColors.textSecondary),
+                        label: Text('Copy to clipboard', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -540,14 +538,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: _red600.withValues(alpha: 0.08),
+                        color: AppColors.primary.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: _red600.withValues(alpha: 0.15)),
+                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.error_outline, color: _red600, size: 16),
+                          const Icon(Icons.error_outline, color: AppColors.primary, size: 16),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
@@ -598,11 +596,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: ElevatedButton(
                     onPressed: () => setState(() => _currentStep = 2),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: _red600,
+                      backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       elevation: 6,
-                      shadowColor: _red600.withValues(alpha: 0.3),
+                      shadowColor: AppColors.primary.withValues(alpha: 0.3),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -643,10 +641,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       width: 22, height: 22,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: selected ? _red600 : Colors.white.withValues(alpha: 0.15), width: 2),
+        border: Border.all(color: selected ? AppColors.primary : Colors.white.withValues(alpha: 0.15), width: 2),
       ),
       child: selected
-          ? Center(child: Container(width: 10, height: 10, decoration: const BoxDecoration(color: _red600, shape: BoxShape.circle)))
+          ? Center(child: Container(width: 10, height: 10, decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle)))
           : null,
     );
   }
@@ -659,10 +657,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+          color: AppColors.surfaceLight.withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: selected ? _red600.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08),
+            color: selected ? AppColors.primary.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08),
             width: selected ? 1.5 : 1,
           ),
         ),
@@ -671,10 +669,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Container(
               width: 40, height: 40,
               decoration: BoxDecoration(
-                color: selected ? _red600.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
+                color: selected ? AppColors.primary.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Icon(icon, color: selected ? _red600 : _slate400, size: 18),
+              child: Icon(icon, color: selected ? AppColors.primary : AppColors.textSecondary, size: 18),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -682,7 +680,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: TextStyle(fontWeight: FontWeight.w700, color: selected ? Colors.white : Colors.white.withValues(alpha: 0.7))),
-                  Text(subtitle, style: TextStyle(fontSize: 11, color: warn ? const Color(0xFFFBBF24) : _slate400, fontWeight: warn ? FontWeight.w500 : FontWeight.w400)),
+                  Text(subtitle, style: TextStyle(fontSize: 11, color: warn ? const Color(0xFFFBBF24) : AppColors.textSecondary, fontWeight: warn ? FontWeight.w500 : FontWeight.w400)),
                 ],
               ),
             ),
@@ -704,7 +702,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               for (int i = 0; i < 3; i++) ...[
                 if (i > 0) const SizedBox(width: 6),
-                Expanded(child: Container(height: 4, decoration: BoxDecoration(color: _emerald500, borderRadius: BorderRadius.circular(2)))),
+                Expanded(child: Container(height: 4, decoration: BoxDecoration(color: AppColors.success, borderRadius: BorderRadius.circular(2)))),
               ],
             ],
           ),
@@ -714,9 +712,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Container(
             width: 96, height: 96,
             decoration: BoxDecoration(
-              color: _emerald500,
+              color: AppColors.success,
               shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: _emerald500.withValues(alpha: 0.3), blurRadius: 30, spreadRadius: 4)],
+              boxShadow: [BoxShadow(color: AppColors.success.withValues(alpha: 0.3), blurRadius: 30, spreadRadius: 4)],
             ),
             child: const Icon(Icons.verified_user, size: 48, color: Colors.white),
           ),
@@ -731,7 +729,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 14, height: 1.6),
                 children: [
                   const TextSpan(text: 'Your messages are now secured with '),
-                  TextSpan(text: 'military-grade', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, decoration: TextDecoration.underline, decorationColor: _emerald500)),
+                  TextSpan(text: 'military-grade', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, decoration: TextDecoration.underline, decorationColor: AppColors.success)),
                   const TextSpan(text: ' end-to-end encryption.'),
                 ],
               ),
@@ -754,11 +752,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: ElevatedButton(
               onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false),
               style: ElevatedButton.styleFrom(
-                backgroundColor: _emerald500,
+                backgroundColor: AppColors.success,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 elevation: 6,
-                shadowColor: _emerald500.withValues(alpha: 0.35),
+                shadowColor: AppColors.success.withValues(alpha: 0.35),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -801,7 +799,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
@@ -809,8 +807,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         children: [
           Container(
             width: 32, height: 32,
-            decoration: BoxDecoration(color: _emerald500.withValues(alpha: 0.15), shape: BoxShape.circle),
-            child: Icon(icon, color: _emerald500, size: 14),
+            decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.15), shape: BoxShape.circle),
+            child: Icon(icon, color: AppColors.success, size: 14),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -818,7 +816,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white)),
-                Text(subtitle, style: TextStyle(color: _slate400, fontSize: 12)),
+                Text(subtitle, style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
               ],
             ),
           ),
@@ -830,9 +828,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _checkItem(String text, bool valid) {
     return Row(
       children: [
-        Icon(valid ? Icons.check_circle : Icons.circle_outlined, size: 16, color: valid ? _emerald500 : _slate400),
+        Icon(valid ? Icons.check_circle : Icons.circle_outlined, size: 16, color: valid ? AppColors.success : AppColors.textSecondary),
         const SizedBox(width: 8),
-        Text(text, style: TextStyle(color: valid ? _emerald500 : _slate400, fontSize: 12)),
+        Text(text, style: TextStyle(color: valid ? AppColors.success : AppColors.textSecondary, fontSize: 12)),
       ],
     );
   }

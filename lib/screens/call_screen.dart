@@ -65,7 +65,7 @@ class CallScreen extends StatelessWidget {
         Container(
           width: 52,
           height: 52,
-          decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), shape: BoxShape.circle, border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
+          decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.7), shape: BoxShape.circle, border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
           child: Icon(icon, color: AppColors.textPrimary, size: 22),
         ),
         const SizedBox(height: 6),

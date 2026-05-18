@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/app_drawer.dart';
 import 'inbox_screen.dart';
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: AppColors.background,
       drawer: const AppDrawer(),
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: _bottomNav(),
@@ -35,29 +36,40 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _bottomNav() {
     final icons = [Icons.home_rounded, Icons.chat_bubble_outline_rounded, Icons.play_circle_outline_rounded, Icons.show_chart_rounded, Icons.person_outline_rounded];
+    final activeIcons = [Icons.home_rounded, Icons.chat_bubble_rounded, Icons.play_circle_rounded, Icons.show_chart_rounded, Icons.person_rounded];
     final labels = ['Home', 'Chats', 'Live', 'Markets', 'Profile'];
     return Container(
-      height: 72,
-      decoration: BoxDecoration(color: const Color(0xFF0F172A).withValues(alpha: 0.95),
-        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06)))),
+      height: 76,
+      decoration: BoxDecoration(
+        color: AppColors.bottomNavBg,
+        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 20, offset: const Offset(0, -4))],
+      ),
       child: Row(children: List.generate(5, (i) {
-        final on = i == 1; // 1 is Chats, which is this screen
+        final on = i == 1;
         return Expanded(child: GestureDetector(
           onTap: () {
-            if (i == 1) return; // Already on Chats
-            if (i == 0) { Navigator.pop(context); return; } // Go back to Home/Today Hub
+            if (i == 1) return;
+            if (i == 0) { Navigator.pop(context); return; }
             final routes = ['', '', '/livestream', '/market', '/profile'];
             if (routes[i].isNotEmpty) {
               Navigator.pushNamed(context, routes[i]);
             }
           },
+          behavior: HitTestBehavior.opaque,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            AnimatedContainer(duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(color: on ? const Color(0xFFDC2626).withValues(alpha: 0.15) : Colors.transparent, borderRadius: BorderRadius.circular(16)),
-              child: Icon(icons[i], color: on ? const Color(0xFFDC2626) : const Color(0xFF94A3B8), size: 24)),
-            const SizedBox(height: 4),
-            Text(labels[i], style: TextStyle(fontSize: 10, fontWeight: on ? FontWeight.w800 : FontWeight.w600, color: on ? const Color(0xFFDC2626) : const Color(0xFF94A3B8))),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOutCubic,
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
+              decoration: BoxDecoration(
+                color: on ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+              ),
+              child: Icon(on ? activeIcons[i] : icons[i], color: on ? AppColors.primary : AppColors.textMuted, size: 22),
+            ),
+            const SizedBox(height: 3),
+            Text(labels[i], style: TextStyle(fontSize: 10, fontWeight: on ? FontWeight.w800 : FontWeight.w500, color: on ? AppColors.primary : AppColors.textMuted)),
           ]),
         ));
       })),

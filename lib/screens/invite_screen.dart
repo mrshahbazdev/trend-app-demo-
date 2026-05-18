@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class InviteScreen extends StatelessWidget {
   const InviteScreen({super.key});
 
   static const Color _lightBg = Color(0xFFF8FAFC);
-  static const Color _slate900 = Color(0xFF0F172A);
-  static const Color _slate700 = Color(0xFF334155);
-  static const Color _slate500 = Color(0xFF64748B);
-  static const Color _slate400 = Color(0xFF94A3B8);
+  static const Color _slate900 = AppColors.background;
+  static const Color _slate700 = AppColors.borderLight;
+  static const Color _slate500 = AppColors.textMuted;
+  static const Color _slate400 = AppColors.textSecondary;
   static const Color _slate200 = Color(0xFFE2E8F0);
-  static const Color _red600 = Color(0xFFDC2626);
-  static const Color _emerald500 = Color(0xFF10B981);
+  static const Color _red600 = AppColors.primary;
+  static const Color _emerald500 = AppColors.success;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class InviteScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft, end: Alignment.bottomRight,
-                  colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
+                  colors: [AppColors.surfaceLight, AppColors.background],
                 ),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.12), blurRadius: 20, offset: const Offset(0, 8))],
@@ -134,7 +135,7 @@ class InviteScreen extends StatelessWidget {
             const SizedBox(height: 14),
             Row(
               children: [
-                _shareChip(Icons.sms, 'SMS', const Color(0xFF3B82F6), const Color(0xFFEFF6FF)),
+                _shareChip(Icons.sms, 'SMS', AppColors.accent, const Color(0xFFEFF6FF)),
                 const SizedBox(width: 10),
                 _shareChip(Icons.email_outlined, 'Email', const Color(0xFF8B5CF6), const Color(0xFFF5F3FF)),
                 const SizedBox(width: 10),
@@ -158,9 +159,9 @@ class InviteScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 14),
-            _contactCard('JD', 'Jane Doe', '@jane_crypto', true, true, const LinearGradient(colors: [Color(0xFFEA580C), Color(0xFFDC2626)])),
+            _contactCard('JD', 'Jane Doe', '@jane_crypto', true, true, const LinearGradient(colors: [Color(0xFFEA580C), AppColors.primary])),
             const SizedBox(height: 10),
-            _contactCard('MK', 'Mike Knight', '+1 ••• 4492', false, true, const LinearGradient(colors: [Color(0xFF475569), Color(0xFF334155)])),
+            _contactCard('MK', 'Mike Knight', '+1 ••• 4492', false, true, const LinearGradient(colors: [Color(0xFF475569), AppColors.borderLight])),
             const SizedBox(height: 28),
 
             // --- Not on TrendUp ---
@@ -176,11 +177,11 @@ class InviteScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 14),
-            _contactCard('AL', 'Alice Lawson', '+44 ••• 8821', false, false, const LinearGradient(colors: [Color(0xFF94A3B8), Color(0xFF64748B)])),
+            _contactCard('AL', 'Alice Lawson', '+44 ••• 8821', false, false, const LinearGradient(colors: [AppColors.textSecondary, AppColors.textMuted])),
             const SizedBox(height: 10),
-            _contactCard('BT', 'Bob Thompson', '+1 ••• 1029', false, false, const LinearGradient(colors: [Color(0xFF94A3B8), Color(0xFF64748B)])),
+            _contactCard('BT', 'Bob Thompson', '+1 ••• 1029', false, false, const LinearGradient(colors: [AppColors.textSecondary, AppColors.textMuted])),
             const SizedBox(height: 10),
-            _contactCard('CR', 'Chris Rock', '+1 ••• 5521', false, false, const LinearGradient(colors: [Color(0xFF94A3B8), Color(0xFF64748B)])),
+            _contactCard('CR', 'Chris Rock', '+1 ••• 5521', false, false, const LinearGradient(colors: [AppColors.textSecondary, AppColors.textMuted])),
             const SizedBox(height: 32),
 
             // --- Footer ---
@@ -250,7 +251,7 @@ class InviteScreen extends StatelessWidget {
                     Text(name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: _slate900)),
                     if (verified) ...[
                       const SizedBox(width: 5),
-                      const Icon(Icons.verified, size: 14, color: Color(0xFF3B82F6)),
+                      const Icon(Icons.verified, size: 14, color: AppColors.accent),
                     ],
                   ],
                 ),

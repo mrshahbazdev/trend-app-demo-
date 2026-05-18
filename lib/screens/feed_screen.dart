@@ -8,9 +8,9 @@ class FeedScreen extends StatelessWidget {
   static const _avatarGradients = [
     [Color(0xFF6366F1), Color(0xFFA855F7)],
     [Color(0xFFF43F5E), Color(0xFFFB923C)],
-    [Color(0xFF10B981), Color(0xFF3B82F6)],
+    [AppColors.success, AppColors.accent],
     [Color(0xFFF59E0B), Color(0xFFD946EF)],
-    [Color(0xFFDFF352), Color(0xFF10B981)],
+    [Color(0xFFDFF352), AppColors.success],
   ];
 
   @override
@@ -43,7 +43,7 @@ class FeedScreen extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
       ),
@@ -178,7 +178,7 @@ class ComposeScreen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [Color(0xFFDC2626), Color(0xFF991B1B)]),
+                    gradient: const LinearGradient(colors: [AppColors.primary, Color(0xFF991B1B)]),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Center(

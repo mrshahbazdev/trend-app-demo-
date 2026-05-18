@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import '../widgets/grid_background.dart';
+import '../theme/app_theme.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
-  static const _red = Color(0xFFDC2626);
-  static const _bg = Color(0xFF0F172A);
-  static const _cardBg = Color(0xFF1E293B);
-  static const _muted = Color(0xFF94A3B8);
+  
+  
+  
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: _bg,
+        backgroundColor: AppColors.background,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -60,21 +61,21 @@ class NotificationsScreen extends StatelessWidget {
   Widget _notifItem(IconData ic, String title, String sub, String time, bool unread) => Container(
     margin: const EdgeInsets.only(bottom: 10), padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(16),
-      color: unread ? _red.withValues(alpha: 0.04) : _cardBg.withValues(alpha: 0.5),
-      border: Border.all(color: unread ? _red.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.06))),
+      color: unread ? AppColors.primary.withValues(alpha: 0.04) : AppColors.surfaceLight.withValues(alpha: 0.5),
+      border: Border.all(color: unread ? AppColors.primary.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.06))),
     child: Row(children: [
       Container(width: 44, height: 44, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
-        color: (unread ? _red : _muted).withValues(alpha: 0.1)),
-        child: Icon(ic, size: 20, color: unread ? _red : _muted)),
+        color: (unread ? AppColors.primary : AppColors.textMuted).withValues(alpha: 0.1)),
+        child: Icon(ic, size: 20, color: unread ? AppColors.primary : AppColors.textMuted)),
       const SizedBox(width: 14),
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: unread ? Colors.white : _muted)),
+        Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: unread ? Colors.white : AppColors.textMuted)),
         const SizedBox(height: 4),
         Text(sub, style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
       ])),
       Column(children: [
-        Text(time, style: const TextStyle(fontSize: 11, color: _muted, fontWeight: FontWeight.w600)),
-        if (unread) ...[const SizedBox(height: 6), Container(width: 8, height: 8, decoration: const BoxDecoration(shape: BoxShape.circle, color: _red))],
+        Text(time, style: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontWeight: FontWeight.w600)),
+        if (unread) ...[const SizedBox(height: 6), Container(width: 8, height: 8, decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.primary))],
       ]),
     ]),
   );

@@ -49,7 +49,7 @@ class PollsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: active ? AppColors.primary.withValues(alpha: 0.3) : AppColors.border),
       ),

@@ -8,9 +8,9 @@ class ContactsScreen extends StatelessWidget {
   static const _avatarGradients = [
     [Color(0xFF6366F1), Color(0xFFA855F7)],
     [Color(0xFFF43F5E), Color(0xFFFB923C)],
-    [Color(0xFF10B981), Color(0xFF3B82F6)],
+    [AppColors.success, AppColors.accent],
     [Color(0xFFF59E0B), Color(0xFFD946EF)],
-    [Color(0xFFDFF352), Color(0xFF10B981)],
+    [Color(0xFFDFF352), AppColors.success],
   ];
 
   @override

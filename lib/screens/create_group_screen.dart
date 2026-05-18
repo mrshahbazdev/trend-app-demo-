@@ -91,7 +91,7 @@ class CreateGroupScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: selected ? AppColors.primary : AppColors.border),
       ),
