@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/grid_background.dart';
+import '../theme/app_theme.dart';
 
 class TodayHubScreen extends StatefulWidget {
   const TodayHubScreen({super.key});
@@ -14,16 +15,16 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
   int _newsFilter = 0; // 0=Breaking, 1=World, 2=Science, 3=Tech
   int _marketFilter = 0; // 0=Crypto, 1=Categories, 2=Chains, 3=Venues
   final Set<String> _activePulses = {}; // Tracks active pulse chips
-  static const _red = Color(0xFFDC2626);
-  static const _bg = Color(0xFF0F172A);
-  static const _cardBg = Color(0xFF1E293B);
-  static const _muted = Color(0xFF94A3B8);
-  static const _green = Color(0xFF10B981);
+  
+  
+  
+  
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.background,
       body: GridBackground(
         child: SafeArea(child: Column(children: [
           _header(),
@@ -39,7 +40,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
       decoration: BoxDecoration(
-        color: _bg.withValues(alpha: 0.92),
+        color: AppColors.background.withValues(alpha: 0.92),
         border: Border(bottom: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
       ),
       child: Column(children: [
@@ -54,7 +55,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
           GestureDetector(onTap: () => _showNotifications(), child: Stack(children: [
             _iconBox(Icons.notifications_none_rounded),
             Positioned(right: 6, top: 6, child: Container(width: 8, height: 8,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: _red, border: Border.all(color: _bg, width: 1.5)))),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary, border: Border.all(color: AppColors.background, width: 1.5)))),
           ])),
         ]),
         const SizedBox(height: 14),
@@ -71,8 +72,8 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
               onTap: () => setState(() => _tab = i),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                decoration: BoxDecoration(color: on ? _red : Colors.transparent, borderRadius: BorderRadius.circular(11)),
-                child: Center(child: Text(labels[i], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: on ? Colors.white : _muted))),
+                decoration: BoxDecoration(color: on ? AppColors.primary : Colors.transparent, borderRadius: BorderRadius.circular(11)),
+                child: Center(child: Text(labels[i], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: on ? Colors.white : AppColors.textMuted))),
               ),
             ));
           })),
@@ -84,7 +85,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
   Widget _iconBox(IconData ic) => Container(
     width: 38, height: 38,
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white.withValues(alpha: 0.05), border: Border.all(color: Colors.white.withValues(alpha: 0.08))),
-    child: Icon(ic, size: 18, color: _muted),
+    child: Icon(ic, size: 18, color: AppColors.textMuted),
   );
 
   Widget _forYouTab() {
@@ -170,10 +171,10 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: on ? _red.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.04),
-                border: Border.all(color: on ? _red.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08)),
+                color: on ? AppColors.primary.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.04),
+                border: Border.all(color: on ? AppColors.primary.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08)),
               ),
-              child: Text(filters[i], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: on ? Colors.white : _muted)),
+              child: Text(filters[i], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: on ? Colors.white : AppColors.textMuted)),
             ),
           ));
         }))),
@@ -185,7 +186,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
         _card('Verify & analysis', Icons.verified_rounded, null, Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(width: 48, height: 48, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
-            gradient: const LinearGradient(colors: [Color(0xFF22C55E), Color(0xFF00E5FF)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
+            gradient: const LinearGradient(colors: [AppColors.success, Color(0xFF00E5FF)], begin: Alignment.topLeft, end: Alignment.bottomRight))),
           const SizedBox(width: 12),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Text('Bridge timeline', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white)),
@@ -194,7 +195,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
           ])),
         ]),
         const SizedBox(height: 12),
-        const Text('Same verification lane as desktop News — receipts, not vibes. Social reactions stay in For You.', style: TextStyle(fontSize: 11, color: _muted, height: 1.45)),
+        const Text('Same verification lane as desktop News — receipts, not vibes. Social reactions stay in For You.', style: TextStyle(fontSize: 11, color: AppColors.textMuted, height: 1.45)),
         const SizedBox(height: 12),
         _div(),
         _newsItem('Election scanners: hash logs published for audit window', '2h'),
@@ -249,10 +250,10 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: isOn ? Colors.white.withValues(alpha: 0.15) : _cardBg.withValues(alpha: 0.5),
+                color: isOn ? Colors.white.withValues(alpha: 0.15) : AppColors.surfaceLight.withValues(alpha: 0.5),
                 border: Border.all(color: isOn ? Colors.white.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08)),
               ),
-              child: Text(megaFilters[i], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: isOn ? Colors.white : _muted)),
+              child: Text(megaFilters[i], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: isOn ? Colors.white : AppColors.textMuted)),
             ),
           ));
         })),
@@ -277,13 +278,13 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: _red.withValues(alpha: 0.35)),
-          gradient: LinearGradient(colors: [_red.withValues(alpha: 0.12), Colors.black.withValues(alpha: 0.5)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.35)),
+          gradient: LinearGradient(colors: [AppColors.primary.withValues(alpha: 0.12), Colors.black.withValues(alpha: 0.5)], begin: Alignment.topLeft, end: Alignment.bottomRight),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text('RECOVERY MODE', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.5)),
           const SizedBox(height: 6),
-          const Text('Stronger sell protections while markets stabilize — same YES / NO pattern as desktop.', style: TextStyle(fontSize: 11, color: _muted, height: 1.4)),
+          const Text('Stronger sell protections while markets stabilize — same YES / NO pattern as desktop.', style: TextStyle(fontSize: 11, color: AppColors.textMuted, height: 1.4)),
           const SizedBox(height: 12),
           Row(children: [
             Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFFF97316), borderRadius: BorderRadius.circular(2)))),
@@ -310,16 +311,16 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text('CAP CHANGE', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFFC4B5FD), letterSpacing: 0.5)),
           const SizedBox(height: 6),
-          const Text('Raise circulating cap for liquidity program — requires supermajority + timelock in production.', style: TextStyle(fontSize: 11, color: _muted, height: 1.4)),
+          const Text('Raise circulating cap for liquidity program — requires supermajority + timelock in production.', style: TextStyle(fontSize: 11, color: AppColors.textMuted, height: 1.4)),
           const SizedBox(height: 12),
           Row(children: [
-            Expanded(flex: 47, child: Container(height: 6, decoration: const BoxDecoration(color: Color(0xFF22C55E), borderRadius: BorderRadius.horizontal(left: Radius.circular(3))))),
-            Expanded(flex: 53, child: Container(height: 6, decoration: const BoxDecoration(color: _red, borderRadius: BorderRadius.horizontal(right: Radius.circular(3))))),
+            Expanded(flex: 47, child: Container(height: 6, decoration: const BoxDecoration(color: AppColors.success, borderRadius: BorderRadius.horizontal(left: Radius.circular(3))))),
+            Expanded(flex: 53, child: Container(height: 6, decoration: const BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.horizontal(right: Radius.circular(3))))),
           ]),
           const SizedBox(height: 6),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Text('For 47%', style: TextStyle(fontSize: 10, color: _muted)),
-            const Text('Against 53%', style: TextStyle(fontSize: 10, color: _muted)),
+            const Text('For 47%', style: TextStyle(fontSize: 10, color: AppColors.textMuted)),
+            const Text('Against 53%', style: TextStyle(fontSize: 10, color: AppColors.textMuted)),
           ]),
         ]),
       ),
@@ -330,7 +331,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
         _ticker('DEX share', 'All chains', '+0.4%', true),
         _ticker('Stable TVL', 'Tracked', '+0.9%', true),
         const SizedBox(height: 10),
-        const Text('Desktop Market trend keeps full tables; here you get the same numbers in a compact stack.', style: TextStyle(fontSize: 10, color: _muted, height: 1.4)),
+        const Text('Desktop Market trend keeps full tables; here you get the same numbers in a compact stack.', style: TextStyle(fontSize: 10, color: AppColors.textMuted, height: 1.4)),
       ])),
 
       _card('Fee schedule (mock)', Icons.receipt_long_rounded, 'Desk', Column(children: [
@@ -370,7 +371,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20), 
-              color: isActive ? baseColor.withValues(alpha: 0.15) : _cardBg.withValues(alpha: 0.7),
+              color: isActive ? baseColor.withValues(alpha: 0.15) : AppColors.surfaceLight.withValues(alpha: 0.7),
               border: Border.all(color: isActive ? baseColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.08)),
             ),
             child: Text(t, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: isActive ? baseColor : baseColor.withValues(alpha: 0.7))),
@@ -382,16 +383,16 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
 
   Widget _storiesRail() {
     final names = ['You', 'Truth desk', '\$creator', 'Markets', 'Live'];
-    final rings = [_muted, const Color(0xFF6366f1), const Color(0xFFf97316), _muted, const Color(0xFFa855f7)];
+    final rings = [AppColors.textMuted, const Color(0xFF6366f1), const Color(0xFFf97316), AppColors.textMuted, const Color(0xFFa855f7)];
     final icons = [Icons.person, Icons.verified, Icons.star, Icons.show_chart, Icons.play_arrow];
     final initials = ['Y', 'T', 'C', 'M', 'L'];
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(color: _cardBg.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20),
+      decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [const Icon(Icons.auto_stories_rounded, size: 14, color: _red), const SizedBox(width: 6),
+        Row(children: [const Icon(Icons.auto_stories_rounded, size: 14, color: AppColors.primary), const SizedBox(width: 6),
           const Text('Stories', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white))]),
         const SizedBox(height: 12),
         SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(
@@ -403,7 +404,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
                 child: Center(child: Icon(icons[i], color: rings[i], size: 20)),
               )),
             const SizedBox(height: 6),
-            Text(names[i], style: const TextStyle(fontSize: 10, color: _muted)),
+            Text(names[i], style: const TextStyle(fontSize: 10, color: AppColors.textMuted)),
           ]))),
         )),
       ]),
@@ -413,7 +414,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
   Widget _composeSection() => Container(
     margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
     padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(color: _cardBg.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20),
+    decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20),
       border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
@@ -421,11 +422,11 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
       ]),
       const SizedBox(height: 14),
       Row(children: [
-        Container(width: 36, height: 36, decoration: BoxDecoration(shape: BoxShape.circle, color: _red.withValues(alpha: 0.15)),
-          child: const Icon(Icons.person, color: _red, size: 18)),
+        Container(width: 36, height: 36, decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary.withValues(alpha: 0.15)),
+          child: const Icon(Icons.person, color: AppColors.primary, size: 18)),
         const SizedBox(width: 10),
         Expanded(child: GestureDetector(
-          onTap: () => _openCompose('Post', Icons.edit_rounded, _red),
+          onTap: () => _openCompose('Post', Icons.edit_rounded, AppColors.primary),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white.withValues(alpha: 0.04),
@@ -436,13 +437,13 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
       ]),
       const SizedBox(height: 12),
       Row(children: [
-        _composeBtn('Post', Icons.edit_rounded, _red),
+        _composeBtn('Post', Icons.edit_rounded, AppColors.primary),
         const SizedBox(width: 8),
         _composeBtn('Video', Icons.videocam_rounded, const Color(0xFF6366f1)),
         const SizedBox(width: 8),
-        _composeBtn('Go Live', Icons.sensors_rounded, const Color(0xFF10B981)),
+        _composeBtn('Go Live', Icons.sensors_rounded, AppColors.success),
         const SizedBox(width: 8),
-        _composeBtn('Meeting', Icons.groups_rounded, _muted),
+        _composeBtn('Meeting', Icons.groups_rounded, AppColors.textMuted),
       ]),
     ]),
   );
@@ -475,10 +476,10 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: on ? _red.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.04),
-              border: Border.all(color: on ? _red.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08)),
+              color: on ? AppColors.primary.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.04),
+              border: Border.all(color: on ? AppColors.primary.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.08)),
             ),
-            child: Text(filters[i], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: on ? Colors.white : _muted)),
+            child: Text(filters[i], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: on ? Colors.white : AppColors.textMuted)),
           ),
         ));
       })),
@@ -487,17 +488,17 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
 
   Widget _card(String title, IconData icon, String? action, Widget child) => Container(
     margin: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-    decoration: BoxDecoration(color: _cardBg.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20),
+    decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20),
       border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
         child: Row(children: [
-          Icon(icon, size: 16, color: _red), const SizedBox(width: 8),
+          Icon(icon, size: 16, color: AppColors.primary), const SizedBox(width: 8),
           Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
           const Spacer(),
           if (action != null) Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _red.withValues(alpha: 0.1)),
-            child: Text(action, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: _red))),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.primary.withValues(alpha: 0.1)),
+            child: Text(action, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.primary))),
         ])),
       Container(height: 1, color: Colors.white.withValues(alpha: 0.04)),
       Padding(padding: const EdgeInsets.all(16), child: child),
@@ -506,22 +507,22 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
 
   Widget _bigNews(String t, String sub) => Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
     Container(width: 64, height: 64, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14),
-      color: _red.withValues(alpha: 0.08), border: Border.all(color: _red.withValues(alpha: 0.15))),
-      child: const Icon(Icons.newspaper_rounded, color: _red, size: 22)),
+      color: AppColors.primary.withValues(alpha: 0.08), border: Border.all(color: AppColors.primary.withValues(alpha: 0.15))),
+      child: const Icon(Icons.newspaper_rounded, color: AppColors.primary, size: 22)),
     const SizedBox(width: 12),
     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(t, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white, height: 1.4)),
-      const SizedBox(height: 4), Text(sub, style: const TextStyle(fontSize: 11, color: _muted)),
+      const SizedBox(height: 4), Text(sub, style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
     ])),
   ]);
 
   Widget _newsItem(String t, String time) => Padding(padding: const EdgeInsets.symmetric(vertical: 7),
     child: Row(children: [
-      Container(width: 4, height: 4, decoration: const BoxDecoration(color: _red, shape: BoxShape.circle)),
+      Container(width: 4, height: 4, decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle)),
       const SizedBox(width: 10),
       Expanded(child: Text(t, style: const TextStyle(fontSize: 12, color: Colors.white, height: 1.3))),
       const SizedBox(width: 8),
-      Text(time, style: const TextStyle(fontSize: 10, color: _muted, fontWeight: FontWeight.w600)),
+      Text(time, style: const TextStyle(fontSize: 10, color: AppColors.textMuted, fontWeight: FontWeight.w600)),
     ]),
   );
 
@@ -529,12 +530,12 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
     crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
         Container(width: 36, height: 36, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
-          color: _red.withValues(alpha: 0.1), border: Border.all(color: _red.withValues(alpha: 0.15))),
-          child: Center(child: Text(user[0], style: const TextStyle(color: _red, fontWeight: FontWeight.w800, fontSize: 14)))),
+          color: AppColors.primary.withValues(alpha: 0.1), border: Border.all(color: AppColors.primary.withValues(alpha: 0.15))),
+          child: Center(child: Text(user[0], style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w800, fontSize: 14)))),
         const SizedBox(width: 10),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(user, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
-          Text(meta, style: const TextStyle(fontSize: 10, color: _muted)),
+          Text(meta, style: const TextStyle(fontSize: 10, color: AppColors.textMuted)),
         ])),
       ]),
       const SizedBox(height: 10),
@@ -554,16 +555,16 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
   Widget _govWidget() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
     const Text('Sell limits poll', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
     const SizedBox(height: 4),
-    const Text('10% / holdings - 6d 23h - quorum 72%', style: TextStyle(fontSize: 11, color: _muted)),
+    const Text('10% / holdings - 6d 23h - quorum 72%', style: TextStyle(fontSize: 11, color: AppColors.textMuted)),
     const SizedBox(height: 12),
     ClipRRect(borderRadius: BorderRadius.circular(6), child: Row(children: [
-      Expanded(flex: 54, child: Container(height: 8, color: _green)),
+      Expanded(flex: 54, child: Container(height: 8, color: AppColors.success)),
       Expanded(flex: 46, child: Container(height: 8, color: const Color(0xFF3b82f6).withValues(alpha: 0.5))),
     ])),
     const SizedBox(height: 10),
     Row(children: [
-      Expanded(child: _voteChip('Yes 54%', _green)), const SizedBox(width: 8),
-      Expanded(child: _voteChip('No 46%', _muted)),
+      Expanded(child: _voteChip('Yes 54%', AppColors.success)), const SizedBox(width: 8),
+      Expanded(child: _voteChip('No 46%', AppColors.textMuted)),
     ]),
   ]);
 
@@ -582,11 +583,11 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
       const SizedBox(width: 10),
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white)),
-        Text(price, style: const TextStyle(fontSize: 11, color: _muted)),
+        Text(price, style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
       ])),
       Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: (pos ? _green : _red).withValues(alpha: 0.1)),
-        child: Text(chg, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: pos ? _green : _red))),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: (pos ? AppColors.success : AppColors.primary).withValues(alpha: 0.1)),
+        child: Text(chg, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: pos ? AppColors.success : AppColors.primary))),
     ]),
   );
 
@@ -595,31 +596,31 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: Colors.white.withValues(alpha: 0.03),
       border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
     child: Row(children: [
-      Container(width: 48, height: 48, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: _red.withValues(alpha: 0.08)),
+      Container(width: 48, height: 48, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: AppColors.primary.withValues(alpha: 0.08)),
         child: Center(child: Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: _red),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: AppColors.primary),
           child: const Text('LIVE', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: Colors.white))))),
       const SizedBox(width: 12),
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
-        const SizedBox(height: 2), Text(sub, style: const TextStyle(fontSize: 11, color: _muted)),
+        const SizedBox(height: 2), Text(sub, style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
       ])),
-      const Icon(Icons.chevron_right_rounded, color: _muted, size: 20),
+      const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted, size: 20),
     ]),
   );
 
   Widget _voteBanner() => Container(
     margin: const EdgeInsets.fromLTRB(16, 14, 16, 0), padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: _red.withValues(alpha: 0.06),
-      border: Border.all(color: _red.withValues(alpha: 0.15))),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: AppColors.primary.withValues(alpha: 0.06),
+      border: Border.all(color: AppColors.primary.withValues(alpha: 0.15))),
     child: Row(children: [
-      Container(width: 44, height: 44, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: _red.withValues(alpha: 0.1)),
-        child: const Icon(Icons.how_to_vote_rounded, color: _red, size: 20)),
+      Container(width: 44, height: 44, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: AppColors.primary.withValues(alpha: 0.1)),
+        child: const Icon(Icons.how_to_vote_rounded, color: AppColors.primary, size: 20)),
       const SizedBox(width: 14),
       const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('Voting desk', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
         SizedBox(height: 4),
-        Text('Sell limits, fee tiers, recovery, cap changes', style: TextStyle(fontSize: 11, color: _muted, height: 1.4)),
+        Text('Sell limits, fee tiers, recovery, cap changes', style: TextStyle(fontSize: 11, color: AppColors.textMuted, height: 1.4)),
       ])),
     ]),
   );
@@ -627,8 +628,8 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
   Widget _projRow(String sym, String name, String sub, String pill, bool sel) => Container(
     padding: const EdgeInsets.all(12),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(14),
-      color: sel ? _red.withValues(alpha: 0.05) : Colors.white.withValues(alpha: 0.02),
-      border: Border.all(color: sel ? _red.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.06))),
+      color: sel ? AppColors.primary.withValues(alpha: 0.05) : Colors.white.withValues(alpha: 0.02),
+      border: Border.all(color: sel ? AppColors.primary.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.06))),
     child: Row(children: [
       Container(width: 40, height: 40, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
         color: Colors.white.withValues(alpha: 0.05), border: Border.all(color: Colors.white.withValues(alpha: 0.08))),
@@ -636,20 +637,20 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
       const SizedBox(width: 10),
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white)),
-        const SizedBox(height: 2), Text(sub, style: const TextStyle(fontSize: 10, color: _muted)),
+        const SizedBox(height: 2), Text(sub, style: const TextStyle(fontSize: 10, color: AppColors.textMuted)),
       ])),
       Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _green.withValues(alpha: 0.1),
-          border: Border.all(color: _green.withValues(alpha: 0.2))),
-        child: Text(pill, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: _green))),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.success.withValues(alpha: 0.1),
+          border: Border.all(color: AppColors.success.withValues(alpha: 0.2))),
+        child: Text(pill, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.success))),
     ]),
   );
 
   Widget _feeRow(String tier, String val, bool hdr, {bool hl = false}) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
     child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(tier, style: TextStyle(fontSize: 11, fontWeight: hdr ? FontWeight.w800 : FontWeight.w500, color: hdr ? Colors.white : _muted)),
-      Text(val, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: hl ? _green : (hdr ? Colors.white : Colors.white.withValues(alpha: 0.7)))),
+      Text(tier, style: TextStyle(fontSize: 11, fontWeight: hdr ? FontWeight.w800 : FontWeight.w500, color: hdr ? Colors.white : AppColors.textMuted)),
+      Text(val, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: hl ? AppColors.success : (hdr ? Colors.white : Colors.white.withValues(alpha: 0.7)))),
     ]),
   );
 
@@ -661,7 +662,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
     final labels = ['Home', 'Chats', 'Live', 'Markets', 'Profile'];
     return Container(
       height: 72,
-      decoration: BoxDecoration(color: _bg.withValues(alpha: 0.95),
+      decoration: BoxDecoration(color: AppColors.background.withValues(alpha: 0.95),
         border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06)))),
       child: Row(children: List.generate(5, (i) {
         final on = _bottomIdx == i;
@@ -678,10 +679,10 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             AnimatedContainer(duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: on ? _red.withValues(alpha: 0.12) : Colors.transparent),
-              child: Icon(icons[i], size: 22, color: on ? _red : _muted)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: on ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent),
+              child: Icon(icons[i], size: 22, color: on ? AppColors.primary : AppColors.textMuted)),
             const SizedBox(height: 4),
-            Text(labels[i], style: TextStyle(fontSize: 10, fontWeight: on ? FontWeight.w800 : FontWeight.w600, color: on ? Colors.white : _muted)),
+            Text(labels[i], style: TextStyle(fontSize: 10, fontWeight: on ? FontWeight.w800 : FontWeight.w600, color: on ? Colors.white : AppColors.textMuted)),
           ]),
         ));
       })),
@@ -693,7 +694,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
     showModalBottomSheet(context: context, backgroundColor: Colors.transparent, isScrollControlled: true,
       builder: (_) => DraggableScrollableSheet(initialChildSize: 0.7, minChildSize: 0.4, maxChildSize: 0.9,
         builder: (_, sc) => Container(
-          decoration: BoxDecoration(color: _bg, borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          decoration: BoxDecoration(color: AppColors.background, borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(color: Colors.white.withValues(alpha: 0.08))),
           child: Column(children: [
             const SizedBox(height: 12),
@@ -706,8 +707,8 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/notifications');
                 }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _red.withValues(alpha: 0.1)),
-                  child: const Text('View all', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: _red)))),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.primary.withValues(alpha: 0.1)),
+                  child: const Text('View all', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.primary)))),
               ])),
             Container(height: 1, color: Colors.white.withValues(alpha: 0.06)),
             Expanded(child: ListView(controller: sc, padding: const EdgeInsets.all(16), children: [
@@ -729,21 +730,21 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
   Widget _notifItem(IconData ic, String title, String sub, String time, bool unread) => Container(
     margin: const EdgeInsets.only(bottom: 10), padding: const EdgeInsets.all(14),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(14),
-      color: unread ? _red.withValues(alpha: 0.04) : Colors.white.withValues(alpha: 0.02),
-      border: Border.all(color: unread ? _red.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.06))),
+      color: unread ? AppColors.primary.withValues(alpha: 0.04) : Colors.white.withValues(alpha: 0.02),
+      border: Border.all(color: unread ? AppColors.primary.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.06))),
     child: Row(children: [
       Container(width: 40, height: 40, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
-        color: (unread ? _red : _muted).withValues(alpha: 0.1)),
-        child: Icon(ic, size: 18, color: unread ? _red : _muted)),
+        color: (unread ? AppColors.primary : AppColors.textMuted).withValues(alpha: 0.1)),
+        child: Icon(ic, size: 18, color: unread ? AppColors.primary : AppColors.textMuted)),
       const SizedBox(width: 12),
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: unread ? Colors.white : _muted)),
+        Text(title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: unread ? Colors.white : AppColors.textMuted)),
         const SizedBox(height: 2),
         Text(sub, style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.5))),
       ])),
       Column(children: [
-        Text(time, style: const TextStyle(fontSize: 10, color: _muted, fontWeight: FontWeight.w600)),
-        if (unread) ...[const SizedBox(height: 4), Container(width: 6, height: 6, decoration: const BoxDecoration(shape: BoxShape.circle, color: _red))],
+        Text(time, style: const TextStyle(fontSize: 10, color: AppColors.textMuted, fontWeight: FontWeight.w600)),
+        if (unread) ...[const SizedBox(height: 4), Container(width: 6, height: 6, decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.primary))],
       ]),
     ]),
   );
@@ -755,7 +756,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
       builder: (ctx) => Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
         child: Container(
           padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(color: _bg, borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          decoration: BoxDecoration(color: AppColors.background, borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(color: Colors.white.withValues(alpha: 0.08))),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Container(width: 40, height: 4, decoration: BoxDecoration(borderRadius: BorderRadius.circular(2), color: Colors.white.withValues(alpha: 0.2))),
@@ -766,7 +767,7 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
               const Spacer(),
               GestureDetector(onTap: () => Navigator.pop(ctx),
                 child: Container(width: 32, height: 32, decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white.withValues(alpha: 0.05)),
-                  child: const Icon(Icons.close, size: 16, color: _muted))),
+                  child: const Icon(Icons.close, size: 16, color: AppColors.textMuted))),
             ]),
             const SizedBox(height: 16),
             if (type == 'Post') ...[
@@ -801,11 +802,11 @@ class _TodayHubScreenState extends State<TodayHubScreen> {
                   decoration: InputDecoration(hintText: 'Add caption...', hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.3)), border: InputBorder.none)),
               ),
             ] else if (type == 'Go Live') ...[
-              Container(height: 160, decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: _red.withValues(alpha: 0.04),
-                border: Border.all(color: _red.withValues(alpha: 0.2))),
+              Container(height: 160, decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppColors.primary.withValues(alpha: 0.04),
+                border: Border.all(color: AppColors.primary.withValues(alpha: 0.2))),
                 child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
                   Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: _red),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.primary),
                     child: const Text('LIVE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white))),
                   const SizedBox(height: 12),
                   Text('Camera preview', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.4))),

@@ -30,7 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: Container(
                         width: 40, height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E293B),
+                          color: AppColors.surfaceLight,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                         ),
@@ -51,7 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 Container(
                   width: 64, height: 64,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E293B),
+                    color: AppColors.surfaceLight,
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
                     boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20)],
@@ -71,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+                    color: AppColors.surfaceLight.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                     boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 20, offset: const Offset(0, 8))],
@@ -117,7 +117,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       Container(
                         height: 48,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0F172A).withValues(alpha: 0.6),
+                          color: AppColors.background.withValues(alpha: 0.6),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
                         ),
@@ -185,7 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 28, 20, 20),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+                      color: AppColors.surfaceLight.withValues(alpha: 0.7),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                     ),
@@ -260,16 +260,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF10B981).withValues(alpha: 0.1),
+                    color: AppColors.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.15)),
+                    border: Border.all(color: AppColors.success.withValues(alpha: 0.15)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.lock, size: 13, color: Color(0xFF10B981)),
+                      const Icon(Icons.lock, size: 13, color: AppColors.success),
                       const SizedBox(width: 8),
-                      const Text('End-to-End Encrypted Session', style: TextStyle(color: Color(0xFF10B981), fontSize: 11, fontWeight: FontWeight.w600)),
+                      const Text('End-to-End Encrypted Session', style: TextStyle(color: AppColors.success, fontSize: 11, fontWeight: FontWeight.w600)),
                     ],
                   ),
                 ),
@@ -300,7 +300,7 @@ class _SignInScreenState extends State<SignInScreen> {
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-        backgroundColor: const Color(0xFF1E293B),
+        backgroundColor: AppColors.surfaceLight,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Column(mainAxisSize: MainAxisSize.min, children: [
           const SizedBox(height: 12),
@@ -333,14 +333,14 @@ class _SignInScreenState extends State<SignInScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: const Color(0xFF1E293B),
+        backgroundColor: AppColors.surfaceLight,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text('Paste Wallet Address', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 16)),
         content: Column(mainAxisSize: MainAxisSize.min, children: [
           Container(
             height: 48,
             decoration: BoxDecoration(
-              color: const Color(0xFF0F172A).withValues(alpha: 0.6),
+              color: AppColors.background.withValues(alpha: 0.6),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
             ),
@@ -392,7 +392,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A).withValues(alpha: 0.6),
+        color: AppColors.background.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),

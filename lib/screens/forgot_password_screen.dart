@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../widgets/grid_background.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
 
-  static const Color _red600 = Color(0xFFDC2626);
-  static const Color _slate400 = Color(0xFF94A3B8);
-  static const Color _emerald500 = Color(0xFF10B981);
+  static const Color _red600 = AppColors.primary;
+  static const Color _slate400 = AppColors.textSecondary;
+  static const Color _emerald500 = AppColors.success;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       child: Container(
                         width: 40, height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E293B),
+                          color: AppColors.surfaceLight,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                         ),
@@ -66,7 +67,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+                    color: AppColors.surfaceLight.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                     boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 20, offset: const Offset(0, 8))],
@@ -79,7 +80,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       Container(
                         height: 52,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0F172A).withValues(alpha: 0.6),
+                          color: AppColors.background.withValues(alpha: 0.6),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
                         ),

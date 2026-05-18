@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class LiveStreamScreen extends StatefulWidget {
   const LiveStreamScreen({super.key});
@@ -10,8 +11,8 @@ class LiveStreamScreen extends StatefulWidget {
 }
 
 class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProviderStateMixin {
-  static const _red = Color(0xFFDC2626);
-  static const _muted = Color(0xFF94A3B8);
+  
+  
   
   final TextEditingController _msgController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -94,7 +95,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProvider
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFF1E293B), Color(0xFF0F172A), Colors.black],
+                  colors: [AppColors.surfaceLight, AppColors.background, Colors.black],
                 ),
               ),
             ),
@@ -143,7 +144,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProvider
                   right: h.leftPosition + (math.sin(progress * math.pi * 2) * 20), // Wiggle
                   child: Opacity(
                     opacity: 1.0 - progress, // Fade out
-                    child: const Icon(Icons.favorite, color: _red, size: 28),
+                    child: const Icon(Icons.favorite, color: AppColors.primary, size: 28),
                   ),
                 );
               },
@@ -172,7 +173,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProvider
               children: [
                 const CircleAvatar(
                   radius: 18,
-                  backgroundColor: _red,
+                  backgroundColor: AppColors.primary,
                   child: Text('T', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
                 ),
                 const SizedBox(width: 8),
@@ -182,7 +183,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProvider
                     const Text('Truth desk', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 13)),
                     Row(
                       children: [
-                        Container(width: 6, height: 6, decoration: const BoxDecoration(color: _red, shape: BoxShape.circle)),
+                        Container(width: 6, height: 6, decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle)),
                         const SizedBox(width: 4),
                         Text('14.2K viewers', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 10, fontWeight: FontWeight.w600)),
                       ],
@@ -196,7 +197,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProvider
                     duration: const Duration(milliseconds: 200),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: _isFollowing ? Colors.white.withValues(alpha: 0.1) : _red, 
+                      color: _isFollowing ? Colors.white.withValues(alpha: 0.1) : AppColors.primary, 
                       borderRadius: BorderRadius.circular(20),
                       border: _isFollowing ? Border.all(color: Colors.white.withValues(alpha: 0.2)) : null,
                     ),
@@ -268,7 +269,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProvider
                     width: 28, height: 28,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: isMe ? _red.withValues(alpha: 0.8) : Colors.primaries[msg['user'].hashCode % Colors.primaries.length].withValues(alpha: 0.8),
+                      color: isMe ? AppColors.primary.withValues(alpha: 0.8) : Colors.primaries[msg['user'].hashCode % Colors.primaries.length].withValues(alpha: 0.8),
                     ),
                     child: Center(
                       child: Text(
@@ -340,7 +341,7 @@ class _LiveStreamScreenState extends State<LiveStreamScreen> with TickerProvider
           const SizedBox(width: 12),
           _actionIcon(Icons.card_giftcard_rounded, color: const Color(0xFFF59E0B), onTap: () => _showDummyAction('Gift')),
           const SizedBox(width: 12),
-          _actionIcon(Icons.favorite_rounded, color: _red, onTap: _addHeart),
+          _actionIcon(Icons.favorite_rounded, color: AppColors.primary, onTap: _addHeart),
         ],
       ),
     );

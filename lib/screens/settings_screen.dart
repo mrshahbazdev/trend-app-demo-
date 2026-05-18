@@ -44,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
                           gradient: const LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
-                            colors: [Color(0xFFDC2626), Color(0xFF991B1B)],
+                            colors: [AppColors.primary, Color(0xFF991B1B)],
                           ),
                           borderRadius: BorderRadius.circular(28),
                         ),
@@ -64,7 +64,7 @@ class SettingsScreen extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                   decoration: BoxDecoration(
-                                    gradient: const LinearGradient(colors: [Color(0xFFDC2626), Color(0xFF991B1B)]),
+                                    gradient: const LinearGradient(colors: [AppColors.primary, Color(0xFF991B1B)]),
                                     borderRadius: BorderRadius.circular(99),
                                   ),
                                   child: const Text('PRO', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
@@ -229,7 +229,7 @@ class SettingsScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
       ),

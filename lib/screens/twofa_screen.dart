@@ -32,7 +32,7 @@ class TwoFAScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
+              decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.7), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
               child: Column(
                 children: [
                   const Text('Scan QR Code', style: TextStyle(fontWeight: FontWeight.w600)),
@@ -70,7 +70,7 @@ class TwoFAScreen extends StatelessWidget {
                 width: 40,
                 height: 48,
                 margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
+                decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.7), borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
                 child: Center(child: Text(i < 3 ? '${i + 1}' : '', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
               )),
             ),
@@ -86,7 +86,7 @@ class TwoFAScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: selected ? AppColors.primary : AppColors.border),
       ),

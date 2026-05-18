@@ -128,7 +128,7 @@ class NewsScreen extends StatelessWidget {
                     const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                      decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.7), borderRadius: BorderRadius.circular(4)),
+                      decoration: BoxDecoration(color: AppColors.surfaceLight.withValues(alpha: 0.7), borderRadius: BorderRadius.circular(4)),
                       child: Text(category, style: const TextStyle(fontSize: 10, color: AppColors.textSecondary)),
                     ),
                   ],

@@ -15,9 +15,9 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
   bool _obscureNew = true;
   bool _obscureConfirm = true;
 
-  static const Color _emerald500 = Color(0xFF10B981);
-  static const Color _red600 = Color(0xFFDC2626);
-  static const Color _slate400 = Color(0xFF94A3B8);
+  static const Color _emerald500 = AppColors.success;
+  static const Color _red600 = AppColors.primary;
+  static const Color _slate400 = AppColors.textSecondary;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
                       child: Container(
                         width: 40, height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E293B),
+                          color: AppColors.surfaceLight,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                         ),
@@ -121,7 +121,7 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+                  color: AppColors.surfaceLight.withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                 ),
@@ -198,10 +198,10 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
           Container(
             width: 56, height: 56,
             decoration: BoxDecoration(
-              color: const Color(0xFF3B82F6).withValues(alpha: 0.15),
+              color: AppColors.accent.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(Icons.quiz, color: Color(0xFF3B82F6), size: 26),
+            child: const Icon(Icons.quiz, color: AppColors.accent, size: 26),
           ),
           const SizedBox(height: 16),
           const Text('Verify Recovery', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Colors.white)),
@@ -250,7 +250,7 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
@@ -364,7 +364,7 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E293B).withValues(alpha: 0.4),
+              color: AppColors.surfaceLight.withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
             ),
@@ -446,7 +446,7 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
     return Container(
       height: 52,
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.7),
+        color: AppColors.surfaceLight.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),

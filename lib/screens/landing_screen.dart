@@ -93,12 +93,12 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               BoxShadow(
-                                color: Color(0xFFDC2626).withValues(alpha: _glowAnim.value),
+                                color: AppColors.primary.withValues(alpha: _glowAnim.value),
                                 blurRadius: 50,
                                 spreadRadius: 8,
                               ),
                               BoxShadow(
-                                color: Color(0xFFDC2626).withValues(alpha: _glowAnim.value * 0.3),
+                                color: AppColors.primary.withValues(alpha: _glowAnim.value * 0.3),
                                 blurRadius: 100,
                                 spreadRadius: 20,
                               ),
@@ -116,14 +116,14 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     border: Border.all(
-                                      color: const Color(0xFFDC2626).withValues(alpha: 0.2),
+                                      color: AppColors.primary.withValues(alpha: 0.2),
                                       width: 1.5,
                                     ),
                                     gradient: SweepGradient(
                                       colors: [
-                                        const Color(0xFFDC2626).withValues(alpha: 0.0),
-                                        const Color(0xFFDC2626).withValues(alpha: 0.3),
-                                        const Color(0xFFDC2626).withValues(alpha: 0.0),
+                                        AppColors.primary.withValues(alpha: 0.0),
+                                        AppColors.primary.withValues(alpha: 0.3),
+                                        AppColors.primary.withValues(alpha: 0.0),
                                       ],
                                     ),
                                   ),
@@ -161,7 +161,7 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xFFDC2626).withValues(alpha: 0.9),
+                    color: AppColors.primary.withValues(alpha: 0.9),
                     letterSpacing: 4,
                   ),
                 ),
@@ -191,11 +191,11 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                   child: ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/register'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFDC2626),
+                      backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       elevation: 8,
-                      shadowColor: const Color(0xFFDC2626).withValues(alpha: 0.4),
+                      shadowColor: AppColors.primary.withValues(alpha: 0.4),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -217,7 +217,7 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                     onPressed: () => Navigator.pushNamed(context, '/signin'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: const Color(0xFF1E293B).withValues(alpha: 0.5),
+                      backgroundColor: AppColors.surfaceLight.withValues(alpha: 0.5),
                       side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     ),

@@ -12,10 +12,10 @@ class MarketScreen extends StatefulWidget {
 class _MarketScreenState extends State<MarketScreen> {
   int _filterIdx = 0; // 0=All, 1=Favorites, 2=Gainers, 3=Losers
   
-  static const _bg = Color(0xFF0F172A);
-  static const _cardBg = Color(0xFF1E293B);
-  static const _red = Color(0xFFDC2626);
-  static const _muted = Color(0xFF94A3B8);
+  
+  
+  
+  
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class _MarketScreenState extends State<MarketScreen> {
     }
 
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: _bg,
+        backgroundColor: AppColors.background,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -53,7 +53,7 @@ class _MarketScreenState extends State<MarketScreen> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [_cardBg, Colors.black.withValues(alpha: 0.6)],
+                  colors: [AppColors.surfaceLight, Colors.black.withValues(alpha: 0.6)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -66,7 +66,7 @@ class _MarketScreenState extends State<MarketScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.auto_graph_rounded, color: _red, size: 20),
+                      Icon(Icons.auto_graph_rounded, color: AppColors.primary, size: 20),
                       const SizedBox(width: 8),
                       const Text('Market Overview', style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white, fontSize: 16)),
                     ],
@@ -101,14 +101,14 @@ class _MarketScreenState extends State<MarketScreen> {
                         duration: const Duration(milliseconds: 200),
                         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                         decoration: BoxDecoration(
-                          color: active ? _red.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.04),
+                          color: active ? AppColors.primary.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.04),
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: active ? _red.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.08)),
+                          border: Border.all(color: active ? AppColors.primary.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.08)),
                         ),
                         child: Text(
                           filters[i], 
                           style: TextStyle(
-                            color: active ? Colors.white : _muted, 
+                            color: active ? Colors.white : AppColors.textMuted, 
                             fontWeight: active ? FontWeight.w800 : FontWeight.w600,
                             fontSize: 13,
                           ),
@@ -126,10 +126,10 @@ class _MarketScreenState extends State<MarketScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
                 children: [
-                  const Expanded(flex: 3, child: Text('Asset', style: TextStyle(color: _muted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
-                  const Expanded(flex: 2, child: Text('Price', textAlign: TextAlign.right, style: TextStyle(color: _muted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
-                  const Expanded(flex: 2, child: Text('24h', textAlign: TextAlign.right, style: TextStyle(color: _muted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
-                  const Expanded(flex: 2, child: Text('Mkt Cap', textAlign: TextAlign.right, style: TextStyle(color: _muted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
+                  const Expanded(flex: 3, child: Text('Asset', style: TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
+                  const Expanded(flex: 2, child: Text('Price', textAlign: TextAlign.right, style: TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
+                  const Expanded(flex: 2, child: Text('24h', textAlign: TextAlign.right, style: TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
+                  const Expanded(flex: 2, child: Text('Mkt Cap', textAlign: TextAlign.right, style: TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5))),
                 ],
               ),
             ),
@@ -141,7 +141,7 @@ class _MarketScreenState extends State<MarketScreen> {
             if (displayData.isEmpty)
               const Padding(
                 padding: EdgeInsets.all(32.0),
-                child: Center(child: Text('No assets match this filter.', style: TextStyle(color: _muted))),
+                child: Center(child: Text('No assets match this filter.', style: TextStyle(color: AppColors.textMuted))),
               )
             else
               ...displayData.map(_cryptoRow),
@@ -157,14 +157,14 @@ class _MarketScreenState extends State<MarketScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: _muted, fontSize: 11, fontWeight: FontWeight.w600)),
+        Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
         const SizedBox(height: 6),
         Text(value, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Colors.white, letterSpacing: -0.5)),
         const SizedBox(height: 4),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
-            color: (positive ? Colors.green : _red).withValues(alpha: 0.1),
+            color: (positive ? Colors.green : AppColors.primary).withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
@@ -185,7 +185,7 @@ class _MarketScreenState extends State<MarketScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: _cardBg.withValues(alpha: 0.4),
+        color: AppColors.surfaceLight.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.04)),
       ),
@@ -211,7 +211,7 @@ class _MarketScreenState extends State<MarketScreen> {
               children: [
                 Text(crypto.name, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14, color: Colors.white)),
                 const SizedBox(height: 2),
-                Text(crypto.symbol, style: const TextStyle(color: _muted, fontSize: 11, fontWeight: FontWeight.w600)),
+                Text(crypto.symbol, style: const TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
               ],
             ),
           ),
@@ -225,7 +225,7 @@ class _MarketScreenState extends State<MarketScreen> {
               margin: const EdgeInsets.only(left: 8),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               decoration: BoxDecoration(
-                color: (crypto.isPositive ? Colors.green : _red).withValues(alpha: 0.15),
+                color: (crypto.isPositive ? Colors.green : AppColors.primary).withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -241,7 +241,7 @@ class _MarketScreenState extends State<MarketScreen> {
           ),
           Expanded(
             flex: 2,
-            child: Text(crypto.marketCap, textAlign: TextAlign.right, style: const TextStyle(color: _muted, fontSize: 12, fontWeight: FontWeight.w600)),
+            child: Text(crypto.marketCap, textAlign: TextAlign.right, style: const TextStyle(color: AppColors.textMuted, fontSize: 12, fontWeight: FontWeight.w600)),
           ),
         ],
       ),
