@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginOptionsPage from './pages/LoginOptionsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -12,10 +12,12 @@ import LiveStreamPage from './pages/LiveStreamPage';
 import VoteMarketPage from './pages/VoteMarketPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
+import NotificationsPage from './pages/NotificationsPage';
+import CreatePostPage from './pages/CreatePostPage';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="max-w-[430px] mx-auto min-h-screen bg-[#040508] relative shadow-2xl">
         <Routes>
           <Route path="/" element={<LoginOptionsPage />} />
@@ -31,9 +33,11 @@ export default function App() {
           <Route path="/live" element={<LiveStreamPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/create-post" element={<CreatePostPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
