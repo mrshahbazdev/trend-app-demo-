@@ -14,13 +14,15 @@ import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import CreatePostPage from './pages/CreatePostPage';
+import SplashScreen from './pages/SplashScreen';
 
 export default function App() {
   return (
     <HashRouter>
       <div className="max-w-[430px] mx-auto min-h-screen bg-[#040508] relative shadow-2xl">
         <Routes>
-          <Route path="/" element={<LoginOptionsPage />} />
+          <Route path="/" element={<SplashScreen />} />
+          <Route path="/welcome" element={<LoginOptionsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/wallet-connected" element={<WalletConnectedPage />} />

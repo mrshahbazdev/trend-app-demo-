@@ -75,7 +75,7 @@ export default function SettingsPage() {
         })}
 
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/welcome')}
           className="flex items-center gap-4 p-4 text-[#FF3B30] font-bold border border-[#1C1E23] rounded-[16px] bg-[#0A0D12]"
         >
           <LogOut className="w-5 h-5" />
