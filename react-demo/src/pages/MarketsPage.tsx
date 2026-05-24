@@ -178,25 +178,27 @@ function PriceFilterPills({ active, setActive, items }: { active: string; setAct
   );
 }
 
-function AssetRow({ rank, symbol, name, price, change, up, last, starred, color }: { rank: number; symbol: string; name: string; price: string; change: string; up: boolean; last: string; starred?: boolean; color: string }) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function AssetRow({ rank, symbol, name, price, change, up, last: _last, starred, color }: { rank: number; symbol: string; name: string; price: string; change: string; up: boolean; last: string; starred?: boolean; color: string }) {
   const { t } = useTheme();
   return (
     <div className="flex items-center py-3 px-4" style={{ borderBottom: `1px solid ${t.border}` }}>
-      <span className="w-[24px] text-[13px] font-medium" style={{ color: t.textMuted }}>{rank}</span>
-      <div className="flex items-center gap-2.5 flex-1 min-w-0">
-        <div className="w-[32px] h-[32px] rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: color }}>
-          <span className="text-[11px] font-bold text-white">{symbol.slice(0, 2)}</span>
+      <span className="w-[20px] text-[12px] font-medium shrink-0" style={{ color: t.textMuted }}>{rank}</span>
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <div className="w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: color }}>
+          <span className="text-[10px] font-bold text-white">{symbol.slice(0, 2)}</span>
         </div>
-        <div>
-          <span className="text-[14px] font-bold block" style={{ color: t.text }}>{symbol}</span>
-          <span className="text-[11px]" style={{ color: t.textMuted }}>{name}</span>
+        <div className="min-w-0">
+          <span className="text-[13px] font-bold block truncate" style={{ color: t.text }}>{symbol}</span>
+          <span className="text-[10px] truncate block" style={{ color: t.textMuted }}>{name}</span>
         </div>
       </div>
-      <span className="text-[13px] font-semibold w-[80px] text-right" style={{ color: t.text }}>{price}</span>
-      <span className="text-[12px] font-bold w-[60px] text-right" style={{ color: up ? t.green : t.red }}>{change}</span>
-      <div className="w-[60px] flex justify-center"><MiniChart color={up ? t.green : t.red} down={!up} /></div>
-      <span className="text-[12px] font-medium w-[60px] text-right" style={{ color: t.textMuted }}>{last}</span>
-      <button className="ml-2">
+      <div className="flex flex-col items-end ml-2 shrink-0">
+        <span className="text-[13px] font-semibold" style={{ color: t.text }}>{price}</span>
+        <span className="text-[11px] font-bold" style={{ color: up ? t.green : t.red }}>{change}</span>
+      </div>
+      <div className="w-[50px] flex justify-center shrink-0"><MiniChart color={up ? t.green : t.red} down={!up} /></div>
+      <button className="ml-1 shrink-0">
         <Star className="w-4 h-4" style={{ color: starred ? t.green : t.textDim, fill: starred ? t.green : 'none' }} />
       </button>
     </div>
@@ -346,13 +348,11 @@ function PricesCryptoContent() {
       {/* Crypto Table */}
       <div className="mt-3">
         <div className="flex items-center px-4 py-2" style={{ borderBottom: `1px solid ${t.border}` }}>
-          <span className="text-[11px] font-semibold w-[24px]" style={{ color: t.textMuted }}>#</span>
+          <span className="text-[11px] font-semibold w-[20px]" style={{ color: t.textMuted }}>#</span>
           <span className="text-[11px] font-semibold flex-1" style={{ color: t.textMuted }}>Asset</span>
-          <span className="text-[11px] font-semibold w-[80px] text-right" style={{ color: t.textMuted }}>Price</span>
-          <span className="text-[11px] font-semibold w-[60px] text-right" style={{ color: t.textMuted }}>24h %</span>
-          <span className="text-[11px] font-semibold w-[60px] text-center" style={{ color: t.textMuted }}>7D Chart</span>
-          <span className="text-[11px] font-semibold w-[60px] text-right" style={{ color: t.textMuted }}>Market Cap</span>
-          <span className="w-6" />
+          <span className="text-[11px] font-semibold text-right mr-2" style={{ color: t.textMuted }}>Price / 24h</span>
+          <span className="text-[11px] font-semibold w-[50px] text-center" style={{ color: t.textMuted }}>7D</span>
+          <span className="w-5" />
         </div>
         {cryptoAssets.map(a => (
           <AssetRow key={a.symbol} rank={a.rank} symbol={a.symbol} name={a.name} price={a.price} change={a.change} up={a.up} last={a.mcap} starred={a.starred} color={a.color} />
@@ -405,38 +405,35 @@ function PricesChainsContent() {
       {/* Chain Table */}
       <div className="mt-3">
         <div className="flex items-center px-4 py-2" style={{ borderBottom: `1px solid ${t.border}` }}>
-          <span className="text-[11px] font-semibold w-[24px]" style={{ color: t.textMuted }}>#</span>
+          <span className="text-[11px] font-semibold w-[20px]" style={{ color: t.textMuted }}>#</span>
           <span className="text-[11px] font-semibold flex-1" style={{ color: t.textMuted }}>Chain</span>
-          <span className="text-[11px] font-semibold w-[80px]" style={{ color: t.textMuted }}>TVL / Addresses</span>
-          <span className="text-[11px] font-semibold w-[50px] text-right" style={{ color: t.textMuted }}>24h %</span>
-          <span className="text-[11px] font-semibold w-[50px] text-center" style={{ color: t.textMuted }}>7D Chart</span>
-          <span className="text-[11px] font-semibold w-[40px] text-center" style={{ color: t.textMuted }}>Health</span>
-          <span className="w-6" />
+          <span className="text-[11px] font-semibold text-right mr-2" style={{ color: t.textMuted }}>TVL / 24h</span>
+          <span className="text-[11px] font-semibold w-[50px] text-center" style={{ color: t.textMuted }}>7D</span>
+          <span className="w-5" />
         </div>
         {chains.map(c => (
           <div key={c.name} className="flex items-center py-3 px-4" style={{ borderBottom: `1px solid ${t.border}` }}>
-            <span className="w-[24px] text-[13px] font-medium" style={{ color: t.textMuted }}>{c.rank}</span>
+            <span className="w-[20px] text-[12px] font-medium shrink-0" style={{ color: t.textMuted }}>{c.rank}</span>
             <div className="flex items-center gap-2 flex-1 min-w-0">
-              <div className="w-[32px] h-[32px] rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: c.color }}>
-                <span className="text-[9px] font-bold text-white">{c.name.slice(0, 2)}</span>
+              <div className="w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: c.color }}>
+                <span className="text-[10px] font-bold text-white">{c.name.slice(0, 2)}</span>
               </div>
-              <div>
-                <span className="text-[13px] font-bold" style={{ color: t.text }}>{c.name}</span>
-                <span className="text-[10px] ml-1 px-1 py-0.5 rounded" style={{ backgroundColor: t.bgTer, color: t.textMuted }}>{c.type}</span>
-              </div>
-            </div>
-            <div className="w-[80px]">
-              <span className="text-[12px] font-semibold block" style={{ color: t.text }}>{c.tvl}</span>
-              <span className="text-[10px]" style={{ color: t.textMuted }}>{c.addresses}</span>
-            </div>
-            <span className="text-[12px] font-bold w-[50px] text-right" style={{ color: c.up ? t.green : t.red }}>{c.change}</span>
-            <div className="w-[50px] flex justify-center"><MiniChart color={t.green} /></div>
-            <div className="w-[40px] flex justify-center">
-              <div className="w-[28px] h-[28px] rounded-full flex items-center justify-center" style={{ border: `2px solid ${c.health >= 80 ? t.green : c.health >= 70 ? t.green : t.orange}` }}>
-                <span className="text-[9px] font-bold" style={{ color: c.health >= 80 ? t.green : c.health >= 70 ? t.green : t.orange }}>{c.health}</span>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1">
+                  <span className="text-[13px] font-bold truncate" style={{ color: t.text }}>{c.name}</span>
+                  <span className="text-[9px] px-1 py-0.5 rounded shrink-0" style={{ backgroundColor: t.bgTer, color: t.textMuted }}>{c.type}</span>
+                </div>
+                <span className="text-[10px]" style={{ color: t.textMuted }}>{c.addresses}</span>
               </div>
             </div>
-            <Star className="w-4 h-4 ml-2" style={{ color: t.textDim }} />
+            <div className="flex flex-col items-end ml-2 shrink-0">
+              <span className="text-[12px] font-semibold" style={{ color: t.text }}>{c.tvl}</span>
+              <span className="text-[11px] font-bold" style={{ color: c.up ? t.green : t.red }}>{c.change}</span>
+            </div>
+            <div className="w-[50px] flex justify-center shrink-0"><MiniChart color={c.up ? t.green : t.red} down={!c.up} /></div>
+            <button className="ml-1 shrink-0">
+              <Star className="w-4 h-4" style={{ color: t.textDim }} />
+            </button>
           </div>
         ))}
       </div>
@@ -527,28 +524,29 @@ function PricesAIContent() {
       <div className="mt-3">
         <div className="flex items-center px-4 py-2" style={{ borderBottom: `1px solid ${t.border}` }}>
           <span className="text-[11px] font-semibold flex-1" style={{ color: t.textMuted }}>Project</span>
-          <span className="text-[11px] font-semibold w-[70px] text-right" style={{ color: t.textMuted }}>Price</span>
-          <span className="text-[11px] font-semibold w-[55px] text-right" style={{ color: t.textMuted }}>24h %</span>
-          <span className="text-[11px] font-semibold w-[50px] text-center" style={{ color: t.textMuted }}>7D Chart</span>
-          <span className="text-[11px] font-semibold w-[40px] text-right" style={{ color: t.textMuted }}>AI Rank</span>
-          <span className="w-6" />
+          <span className="text-[11px] font-semibold text-right mr-2" style={{ color: t.textMuted }}>Price / 24h</span>
+          <span className="text-[11px] font-semibold w-[50px] text-center" style={{ color: t.textMuted }}>7D</span>
+          <span className="w-5" />
         </div>
         {aiProjects.map(a => (
           <div key={a.symbol} className="flex items-center py-3 px-4" style={{ borderBottom: `1px solid ${t.border}` }}>
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <div className="w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: a.color }}>
-                <span className="text-[9px] font-bold text-white">{a.symbol.slice(0, 2)}</span>
+                <span className="text-[10px] font-bold text-white">{a.symbol.slice(0, 2)}</span>
               </div>
-              <div>
-                <span className="text-[13px] font-bold" style={{ color: t.text }}>{a.symbol}</span>
-                <span className="text-[10px] block" style={{ color: t.textMuted }}>{a.name}</span>
+              <div className="min-w-0">
+                <span className="text-[13px] font-bold truncate block" style={{ color: t.text }}>{a.symbol}</span>
+                <span className="text-[10px] truncate block" style={{ color: t.textMuted }}>{a.name}</span>
               </div>
             </div>
-            <span className="text-[12px] font-semibold w-[70px] text-right" style={{ color: t.text }}>{a.price}</span>
-            <span className="text-[11px] font-bold w-[55px] text-right" style={{ color: a.up ? t.green : t.red }}>{a.change}</span>
-            <div className="w-[50px] flex justify-center"><MiniChart color={a.up ? t.green : t.red} down={!a.up} /></div>
-            <span className="text-[12px] font-semibold w-[40px] text-right" style={{ color: t.textMuted }}>{a.aiRank}</span>
-            <Star className="w-4 h-4 ml-2" style={{ color: a.starred ? t.green : t.textDim, fill: a.starred ? t.green : 'none' }} />
+            <div className="flex flex-col items-end ml-2 shrink-0">
+              <span className="text-[12px] font-semibold" style={{ color: t.text }}>{a.price}</span>
+              <span className="text-[11px] font-bold" style={{ color: a.up ? t.green : t.red }}>{a.change}</span>
+            </div>
+            <div className="w-[50px] flex justify-center shrink-0"><MiniChart color={a.up ? t.green : t.red} down={!a.up} /></div>
+            <button className="ml-1 shrink-0">
+              <Star className="w-4 h-4" style={{ color: a.starred ? t.green : t.textDim, fill: a.starred ? t.green : 'none' }} />
+            </button>
           </div>
         ))}
       </div>
@@ -644,13 +642,11 @@ function PricesDeFiContent() {
       {/* Protocol Table */}
       <div className="mt-3">
         <div className="flex items-center px-4 py-2" style={{ borderBottom: `1px solid ${t.border}` }}>
-          <span className="text-[11px] font-semibold w-[24px]" style={{ color: t.textMuted }}>#</span>
+          <span className="text-[11px] font-semibold w-[20px]" style={{ color: t.textMuted }}>#</span>
           <span className="text-[11px] font-semibold flex-1" style={{ color: t.textMuted }}>Protocol</span>
-          <span className="text-[11px] font-semibold w-[75px] text-right" style={{ color: t.textMuted }}>Price</span>
-          <span className="text-[11px] font-semibold w-[55px] text-right" style={{ color: t.textMuted }}>24h %</span>
-          <span className="text-[11px] font-semibold w-[50px] text-center" style={{ color: t.textMuted }}>7D Chart</span>
-          <span className="text-[11px] font-semibold w-[55px] text-right" style={{ color: t.textMuted }}>TVL</span>
-          <span className="w-6" />
+          <span className="text-[11px] font-semibold text-right mr-2" style={{ color: t.textMuted }}>Price / 24h</span>
+          <span className="text-[11px] font-semibold w-[50px] text-center" style={{ color: t.textMuted }}>7D</span>
+          <span className="w-5" />
         </div>
         {defiProtocols.map(p => (
           <AssetRow key={p.symbol} rank={p.rank} symbol={p.symbol} name={p.name} price={p.price} change={p.change} up={p.up} last={p.tvl} starred={p.starred} color={p.color} />
