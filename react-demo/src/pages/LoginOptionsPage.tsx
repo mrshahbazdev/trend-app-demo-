@@ -75,22 +75,21 @@ export default function LoginOptionsPage() {
 
           {/* More Options Button */}
           <button
-            type="button"
-            onClick={() => { setShowMore(prev => !prev); }}
-            className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
+            onClick={() => setShowMore(!showMore)}
+            className="w-full flex items-center justify-between h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors group"
           >
-            <div className="w-5 h-5 border-2 border-white rounded-full flex items-center justify-center mr-4">
-              <MoreHorizontal className="w-3.5 h-3.5 text-white" strokeWidth={3} />
+            <div className="flex items-center">
+              <div className="w-5 h-5 border-2 border-white rounded-full flex items-center justify-center mr-4">
+                <MoreHorizontal className="w-3.5 h-3.5 text-white" strokeWidth={3} />
+              </div>
+              <span className="text-[15px] text-[#F3F4F6] font-normal">More options</span>
             </div>
-            <span className="text-[15px] text-[#F3F4F6] font-normal">More options</span>
-            <div className="ml-auto">
-              {showMore ? <ChevronUp className="w-5 h-5 text-[#7A818E]" /> : <ChevronDown className="w-5 h-5 text-[#7A818E]" />}
-            </div>
+            {showMore ? <ChevronUp className="w-5 h-5 text-[#7A818E]" /> : <ChevronDown className="w-5 h-5 text-[#7A818E]" />}
           </button>
 
           {/* Expandable Social Login Options */}
           {showMore && (
-            <div className="flex flex-col gap-[10px] animate-in">
+            <div className="flex flex-col gap-[10px]">
               <button
                 onClick={() => navigate('/auth/google')}
                 className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
