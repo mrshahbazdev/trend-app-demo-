@@ -323,7 +323,7 @@ export default function TodayFeedPage() {
         </button>
       </div>
 
-      {(activeTab === 'Today' || activeTab === 'Live') && (
+      {activeTab === 'Live' && (
         <div className="flex items-start gap-4 px-4 pb-4 overflow-x-auto" style={{ borderBottom: `1px solid ${t.border}` }}>
           {stories.map((s, i) => (
             <div key={i} onClick={() => navigate(`/story?idx=${i}`)} className="flex flex-col items-center gap-1.5 min-w-[72px] cursor-pointer">

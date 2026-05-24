@@ -75,7 +75,8 @@ export default function LoginOptionsPage() {
 
           {/* More Options Button */}
           <button
-            onClick={() => setShowMore(!showMore)}
+            type="button"
+            onClick={() => { setShowMore(prev => !prev); }}
             className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
           >
             <div className="w-5 h-5 border-2 border-white rounded-full flex items-center justify-center mr-4">
