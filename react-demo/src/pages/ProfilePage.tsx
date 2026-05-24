@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Share, MoreHorizontal, User, Users, FileText, Heart, MessageCircle, Repeat, Image, Play } from 'lucide-react';
+import { ChevronLeft, Share, MoreHorizontal, User, Users, FileText, Heart, MessageCircle, Repeat, Image, Play, Camera, X, ExternalLink, Star, CheckCircle } from 'lucide-react';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
 
@@ -30,21 +30,73 @@ const userLikedPosts = [
   { user: "Crypto Whale", handle: "@cryptowhale", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop", content: "BTC dominance is at 54% and climbing.", time: "6h", likes: 67, verified: false },
 ];
 
+const userVotes = [
+  { question: "Will BTC hit $70k before June?", votedYes: true, yesPercent: 62, totalVotes: "2.8K", status: "Active", reward: "2.3x" },
+  { question: "Fed rate cut before September?", votedYes: true, yesPercent: 71, totalVotes: "3.4K", status: "Won", reward: "1.8x" },
+  { question: "Will ETH flip BTC market cap in 2024?", votedYes: false, yesPercent: 28, totalVotes: "1.2K", status: "Active", reward: "3.1x" },
+  { question: "NVDA hits $1000 before earnings?", votedYes: true, yesPercent: 55, totalVotes: "892", status: "Lost", reward: "0x" },
+];
+
+const userProjects = [
+  { name: "TrendUp Analytics", desc: "Open-source market analytics dashboard with real-time data feeds.", tech: ["React", "TypeScript", "WebSocket"], stars: 234, status: "Active", image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=400&auto=format&fit=crop" },
+  { name: "CryptoSignals Bot", desc: "Automated trading signals based on technical analysis patterns.", tech: ["Python", "ML", "APIs"], stars: 567, status: "Active", image: "https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=400&auto=format&fit=crop" },
+  { name: "DeFi Portfolio Tracker", desc: "Multi-chain portfolio tracking with yield farming analytics.", tech: ["Web3", "Solidity", "React"], stars: 123, status: "Beta", image: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=400&auto=format&fit=crop" },
+];
+
 export default function ProfilePage() {
   const navigate = useNavigate();
   const [following, setFollowing] = useState(false);
   const [activeTab, setActiveTab] = useState('Posts');
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
+  const [profileImg, setProfileImg] = useState("https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop");
+  const [coverImg, setCoverImg] = useState("https://images.unsplash.com/photo-1480796927426-f609979314bd?q=80&w=1000&auto=format&fit=crop");
+  const [showImageUpload, setShowImageUpload] = useState(false);
+  const [showCoverUpload, setShowCoverUpload] = useState(false);
+  const [uploadToast, setUploadToast] = useState('');
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
 
   const toggleLike = (i: number) => {
     setLikedPosts(prev => { const next = new Set(prev); if (next.has(i)) next.delete(i); else next.add(i); return next; });
   };
 
+  const handleProfileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setProfileImg(url);
+      setShowImageUpload(false);
+      setUploadToast('Profile photo updated!');
+      setTimeout(() => setUploadToast(''), 2000);
+    }
+  };
+
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setCoverImg(url);
+      setShowCoverUpload(false);
+      setUploadToast('Cover photo updated!');
+      setTimeout(() => setUploadToast(''), 2000);
+    }
+  };
+
+  const tabs = ['Posts', 'Replies', 'Media', 'Likes', 'Votes', 'Projects'];
+
   return (
     <div className="min-h-screen bg-[#020305] text-white font-sans relative pb-[90px] antialiased">
-      <div className="absolute top-0 left-0 w-full h-[160px] bg-[#12161A] z-0">
-        <img src="https://images.unsplash.com/photo-1480796927426-f609979314bd?q=80&w=1000&auto=format&fit=crop" alt="Profile Banner" className="w-full h-full object-cover opacity-80" />
+      {/* Cover Image with Upload */}
+      <div className="absolute top-0 left-0 w-full h-[160px] bg-[#12161A] z-0 group">
+        <img src={coverImg} alt="Profile Banner" className="w-full h-full object-cover opacity-80" />
         <div className="absolute bottom-0 left-0 w-full h-[60px] bg-gradient-to-t from-[#020305] to-transparent"></div>
+        <button
+          onClick={() => setShowCoverUpload(true)}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          style={{ opacity: 1 }}
+        >
+          <Camera className="w-4 h-4 text-white" />
+        </button>
       </div>
 
       <header className="sticky top-0 left-0 w-full z-50 bg-gradient-to-b from-[#020305]/80 to-transparent flex items-center justify-between px-4 pt-4 pb-4">
@@ -66,13 +118,21 @@ export default function ProfilePage() {
       <div className="relative z-10 pt-[50px]">
         <div className="px-4">
           <div className="flex justify-between items-end mb-[14px]">
-            <div className="relative">
+            {/* Profile Image with Upload */}
+            <div className="relative group">
               <div className="w-[96px] h-[96px] rounded-full border-[4px] border-[#020305] bg-[#1A1D24] overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" alt="Jason Lin" className="w-full h-full object-cover" />
+                <img src={profileImg} alt="Jason Lin" className="w-full h-full object-cover" />
               </div>
               <div className="absolute bottom-0 right-0 border-2 border-[#020305] rounded-full bg-[#020305]">
                 <VerifiedBadge className="w-[22px] h-[22px] text-[#2ECC71]" />
               </div>
+              <button
+                onClick={() => setShowImageUpload(true)}
+                className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ opacity: 0.6 }}
+              >
+                <Camera className="w-6 h-6 text-white" />
+              </button>
             </div>
             <div className="flex items-center gap-2 mb-2">
               <button
@@ -124,24 +184,26 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-8 px-5 pt-1 pb-0 border-b border-[#1A1C22]">
-          {['Posts', 'Replies', 'Media', 'Likes'].map(tab => (
+        {/* Tabs */}
+        <div className="flex items-center gap-4 px-3 pt-1 pb-0 border-b border-[#1A1C22] overflow-x-auto">
+          {tabs.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`text-[15.5px] font-bold pb-2.5 ${activeTab === tab ? 'text-[#FFFFFF] border-b-[3px] border-[#2ECC71]' : 'text-[#A0A2A8] hover:text-white transition-colors'}`}
+              className={`text-[14px] font-bold pb-2.5 whitespace-nowrap ${activeTab === tab ? 'text-[#FFFFFF] border-b-[3px] border-[#2ECC71]' : 'text-[#A0A2A8] hover:text-white transition-colors'}`}
             >
               {tab}
             </button>
           ))}
         </div>
 
+        {/* Posts Tab */}
         {activeTab === 'Posts' && (
           <div className="flex flex-col">
             {userPosts.map((post, i) => (
               <article key={i} className="px-4 pt-5 pb-3 border-b border-[#121419]">
                 <div className="flex gap-3 mb-3">
-                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" className="w-[44px] h-[44px] rounded-full object-cover" alt="Avatar" />
+                  <img src={profileImg} className="w-[44px] h-[44px] rounded-full object-cover" alt="Avatar" />
                   <div className="flex items-center gap-1 mt-[2px]">
                     <span className="font-bold text-[16px]">Jason Lin</span>
                     <VerifiedBadge className="w-[16px] h-[16px] text-[#2ECC71]" />
@@ -172,6 +234,7 @@ export default function ProfilePage() {
           </div>
         )}
 
+        {/* Replies Tab */}
         {activeTab === 'Replies' && (
           <div className="flex flex-col">
             {userReplies.map((r, i) => (
@@ -181,7 +244,7 @@ export default function ProfilePage() {
                   <p className="text-[#8B8D93] text-[13px] italic">"{r.original}"</p>
                 </div>
                 <div className="flex gap-3">
-                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" className="w-[36px] h-[36px] rounded-full object-cover" alt="Avatar" />
+                  <img src={profileImg} className="w-[36px] h-[36px] rounded-full object-cover" alt="Avatar" />
                   <div className="flex-1">
                     <div className="flex items-center gap-1 mb-1">
                       <span className="font-bold text-[14px]">Jason Lin</span>
@@ -199,6 +262,7 @@ export default function ProfilePage() {
           </div>
         )}
 
+        {/* Media Tab */}
         {activeTab === 'Media' && (
           <div className="grid grid-cols-3 gap-[2px] p-[2px]">
             {userMedia.map((src, i) => (
@@ -213,6 +277,7 @@ export default function ProfilePage() {
           </div>
         )}
 
+        {/* Likes Tab */}
         {activeTab === 'Likes' && (
           <div className="flex flex-col">
             {userLikedPosts.map((post, i) => (
@@ -235,7 +300,130 @@ export default function ProfilePage() {
             ))}
           </div>
         )}
+
+        {/* Votes Tab */}
+        {activeTab === 'Votes' && (
+          <div className="p-4 flex flex-col gap-3">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[#A0A2A8] text-[13px] font-medium">{userVotes.length} predictions</span>
+              <span className="text-[#2ECC71] text-[13px] font-bold">Win Rate: 67%</span>
+            </div>
+            {userVotes.map((v, i) => (
+              <div key={i} className="bg-[#0A0D12] border border-[#1C1E23] rounded-[16px] p-4">
+                <div className="flex items-start justify-between mb-3">
+                  <p className="text-[#F3F4F6] text-[15px] font-medium flex-1 pr-3">{v.question}</p>
+                  <span className={`text-[11px] font-bold px-2 py-1 rounded-md whitespace-nowrap ${
+                    v.status === 'Won' ? 'bg-[#2ECC71]/20 text-[#2ECC71]' :
+                    v.status === 'Lost' ? 'bg-[#FF3B30]/20 text-[#FF3B30]' :
+                    'bg-[#FF9800]/20 text-[#FF9800]'
+                  }`}>{v.status}</span>
+                </div>
+                <div className="w-full h-[6px] rounded-full bg-[#1E2026] overflow-hidden mb-3">
+                  <div className="h-full bg-gradient-to-r from-[#2ECC71] to-[#27ae60] rounded-full transition-all" style={{ width: `${v.yesPercent}%` }} />
+                </div>
+                <div className="flex items-center justify-between text-[13px]">
+                  <div className="flex items-center gap-3">
+                    <span className={`font-bold ${v.votedYes ? 'text-[#2ECC71]' : 'text-[#FF3B30]'}`}>
+                      Voted {v.votedYes ? 'Yes' : 'No'}
+                    </span>
+                    <span className="text-[#8B8D93]">{v.totalVotes} votes</span>
+                  </div>
+                  <span className="text-[#8B8D93]">Reward: <span className="text-[#F1D683] font-bold">{v.reward}</span></span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Projects Tab */}
+        {activeTab === 'Projects' && (
+          <div className="p-4 flex flex-col gap-4">
+            {userProjects.map((p, i) => (
+              <div key={i} className="bg-[#0A0D12] border border-[#1C1E23] rounded-[16px] overflow-hidden">
+                <img src={p.image} alt={p.name} className="w-full h-[120px] object-cover" />
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-[16px] font-bold text-[#F3F4F6]">{p.name}</h3>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                        p.status === 'Active' ? 'bg-[#2ECC71]/20 text-[#2ECC71]' : 'bg-[#4A9EFF]/20 text-[#4A9EFF]'
+                      }`}>{p.status}</span>
+                    </div>
+                    <button className="text-[#8B8D93] hover:text-white">
+                      <ExternalLink className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <p className="text-[#8B8D93] text-[14px] leading-relaxed mb-3">{p.desc}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {p.tech.map(t => (
+                        <span key={t} className="text-[11px] font-medium bg-[#121419] border border-[#1C1E23] text-[#A0A2A8] px-2 py-0.5 rounded-full">{t}</span>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-1 text-[#F1D683]">
+                      <Star className="w-3.5 h-3.5 fill-[#F1D683]" />
+                      <span className="text-[12px] font-bold">{p.stars}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* Hidden file inputs */}
+      <input ref={profileInputRef} type="file" accept="image/*" className="hidden" onChange={handleProfileUpload} />
+      <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
+
+      {/* Profile Image Upload Modal */}
+      {showImageUpload && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[20px] p-6 max-w-[320px] w-full">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[17px] font-bold">Profile Photo</h3>
+              <button onClick={() => setShowImageUpload(false)}><X className="w-5 h-5 text-[#8B8D93]" /></button>
+            </div>
+            <div className="flex flex-col gap-3">
+              <button onClick={() => profileInputRef.current?.click()} className="bg-[#2ECC71] text-[#040508] font-bold text-[15px] py-3 rounded-[12px] flex items-center justify-center gap-2">
+                <Camera className="w-5 h-5" /> Upload Photo
+              </button>
+              <button onClick={() => { setProfileImg("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop"); setShowImageUpload(false); setUploadToast('Profile photo updated!'); setTimeout(() => setUploadToast(''), 2000); }} className="bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">
+                Choose Avatar
+              </button>
+              <button onClick={() => setShowImageUpload(false)} className="text-[#8B8D93] font-bold text-[14px] py-2">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cover Upload Modal */}
+      {showCoverUpload && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[20px] p-6 max-w-[320px] w-full">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[17px] font-bold">Cover Photo</h3>
+              <button onClick={() => setShowCoverUpload(false)}><X className="w-5 h-5 text-[#8B8D93]" /></button>
+            </div>
+            <div className="flex flex-col gap-3">
+              <button onClick={() => coverInputRef.current?.click()} className="bg-[#2ECC71] text-[#040508] font-bold text-[15px] py-3 rounded-[12px] flex items-center justify-center gap-2">
+                <Camera className="w-5 h-5" /> Upload Cover
+              </button>
+              <button onClick={() => { setCoverImg("https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop"); setShowCoverUpload(false); setUploadToast('Cover photo updated!'); setTimeout(() => setUploadToast(''), 2000); }} className="bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">
+                Choose from Gallery
+              </button>
+              <button onClick={() => setShowCoverUpload(false)} className="text-[#8B8D93] font-bold text-[14px] py-2">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Upload Toast */}
+      {uploadToast && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-2 bg-[#2ECC71] text-[#040508] font-bold text-[14px] px-5 py-2.5 rounded-full shadow-lg">
+          <CheckCircle className="w-4 h-4" /> {uploadToast}
+        </div>
+      )}
 
       <BottomNav />
     </div>

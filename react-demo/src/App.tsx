@@ -18,6 +18,8 @@ import SplashScreen from './pages/SplashScreen';
 import SearchPage from './pages/SearchPage';
 import StoryViewerPage from './pages/StoryViewerPage';
 import MarketDetailPage from './pages/MarketDetailPage';
+import AboutPage from './pages/AboutPage';
+import GoLivePage from './pages/GoLivePage';
 
 export default function App() {
   return (
@@ -36,6 +38,7 @@ export default function App() {
           <Route path="/chats" element={<ChatsPage />} />
           <Route path="/chats/detail" element={<ChatDetailPage />} />
           <Route path="/live" element={<LiveStreamPage />} />
+          <Route path="/go-live" element={<GoLivePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
@@ -43,6 +46,7 @@ export default function App() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/story" element={<StoryViewerPage />} />
           <Route path="/market-detail" element={<MarketDetailPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

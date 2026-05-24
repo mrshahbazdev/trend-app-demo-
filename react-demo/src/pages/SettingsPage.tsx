@@ -34,6 +34,7 @@ export default function SettingsPage() {
     else if (label === 'Privacy & Security') setShowPrivacy(!showPrivacy);
     else if (label === 'Language') setShowLanguage(!showLanguage);
     else if (label === 'Help Center') setShowHelp(!showHelp);
+    else if (label === 'About') navigate('/about');
   };
 
   const settingSections = [
@@ -57,6 +58,7 @@ export default function SettingsPage() {
       title: "Support",
       items: [
         { icon: "HelpCircle", label: "Help Center" },
+        { icon: "HelpCircle", label: "About" },
       ]
     }
   ];

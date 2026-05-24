@@ -337,6 +337,19 @@ export default function LiveStreamPage() {
         </div>
       )}
 
+      {/* Go Live Button */}
+      <div className="fixed bottom-[100px] right-4 z-40">
+        <button
+          onClick={() => navigate('/go-live')}
+          className="w-14 h-14 rounded-full bg-[#E63946] flex items-center justify-center shadow-[0_0_20px_rgba(230,57,70,0.4)] hover:bg-[#d32836] transition-all"
+        >
+          <div className="flex flex-col items-center">
+            <div className="w-3 h-3 bg-white rounded-full mb-0.5 animate-pulse" />
+            <span className="text-[8px] text-white font-bold">LIVE</span>
+          </div>
+        </button>
+      </div>
+
       <BottomNav />
     </div>
   );

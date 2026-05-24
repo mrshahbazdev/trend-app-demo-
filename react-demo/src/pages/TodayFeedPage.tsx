@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, MapPin, MoreHorizontal, Heart, MessageCircle, Repeat, Share } from 'lucide-react';
+import { Search, Bell, MapPin, MoreHorizontal, Heart, MessageCircle, Repeat, Share, Bookmark, Flag, VolumeX, Ban, EyeOff, Link, X } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
@@ -31,34 +31,53 @@ interface PostData {
 }
 
 const mockComments = [
-  { user: "Alex M.", text: "Great insight! Totally agree with this.", time: "2m" },
-  { user: "Priya P.", text: "This is exactly what I was thinking.", time: "5m" },
-  { user: "DeFi Fan", text: "Can you elaborate more on this?", time: "12m" },
+  { user: "Alex M.", text: "Great insight! Totally agree with this.", time: "2m", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" },
+  { user: "Priya P.", text: "This is exactly what I was thinking.", time: "5m", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" },
+  { user: "DeFi Fan", text: "Can you elaborate more on this?", time: "12m", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" },
+  { user: "Market Pro", text: "This confirms my analysis too.", time: "18m", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" },
 ];
 
 function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolean; onToggleLike: () => void }) {
+  const navigate = useNavigate();
   const [showComments, setShowComments] = useState(false);
   const [showRepost, setShowRepost] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [reposted, setReposted] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState(mockComments);
+  const [shareToast, setShareToast] = useState('');
 
   const addComment = () => {
     if (!commentText.trim()) return;
-    setComments(prev => [{ user: "You", text: commentText, time: "now" }, ...prev]);
+    setComments(prev => [{ user: "You", text: commentText, time: "now", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop" }, ...prev]);
     setCommentText('');
   };
+
+  const handleShare = (platform: string) => {
+    setShareToast(`Shared to ${platform}!`);
+    setTimeout(() => { setShareToast(''); setShowShare(false); }, 1200);
+  };
+
+  const menuItems = [
+    { icon: Bookmark, label: saved ? 'Unsave' : 'Save Post', action: () => { setSaved(!saved); setShowMenu(false); } },
+    { icon: EyeOff, label: 'Not Interested', action: () => setShowMenu(false) },
+    { icon: VolumeX, label: `Mute ${post.user}`, action: () => setShowMenu(false) },
+    { icon: Ban, label: `Block ${post.user}`, action: () => setShowMenu(false), danger: true },
+    { icon: Flag, label: 'Report Post', action: () => setShowMenu(false), danger: true },
+    { icon: Link, label: 'Copy Link', action: () => { setShareToast('Link copied!'); setShowMenu(false); setTimeout(() => setShareToast(''), 1500); } },
+  ];
 
   return (
     <>
     <article className="flex flex-col px-4 pt-5 pb-3 border-b border-[#121419]">
       <div className="flex justify-between items-start mb-3">
         <div className="flex gap-3">
-          <img src={post.avatar} className="w-[44px] h-[44px] rounded-full object-cover" alt="Avatar" />
+          <img onClick={() => navigate('/profile')} src={post.avatar} className="w-[44px] h-[44px] rounded-full object-cover cursor-pointer" alt="Avatar" />
           <div className="flex flex-col">
             <div className="flex items-center gap-1 mt-[2px]">
-              <span className="font-bold text-[16px]">{post.user}</span>
+              <span onClick={() => navigate('/profile')} className="font-bold text-[16px] cursor-pointer hover:underline">{post.user}</span>
               {post.verified && <VerifiedBadge className="w-[16px] h-[16px] text-[#2ECC71]" />}
               <span className="text-[#8B8D93] text-[14px] ml-1">{post.handle}</span>
               <span className="text-[#8B8D93] text-[14px] px-0.5">·</span>
@@ -74,7 +93,7 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
               'bg-[#24133D] text-[#A770EF]'
             }`}>{post.badge}</span>
           )}
-          <button className="text-[#8B8D93] hover:text-white transition-colors">
+          <button onClick={() => setShowMenu(!showMenu)} className="text-[#8B8D93] hover:text-white transition-colors relative">
             <MoreHorizontal className="w-5 h-5" />
           </button>
         </div>
@@ -109,20 +128,52 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
       </div>
     </article>
 
+    {/* 3-dot Menu */}
+    {showMenu && (
+      <div className="fixed inset-0 z-50" onClick={() => setShowMenu(false)}>
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] p-2 pb-8 z-50" onClick={e => e.stopPropagation()}>
+          <div className="w-10 h-1 bg-[#2A2E36] rounded-full mx-auto mb-3 mt-1" />
+          {menuItems.map((item, i) => (
+            <button
+              key={i}
+              onClick={item.action}
+              className={`flex items-center gap-4 w-full px-4 py-3.5 rounded-[12px] transition-colors hover:bg-[#121419] ${item.danger ? 'text-[#FF3B30]' : 'text-[#F3F4F6]'}`}
+            >
+              <item.icon className="w-5 h-5" strokeWidth={1.5} />
+              <span className="text-[15px] font-semibold">{item.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {/* Toast */}
+    {shareToast && (
+      <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[60] bg-[#2ECC71] text-[#040508] font-bold text-[14px] px-5 py-2.5 rounded-full shadow-lg animate-bounce">
+        {shareToast}
+      </div>
+    )}
+
+    {/* Comments Sheet */}
     {showComments && (
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center">
         <div className="bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] w-full max-w-[430px] max-h-[70vh] flex flex-col">
           <div className="flex items-center justify-between p-4 border-b border-[#1C1E23]">
-            <h3 className="text-[17px] font-bold">Comments</h3>
+            <h3 className="text-[17px] font-bold">Comments ({comments.length})</h3>
             <button onClick={() => setShowComments(false)} className="text-[#8B8D93] text-[14px] font-bold">Close</button>
           </div>
           <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
             {comments.map((c, i) => (
               <div key={i} className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#121419] flex items-center justify-center text-[12px] font-bold text-[#A0A2A8]">{c.user[0]}</div>
-                <div>
+                <img src={c.avatar} className="w-8 h-8 rounded-full object-cover" alt={c.user} />
+                <div className="flex-1">
                   <div className="flex items-baseline gap-2"><span className="font-bold text-[13px]">{c.user}</span><span className="text-[#8B8D93] text-[11px]">{c.time}</span></div>
                   <p className="text-[14px] text-[#D1D5DB]">{c.text}</p>
+                  <div className="flex items-center gap-4 mt-1.5">
+                    <button className="text-[11px] text-[#8B8D93] font-medium hover:text-[#FF3B30]">❤️ Like</button>
+                    <button className="text-[11px] text-[#8B8D93] font-medium hover:text-[#2ECC71]">Reply</button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -135,6 +186,7 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
       </div>
     )}
 
+    {/* Repost Modal */}
     {showRepost && (
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
         <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[20px] p-6 max-w-[320px] w-full">
@@ -142,23 +194,37 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
           <p className="text-[#8B8D93] text-[14px] text-center mb-5">Share this post with your followers?</p>
           <div className="flex flex-col gap-3">
             <button onClick={() => { setReposted(true); setShowRepost(false); }} className="bg-[#2979FF] text-white font-bold text-[15px] py-3 rounded-[12px]">Repost</button>
-            <button onClick={() => setShowRepost(false)} className="bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">Cancel</button>
+            <button onClick={() => setShowRepost(false)} className="bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">Quote Repost</button>
+            <button onClick={() => setShowRepost(false)} className="text-[#8B8D93] font-bold text-[14px] py-2">Cancel</button>
           </div>
         </div>
       </div>
     )}
 
+    {/* Share Sheet */}
     {showShare && (
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center">
         <div className="bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] w-full max-w-[430px] p-5">
-          <h3 className="text-[17px] font-bold text-center mb-4">Share</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-[17px] font-bold">Share</h3>
+            <button onClick={() => setShowShare(false)}><X className="w-5 h-5 text-[#8B8D93]" /></button>
+          </div>
           <div className="grid grid-cols-4 gap-4 mb-4">
-            {['Copy Link', 'Twitter', 'Telegram', 'WhatsApp'].map(s => (
-              <button key={s} onClick={() => setShowShare(false)} className="flex flex-col items-center gap-2">
-                <div className="w-14 h-14 rounded-full bg-[#121419] border border-[#1C1E23] flex items-center justify-center text-[20px]">
-                  {s === 'Copy Link' ? '🔗' : s === 'Twitter' ? '𝕏' : s === 'Telegram' ? '✈️' : '💬'}
+            {[
+              { name: 'Copy Link', icon: '🔗' },
+              { name: 'Twitter', icon: '𝕏' },
+              { name: 'Telegram', icon: '✈️' },
+              { name: 'WhatsApp', icon: '💬' },
+              { name: 'Instagram', icon: '📷' },
+              { name: 'Email', icon: '📧' },
+              { name: 'Messages', icon: '💌' },
+              { name: 'More', icon: '⋯' },
+            ].map(s => (
+              <button key={s.name} onClick={() => handleShare(s.name)} className="flex flex-col items-center gap-2">
+                <div className="w-14 h-14 rounded-full bg-[#121419] border border-[#1C1E23] flex items-center justify-center text-[20px] hover:border-[#2ECC71] transition-colors">
+                  {s.icon}
                 </div>
-                <span className="text-[11px] text-[#8B8D93]">{s}</span>
+                <span className="text-[11px] text-[#8B8D93]">{s.name}</span>
               </button>
             ))}
           </div>
@@ -212,7 +278,7 @@ export default function TodayFeedPage() {
         {['Today', 'News', 'Market Trend'].map(tab => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => { setActiveTab(tab); if (tab === 'Market Trend') navigate('/vote-market'); }}
             className={`text-[15px] pb-3 px-1 ${activeTab === tab ? 'font-bold text-[#FFFFFF] border-b-[3px] border-[#2ECC71]' : 'font-medium text-[#8B8D93] hover:text-gray-300 transition-colors'}`}
           >
             {tab}
