@@ -1,11 +1,23 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Bell, SquarePen, ChevronLeft, ChevronRight } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import BottomNav from '../components/BottomNav';
 
 export default function VoteMarketPage() {
+  const navigate = useNavigate();
   const [voteYes, setVoteYes] = useState(62);
   const [hasVoted, setHasVoted] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('Vote');
+  const [trendingVotes, setTrendingVotes] = useState([
+    { q: "Will ETH flip BTC market cap in 2024?", votes: "1.2K", yes: 28, voted: false },
+    { q: "Fed rate cut before September?", votes: "3.4K", yes: 71, voted: false },
+    { q: "NVDA hits $1000 before earnings?", votes: "892", yes: 55, voted: false },
+  ]);
+
+  const handleTrendingVote = (idx: number, isYes: boolean) => {
+    setTrendingVotes(prev => prev.map((m, i) => i === idx && !m.voted ? { ...m, voted: true, yes: isYes ? Math.min(m.yes + 3, 100) : Math.max(m.yes - 3, 0) } : m));
+  };
 
   const handleVote = (isYes: boolean) => {
     if (hasVoted) return;
@@ -21,31 +33,32 @@ export default function VoteMarketPage() {
           <h1 className="text-[22px] font-bold tracking-tight text-[#FFFFFF]">TrendUpLive</h1>
         </div>
         <div className="flex items-center gap-3">
-          <button className="w-10 h-10 rounded-full bg-[#121419] border border-[#1E2026] flex items-center justify-center hover:bg-[#1A1D24] transition-colors">
+          <button onClick={() => navigate('/search')} className="w-10 h-10 rounded-full bg-[#121419] border border-[#1E2026] flex items-center justify-center hover:bg-[#1A1D24] transition-colors">
             <Search className="w-5 h-5 text-[#8B8D93]" strokeWidth={2} />
           </button>
-          <button className="w-10 h-10 rounded-full bg-[#121419] border border-[#1E2026] flex items-center justify-center relative hover:bg-[#1A1D24] transition-colors">
+          <button onClick={() => navigate('/notifications')} className="w-10 h-10 rounded-full bg-[#121419] border border-[#1E2026] flex items-center justify-center relative hover:bg-[#1A1D24] transition-colors">
             <Bell className="w-5 h-5 text-[#8B8D93]" strokeWidth={2} />
             <span className="absolute top-[10px] right-[10px] w-2 h-2 bg-[#FF3B30] rounded-full border border-[#121419]"></span>
           </button>
-          <button className="w-10 h-10 rounded-full bg-[#00D1B2] flex items-center justify-center hover:bg-[#00B59A] transition-colors shadow-[0_0_15px_rgba(0,209,178,0.25)]">
+          <button onClick={() => navigate('/create-post')} className="w-10 h-10 rounded-full bg-[#00D1B2] flex items-center justify-center hover:bg-[#00B59A] transition-colors shadow-[0_0_15px_rgba(0,209,178,0.25)]">
             <SquarePen className="w-5 h-5 text-[#042F24]" strokeWidth={2.5} />
           </button>
         </div>
       </header>
 
       <div className="flex items-center justify-between px-8 py-3 border-b border-[#1A1D24]">
-        <button className="text-[17px] font-semibold text-[#7E8596] hover:text-[#A0A2A8] transition-colors">Today</button>
-        <button className="text-[17px] font-semibold text-[#7E8596] hover:text-[#A0A2A8] transition-colors">News</button>
+        <button onClick={() => navigate('/home')} className="text-[17px] font-semibold text-[#7E8596] hover:text-[#A0A2A8] transition-colors">Today</button>
+        <button onClick={() => navigate('/home')} className="text-[17px] font-semibold text-[#7E8596] hover:text-[#A0A2A8] transition-colors">News</button>
         <button className="text-[17px] font-bold text-[#F1D683] border-b-[2.5px] border-[#F1D683] pb-1">Market trend</button>
       </div>
 
       <div className="flex items-center gap-2.5 px-4 py-4 overflow-x-auto">
-        {['Crypto', 'Vote', 'Categories', 'Chains'].map((pill, i) => (
+        {['Crypto', 'Vote', 'Categories', 'Chains'].map(pill => (
           <button
             key={pill}
-            className={`px-[18px] py-[6px] rounded-full text-[14px] font-medium whitespace-nowrap ${
-              i === 1
+            onClick={() => setActiveFilter(pill)}
+            className={`px-[18px] py-[6px] rounded-full text-[14px] font-medium whitespace-nowrap transition-colors ${
+              activeFilter === pill
                 ? 'bg-[#0A1F16] border border-[#1C5A3E] text-[#2ECC71] shadow-[0_0_10px_rgba(46,204,113,0.1)]'
                 : 'bg-[#121419] border border-[#23252A] text-[#8B8D93]'
             }`}
@@ -126,19 +139,25 @@ export default function VoteMarketPage() {
 
       <div className="px-4 mt-4">
         <h3 className="text-[12px] font-bold text-[#A0A2A8] uppercase tracking-widest mb-3">Trending Markets</h3>
-        {[
-          { q: "Will ETH flip BTC market cap in 2024?", votes: "1.2K", yes: 28 },
-          { q: "Fed rate cut before September?", votes: "3.4K", yes: 71 },
-          { q: "NVDA hits $1000 before earnings?", votes: "892", yes: 55 },
-        ].map((m, i) => (
+        {trendingVotes.map((m, i) => (
           <div key={i} className="bg-[#111216] border border-[#1E2026] rounded-[14px] p-4 mb-3">
             <p className="text-[#F3F4F6] text-[15px] font-medium mb-2">{m.q}</p>
+            <div className="w-full h-[4px] rounded-full bg-[#1E2026] overflow-hidden mb-3">
+              <div className="h-full bg-gradient-to-r from-[#2ECC71] to-[#27ae60] rounded-full transition-all duration-500" style={{ width: `${m.yes}%` }}></div>
+            </div>
             <div className="flex justify-between items-center">
               <span className="text-[#8B8D93] text-[12px]">{m.votes} votes</span>
-              <div className="flex gap-2">
-                <span className="text-[#2ECC71] text-[13px] font-bold">Yes {m.yes}%</span>
-                <span className="text-[#FF3B30] text-[13px] font-bold">No {100 - m.yes}%</span>
-              </div>
+              {m.voted ? (
+                <div className="flex gap-2">
+                  <span className="text-[#2ECC71] text-[13px] font-bold">Yes {m.yes}%</span>
+                  <span className="text-[#FF3B30] text-[13px] font-bold">No {100 - m.yes}%</span>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <button onClick={() => handleTrendingVote(i, true)} className="px-3 py-1 rounded-full bg-[#2ECC71] text-[#040508] text-[12px] font-bold">Yes</button>
+                  <button onClick={() => handleTrendingVote(i, false)} className="px-3 py-1 rounded-full bg-[#FF3B30] text-white text-[12px] font-bold">No</button>
+                </div>
+              )}
             </div>
           </div>
         ))}

@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Phone, Video, MoreVertical, Smile, Plus, Send, CheckCircle2 } from 'lucide-react';
-import { chatMessages } from '../data/mockData';
 
 interface Message {
   id: number;
@@ -11,9 +10,60 @@ interface Message {
   read: boolean;
 }
 
+const roomData: Record<string, { name: string; members: string; initials: string; messages: Message[] }> = {
+  default: {
+    name: "Crypto Alpha Squad",
+    members: "1.2k members",
+    initials: "CT",
+    messages: [
+      { id: 1, sender: 'other', text: "GM everyone! Just spotted a massive ascending triangle on BTC 4H chart.", time: "9:30 AM", read: true },
+      { id: 2, sender: 'other', text: "Volume is picking up too. Could see a breakout above $65k soon.", time: "9:31 AM", read: true },
+      { id: 3, sender: 'user', text: "I see it too! The MACD is also crossing bullish on the daily.", time: "9:33 AM", read: true },
+      { id: 4, sender: 'other', text: "Exactly. And the funding rates are still neutral which is bullish.", time: "9:35 AM", read: true },
+    ],
+  },
+  nft: {
+    name: "NFT Collectors",
+    members: "890 members",
+    initials: "NF",
+    messages: [
+      { id: 1, sender: 'other', text: "Just minted the new Azuki drop. The art is incredible!", time: "10:15 AM", read: true },
+      { id: 2, sender: 'user', text: "Nice! What was the mint price?", time: "10:16 AM", read: true },
+      { id: 3, sender: 'other', text: "0.3 ETH. Floor is already at 0.8 ETH though 🚀", time: "10:18 AM", read: true },
+      { id: 4, sender: 'other', text: "The metadata reveal is tomorrow. Could go higher.", time: "10:19 AM", read: true },
+    ],
+  },
+  defi: {
+    name: "DeFi Strategies",
+    members: "2.1k members",
+    initials: "DF",
+    messages: [
+      { id: 1, sender: 'other', text: "Found a 42% APY farm on Arbitrum. Stable pair too.", time: "8:00 AM", read: true },
+      { id: 2, sender: 'user', text: "Which protocol? Audited?", time: "8:02 AM", read: true },
+      { id: 3, sender: 'other', text: "Camelot DEX. Yes, audited by Certik and Trail of Bits.", time: "8:05 AM", read: true },
+      { id: 4, sender: 'other', text: "I've been in for 2 weeks. No issues so far. IL is minimal with the stable pair.", time: "8:06 AM", read: true },
+    ],
+  },
+  macro: {
+    name: "Macro Economics",
+    members: "3.5k members",
+    initials: "ME",
+    messages: [
+      { id: 1, sender: 'other', text: "CPI data comes out tomorrow at 8:30 AM EST.", time: "11:00 AM", read: true },
+      { id: 2, sender: 'other', text: "Consensus is 3.1% YoY. Anything above could tank markets.", time: "11:01 AM", read: true },
+      { id: 3, sender: 'user', text: "I think it'll come in at 3.0%. Leading indicators suggest cooling.", time: "11:03 AM", read: true },
+      { id: 4, sender: 'other', text: "Agree. Shelter inflation is finally rolling over.", time: "11:05 AM", read: true },
+    ],
+  },
+};
+
 export default function ChatDetailPage() {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState<Message[]>(chatMessages);
+  const [searchParams] = useSearchParams();
+  const roomId = searchParams.get('room') || 'default';
+  const room = roomData[roomId] || roomData.default;
+
+  const [messages, setMessages] = useState<Message[]>(room.messages);
   const [input, setInput] = useState('');
 
   const sendMessage = () => {
@@ -28,16 +78,17 @@ export default function ChatDetailPage() {
     setMessages([...messages, newMsg]);
     setInput('');
     setTimeout(() => {
-      const replies = [
-        "Interesting point! The volume confirms it.",
-        "I'm watching the same levels. Let's see how it plays out.",
-        "Great analysis! The market is definitely heating up.",
-        "Agreed. This could be a major breakout.",
-      ];
+      const replies: Record<string, string[]> = {
+        default: ["Interesting point! The volume confirms it.", "I'm watching the same levels.", "Great analysis!", "Agreed. This could be a major breakout."],
+        nft: ["Love that collection!", "The art style is unique.", "Floor price keeps climbing.", "I'm holding mine long-term."],
+        defi: ["Nice find! What's the TVL?", "I'll check the contract.", "Yield looks sustainable.", "Make sure to check the IL risk."],
+        macro: ["Good take on the data.", "The Fed is definitely watching this.", "Bond markets agree.", "Interesting perspective on inflation."],
+      };
+      const pool = replies[roomId] || replies.default;
       const reply: Message = {
         id: messages.length + 2,
         sender: 'other',
-        text: replies[Math.floor(Math.random() * replies.length)],
+        text: pool[Math.floor(Math.random() * pool.length)],
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         read: true,
       };
@@ -53,12 +104,12 @@ export default function ChatDetailPage() {
             <ArrowLeft className="w-6 h-6 text-[#F3F4F6]" />
           </button>
           <div className="relative w-10 h-10 bg-[#121419] rounded-full border border-[#1C1E23] flex items-center justify-center font-bold text-[#2ECC71]">
-            CT
+            {room.initials}
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#2ECC71] border-2 border-[#040508] rounded-full"></div>
           </div>
           <div>
-            <h1 className="text-[15px] font-bold">Crypto Alpha Squad</h1>
-            <p className="text-[#8B8D93] text-[11px] font-semibold">1.2k members</p>
+            <h1 className="text-[15px] font-bold">{room.name}</h1>
+            <p className="text-[#8B8D93] text-[11px] font-semibold">{room.members}</p>
           </div>
         </div>
         <div className="flex items-center gap-5">
@@ -72,7 +123,7 @@ export default function ChatDetailPage() {
         {messages.map(m => (
           <div key={m.id} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             {m.sender !== 'user' && (
-              <div className="w-8 h-8 rounded-full bg-[#121419] mr-2 flex items-center justify-center text-[10px] font-bold shrink-0">CT</div>
+              <div className="w-8 h-8 rounded-full bg-[#121419] mr-2 flex items-center justify-center text-[10px] font-bold shrink-0">{room.initials}</div>
             )}
             <div className={`max-w-[70%] px-4 py-3 rounded-[18px] ${m.sender === 'user' ? 'bg-[#2ECC71] text-[#040508] rounded-br-[4px]' : 'bg-[#121419] text-[#F3F4F6] rounded-bl-[4px]'}`}>
               <p className="text-[14px] leading-relaxed font-medium">{m.text}</p>

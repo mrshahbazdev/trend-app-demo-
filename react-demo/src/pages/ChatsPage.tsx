@@ -12,6 +12,7 @@ interface Chat {
   unread: number;
   verified?: boolean;
   online?: boolean;
+  room?: string;
 }
 
 function ChatCard({ chat, isPinned, onClick }: { chat: Chat; isPinned?: boolean; onClick: () => void }) {
@@ -54,8 +55,8 @@ export default function ChatsPage() {
           <h1 className="text-[23px] font-bold tracking-tight text-[#FFFFFF]">Chats</h1>
         </div>
         <div className="flex items-center gap-3.5">
-          <Search className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} />
-          <Bell className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} />
+          <button onClick={() => navigate('/search')}><Search className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} /></button>
+          <button onClick={() => navigate('/notifications')} className="relative"><Bell className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} /><span className="absolute top-[-2px] right-[-2px] w-[9px] h-[9px] bg-[#FF3B30] rounded-full border-[2px] border-[#040508]"></span></button>
         </div>
       </header>
 
@@ -64,7 +65,7 @@ export default function ChatsPage() {
           <Star className="w-3.5 h-3.5 fill-[#A0A2A8]" /> Pinned
         </h2>
         {pinnedChats.map(chat => (
-          <ChatCard key={chat.id} chat={chat} isPinned onClick={() => navigate('/chats/detail')} />
+          <ChatCard key={chat.id} chat={chat} isPinned onClick={() => navigate(`/chats/detail?room=${chat.room || 'default'}`)} />
         ))}
       </div>
 
@@ -72,7 +73,7 @@ export default function ChatsPage() {
         <h2 className="text-[12px] font-bold text-[#A0A2A8] uppercase tracking-widest mb-3">Recent Messages</h2>
         <div className="flex flex-col gap-2">
           {recentChats.map(chat => (
-            <ChatCard key={chat.id} chat={chat} onClick={() => navigate('/chats/detail')} />
+            <ChatCard key={chat.id} chat={chat} onClick={() => navigate(`/chats/detail?room=${chat.room || 'default'}`)} />
           ))}
         </div>
       </div>

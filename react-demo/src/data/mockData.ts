@@ -8,14 +8,14 @@ export const markets = [
 ];
 
 export const pinnedChats = [
-  { id: 1, name: "Crypto Alpha Squad", lastMsg: "BTC breakout incoming?", time: "2m", unread: 3, verified: true, online: true },
+  { id: 1, name: "Crypto Alpha Squad", lastMsg: "BTC breakout incoming?", time: "2m", unread: 3, verified: true, online: true, room: "default" },
 ];
 
 export const recentChats = [
-  { id: 2, name: "Stock Market Daily", lastMsg: "Earnings schedule posted", time: "1h", unread: 0, online: true, verified: false },
-  { id: 3, name: "Jason Lin", lastMsg: "Check the 10Y yields", time: "3h", unread: 0, online: true, verified: false },
-  { id: 4, name: "General Market Chat", lastMsg: "Anyone watching NVDA?", time: "5h", unread: 0, online: false, verified: false },
-  { id: 5, name: "Forex Signals", lastMsg: "EUR/USD position update", time: "8h", unread: 0, online: true, verified: false },
+  { id: 2, name: "NFT Collectors", lastMsg: "Just minted the new Azuki drop", time: "1h", unread: 0, online: true, verified: false, room: "nft" },
+  { id: 3, name: "DeFi Strategies", lastMsg: "42% APY farm on Arbitrum", time: "3h", unread: 0, online: true, verified: false, room: "defi" },
+  { id: 4, name: "Macro Economics", lastMsg: "CPI data comes out tomorrow", time: "5h", unread: 0, online: false, verified: false, room: "macro" },
+  { id: 5, name: "Forex Signals", lastMsg: "EUR/USD position update", time: "8h", unread: 0, online: true, verified: false, room: "default" },
 ];
 
 export const chatMessages = [

@@ -8,6 +8,19 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberUser, setRememberUser] = useState(false);
   const [rememberPass, setRememberPass] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = () => {
+    setError('');
+    if (!username.trim()) { setError('Please enter your username'); return; }
+    if (!password.trim()) { setError('Please enter your password'); return; }
+    if (password.length < 4) { setError('Password must be at least 4 characters'); return; }
+    setLoading(true);
+    setTimeout(() => { setLoading(false); navigate('/home'); }, 1200);
+  };
 
   return (
     <div className="min-h-screen bg-[#020305] text-white flex flex-col items-center py-10 px-4 font-sans relative overflow-hidden antialiased">
@@ -29,12 +42,12 @@ export default function LoginPage() {
         <div className="flex flex-col gap-[14px]">
           <div className="relative flex items-center">
             <User className="absolute left-[18px] w-5 h-5 text-[#8B8D93]" strokeWidth={2} />
-            <input type="text" placeholder="Username or @handle" className="w-full h-[56px] bg-[#0A0B0F] border border-[#23252A] rounded-[14px] pl-[3.5rem] pr-4 text-[#F3F4F6] placeholder-[#6A6C73] focus:outline-none focus:border-[#4A4D55] transition-colors text-[16px]" />
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username or @handle" className={`w-full h-[56px] bg-[#0A0B0F] border rounded-[14px] pl-[3.5rem] pr-4 text-[#F3F4F6] placeholder-[#6A6C73] focus:outline-none transition-colors text-[16px] ${error && !username.trim() ? 'border-[#FF3B30]' : 'border-[#23252A] focus:border-[#4A4D55]'}`} />
           </div>
 
           <div className="relative flex items-center">
             <Lock className="absolute left-[18px] w-5 h-5 text-[#8B8D93]" strokeWidth={2} />
-            <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full h-[56px] bg-[#0A0B0F] border border-[#23252A] rounded-[14px] pl-[3.5rem] pr-12 text-[#F3F4F6] placeholder-[#6A6C73] focus:outline-none focus:border-[#4A4D55] transition-colors text-[16px]" />
+            <input type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} placeholder="Password" className={`w-full h-[56px] bg-[#0A0B0F] border rounded-[14px] pl-[3.5rem] pr-12 text-[#F3F4F6] placeholder-[#6A6C73] focus:outline-none transition-colors text-[16px] ${error && !password.trim() ? 'border-[#FF3B30]' : 'border-[#23252A] focus:border-[#4A4D55]'}`} />
             <button onClick={() => setShowPassword(!showPassword)} className="absolute right-[18px] text-[#8B8D93] hover:text-white transition-colors">
               {showPassword ? <EyeOff className="w-5 h-5" strokeWidth={1.5} /> : <Eye className="w-5 h-5" strokeWidth={1.5} />}
             </button>
@@ -59,11 +72,14 @@ export default function LoginPage() {
             </div>
           </div>
 
+          {error && <p className="text-[#FF3B30] text-[13px] font-medium px-1 -mt-1">{error}</p>}
+
           <button
-            onClick={() => navigate('/home')}
-            className="w-full h-[54px] rounded-[14px] bg-gradient-to-b from-[#FFFFFF] via-[#D1D1D1] to-[#8C8D92] text-black font-semibold text-[17px] shadow-[0_2px_4px_rgba(255,255,255,0.05)] hover:opacity-90 transition-opacity flex justify-center items-center mt-2"
+            onClick={handleLogin}
+            disabled={loading}
+            className="w-full h-[54px] rounded-[14px] bg-gradient-to-b from-[#FFFFFF] via-[#D1D1D1] to-[#8C8D92] text-black font-semibold text-[17px] shadow-[0_2px_4px_rgba(255,255,255,0.05)] hover:opacity-90 transition-opacity flex justify-center items-center mt-2 disabled:opacity-60"
           >
-            Log in
+            {loading ? 'Logging in...' : 'Log in'}
           </button>
 
           <div className="flex items-center justify-center mt-6 mb-[18px]">

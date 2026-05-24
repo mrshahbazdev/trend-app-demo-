@@ -15,6 +15,9 @@ import SettingsPage from './pages/SettingsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import CreatePostPage from './pages/CreatePostPage';
 import SplashScreen from './pages/SplashScreen';
+import SearchPage from './pages/SearchPage';
+import StoryViewerPage from './pages/StoryViewerPage';
+import MarketDetailPage from './pages/MarketDetailPage';
 
 export default function App() {
   return (
@@ -37,6 +40,9 @@ export default function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/create-post" element={<CreatePostPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/story" element={<StoryViewerPage />} />
+          <Route path="/market-detail" element={<MarketDetailPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

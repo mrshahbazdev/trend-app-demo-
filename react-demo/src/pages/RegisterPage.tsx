@@ -26,6 +26,22 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = () => {
+    setError('');
+    if (!username.trim()) { setError('Please choose a username'); return; }
+    if (username.length < 3) { setError('Username must be at least 3 characters'); return; }
+    if (!password.trim()) { setError('Please create a password'); return; }
+    if (password.length < 6) { setError('Password must be at least 6 characters'); return; }
+    if (password !== confirmPassword) { setError('Passwords do not match'); return; }
+    setLoading(true);
+    setTimeout(() => { setLoading(false); navigate('/home'); }, 1500);
+  };
 
   return (
     <div className="min-h-screen bg-[#000000] text-white flex flex-col items-center py-10 px-4 font-sans relative overflow-hidden antialiased">
@@ -52,12 +68,12 @@ export default function RegisterPage() {
 
           <div className="relative flex items-center">
             <User className="absolute left-[18px] w-5 h-5 text-[#8B8D93]" strokeWidth={2.5} />
-            <input type="text" placeholder="Choose username or @handle" className="w-full h-[56px] bg-transparent border border-[#23252A] rounded-2xl pl-[3.5rem] pr-4 text-white placeholder-[#787A80] focus:outline-none focus:border-[#4A4D55] transition-colors text-[16px]" />
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Choose username or @handle" className={`w-full h-[56px] bg-transparent border rounded-2xl pl-[3.5rem] pr-4 text-white placeholder-[#787A80] focus:outline-none transition-colors text-[16px] ${error && !username.trim() ? 'border-[#FF3B30]' : 'border-[#23252A] focus:border-[#4A4D55]'}`} />
           </div>
 
           <div className="relative flex items-center">
             <Lock className="absolute left-[18px] w-5 h-5 text-[#8B8D93]" strokeWidth={2.5} />
-            <input type={showPassword ? "text" : "password"} placeholder="Create password" className="w-full h-[56px] bg-transparent border border-[#23252A] rounded-2xl pl-[3.5rem] pr-12 text-white placeholder-[#787A80] focus:outline-none focus:border-[#4A4D55] transition-colors text-[16px]" />
+            <input type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} placeholder="Create password" className={`w-full h-[56px] bg-transparent border rounded-2xl pl-[3.5rem] pr-12 text-white placeholder-[#787A80] focus:outline-none transition-colors text-[16px] ${error && !password.trim() ? 'border-[#FF3B30]' : 'border-[#23252A] focus:border-[#4A4D55]'}`} />
             <button onClick={() => setShowPassword(!showPassword)} className="absolute right-5 text-[#8B8D93] hover:text-white transition-colors">
               {showPassword ? <EyeOff className="w-[22px] h-[22px]" strokeWidth={2} /> : <Eye className="w-[22px] h-[22px]" strokeWidth={2} />}
             </button>
@@ -65,7 +81,7 @@ export default function RegisterPage() {
 
           <div className="relative flex items-center">
             <Lock className="absolute left-[18px] w-5 h-5 text-[#8B8D93]" strokeWidth={2.5} />
-            <input type={showConfirmPassword ? "text" : "password"} placeholder="Confirm password" className="w-full h-[56px] bg-transparent border border-[#23252A] rounded-2xl pl-[3.5rem] pr-12 text-white placeholder-[#787A80] focus:outline-none focus:border-[#4A4D55] transition-colors text-[16px]" />
+            <input type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm password" className={`w-full h-[56px] bg-transparent border rounded-2xl pl-[3.5rem] pr-12 text-white placeholder-[#787A80] focus:outline-none transition-colors text-[16px] ${error && password !== confirmPassword && confirmPassword ? 'border-[#FF3B30]' : 'border-[#23252A] focus:border-[#4A4D55]'}`} />
             <button onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-5 text-[#8B8D93] hover:text-white transition-colors">
               {showConfirmPassword ? <EyeOff className="w-[22px] h-[22px]" strokeWidth={2} /> : <Eye className="w-[22px] h-[22px]" strokeWidth={2} />}
             </button>
@@ -82,11 +98,14 @@ export default function RegisterPage() {
             A private hint to help you remember your password. Not a reset method.
           </p>
 
+          {error && <p className="text-[#FF3B30] text-[13px] font-medium px-1 -mt-1">{error}</p>}
+
           <button
-            onClick={() => navigate('/home')}
-            className="w-full h-[54px] rounded-[14px] bg-gradient-to-b from-[#FFFFFF] via-[#E2E2E2] to-[#999A9F] text-black font-semibold text-[17px] shadow-[0_2px_4px_rgba(255,255,255,0.1)] hover:opacity-90 transition-opacity flex justify-center items-center mt-1"
+            onClick={handleRegister}
+            disabled={loading}
+            className="w-full h-[54px] rounded-[14px] bg-gradient-to-b from-[#FFFFFF] via-[#E2E2E2] to-[#999A9F] text-black font-semibold text-[17px] shadow-[0_2px_4px_rgba(255,255,255,0.1)] hover:opacity-90 transition-opacity flex justify-center items-center mt-1 disabled:opacity-60"
           >
-            Create with Apple
+            {loading ? 'Creating account...' : 'Create with Apple'}
           </button>
 
           <div className="flex items-center justify-center my-[18px]">

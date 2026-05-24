@@ -30,8 +30,28 @@ interface PostData {
   reposts: number;
 }
 
+const mockComments = [
+  { user: "Alex M.", text: "Great insight! Totally agree with this.", time: "2m" },
+  { user: "Priya P.", text: "This is exactly what I was thinking.", time: "5m" },
+  { user: "DeFi Fan", text: "Can you elaborate more on this?", time: "12m" },
+];
+
 function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolean; onToggleLike: () => void }) {
+  const [showComments, setShowComments] = useState(false);
+  const [showRepost, setShowRepost] = useState(false);
+  const [showShare, setShowShare] = useState(false);
+  const [reposted, setReposted] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const [comments, setComments] = useState(mockComments);
+
+  const addComment = () => {
+    if (!commentText.trim()) return;
+    setComments(prev => [{ user: "You", text: commentText, time: "now" }, ...prev]);
+    setCommentText('');
+  };
+
   return (
+    <>
     <article className="flex flex-col px-4 pt-5 pb-3 border-b border-[#121419]">
       <div className="flex justify-between items-start mb-3">
         <div className="flex gap-3">
@@ -74,20 +94,79 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
             <Heart className={`w-[18px] h-[18px] ${liked ? 'fill-[#FF3B30]' : ''}`} strokeWidth={1.5} />
             {post.likes + (liked ? 1 : 0)}
           </button>
-          <button className="flex items-center gap-1.5 text-[13px] font-medium hover:text-[#2ECC71] transition-colors">
+          <button onClick={() => setShowComments(true)} className="flex items-center gap-1.5 text-[13px] font-medium hover:text-[#2ECC71] transition-colors">
             <MessageCircle className="w-[18px] h-[18px]" strokeWidth={1.5} />
             {post.comments}
           </button>
-          <button className="flex items-center gap-1.5 text-[13px] font-medium hover:text-[#2979FF] transition-colors">
-            <Repeat className="w-[18px] h-[18px]" strokeWidth={1.5} />
-            {post.reposts}
+          <button onClick={() => setShowRepost(true)} className={`flex items-center gap-1.5 text-[13px] font-medium transition-colors ${reposted ? 'text-[#2979FF]' : 'hover:text-[#2979FF]'}`}>
+            <Repeat className={`w-[18px] h-[18px]`} strokeWidth={1.5} />
+            {post.reposts + (reposted ? 1 : 0)}
           </button>
-          <button className="flex items-center gap-1.5 text-[13px] font-medium hover:text-white transition-colors">
+          <button onClick={() => setShowShare(true)} className="flex items-center gap-1.5 text-[13px] font-medium hover:text-white transition-colors">
             <Share className="w-[18px] h-[18px]" strokeWidth={1.5} />
           </button>
         </div>
       </div>
     </article>
+
+    {showComments && (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center">
+        <div className="bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] w-full max-w-[430px] max-h-[70vh] flex flex-col">
+          <div className="flex items-center justify-between p-4 border-b border-[#1C1E23]">
+            <h3 className="text-[17px] font-bold">Comments</h3>
+            <button onClick={() => setShowComments(false)} className="text-[#8B8D93] text-[14px] font-bold">Close</button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+            {comments.map((c, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#121419] flex items-center justify-center text-[12px] font-bold text-[#A0A2A8]">{c.user[0]}</div>
+                <div>
+                  <div className="flex items-baseline gap-2"><span className="font-bold text-[13px]">{c.user}</span><span className="text-[#8B8D93] text-[11px]">{c.time}</span></div>
+                  <p className="text-[14px] text-[#D1D5DB]">{c.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-3 border-t border-[#1C1E23] flex gap-3">
+            <input value={commentText} onChange={e => setCommentText(e.target.value)} onKeyDown={e => e.key === 'Enter' && addComment()} placeholder="Add a comment..." className="flex-1 bg-[#121419] border border-[#1C1E23] rounded-full px-4 py-2.5 text-[14px] text-white outline-none focus:border-[#2ECC71]" />
+            <button onClick={addComment} className="bg-[#2ECC71] text-[#040508] font-bold text-[13px] px-4 rounded-full">Post</button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {showRepost && (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[20px] p-6 max-w-[320px] w-full">
+          <h3 className="text-[17px] font-bold text-center mb-2">Repost?</h3>
+          <p className="text-[#8B8D93] text-[14px] text-center mb-5">Share this post with your followers?</p>
+          <div className="flex flex-col gap-3">
+            <button onClick={() => { setReposted(true); setShowRepost(false); }} className="bg-[#2979FF] text-white font-bold text-[15px] py-3 rounded-[12px]">Repost</button>
+            <button onClick={() => setShowRepost(false)} className="bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">Cancel</button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {showShare && (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center">
+        <div className="bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] w-full max-w-[430px] p-5">
+          <h3 className="text-[17px] font-bold text-center mb-4">Share</h3>
+          <div className="grid grid-cols-4 gap-4 mb-4">
+            {['Copy Link', 'Twitter', 'Telegram', 'WhatsApp'].map(s => (
+              <button key={s} onClick={() => setShowShare(false)} className="flex flex-col items-center gap-2">
+                <div className="w-14 h-14 rounded-full bg-[#121419] border border-[#1C1E23] flex items-center justify-center text-[20px]">
+                  {s === 'Copy Link' ? '🔗' : s === 'Twitter' ? '𝕏' : s === 'Telegram' ? '✈️' : '💬'}
+                </div>
+                <span className="text-[11px] text-[#8B8D93]">{s}</span>
+              </button>
+            ))}
+          </div>
+          <button onClick={() => setShowShare(false)} className="w-full bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">Cancel</button>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 
@@ -116,7 +195,7 @@ export default function TodayFeedPage() {
           <h1 className="text-[22px] font-bold tracking-tight text-[#FFFFFF]">TrendUpLive</h1>
         </div>
         <div className="flex items-center gap-3.5">
-          <button className="hover:text-gray-300 transition-colors">
+          <button onClick={() => navigate('/search')} className="hover:text-gray-300 transition-colors">
             <Search className="w-[22px] h-[22px] text-[#F3F4F6]" strokeWidth={2} />
           </button>
           <button onClick={() => navigate('/notifications')} className="relative hover:text-gray-300 transition-colors">
@@ -171,7 +250,7 @@ export default function TodayFeedPage() {
       {activeTab === 'Today' && (
         <div className="flex items-start gap-4 px-4 pb-4 border-b border-[#121419] overflow-x-auto">
           {stories.map((s, i) => (
-            <div key={i} className="flex flex-col items-center gap-1.5 min-w-[72px]">
+            <div key={i} onClick={() => navigate(`/story?idx=${i}`)} className="flex flex-col items-center gap-1.5 min-w-[72px] cursor-pointer">
               <div className="relative">
                 <div className={`w-[64px] h-[64px] rounded-full p-[2px] overflow-hidden ${
                   s.ring === 'green' ? 'border-[2px] border-[#2ECC71]' :

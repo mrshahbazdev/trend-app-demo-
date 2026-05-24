@@ -36,7 +36,11 @@ export default function NotificationsPage() {
           const Icon = typeIcons[n.type];
           const color = typeColors[n.type];
           return (
-            <div key={n.id} className="flex items-center gap-4 px-4 py-4 border-b border-[#121419] hover:bg-[#0A0D12] transition-colors cursor-pointer">
+            <div key={n.id} onClick={() => {
+              if (n.type === 'follow') navigate('/profile');
+              else if (n.type === 'like' || n.type === 'comment') navigate('/home');
+              else if (n.type === 'mention') navigate('/home');
+            }} className="flex items-center gap-4 px-4 py-4 border-b border-[#121419] hover:bg-[#0A0D12] transition-colors cursor-pointer active:bg-[#121419]">
               <div className="relative">
                 <img src={n.avatar} className="w-[48px] h-[48px] rounded-full object-cover" alt={n.user} />
                 <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#040508] border-2 border-[#040508] flex items-center justify-center`}>
