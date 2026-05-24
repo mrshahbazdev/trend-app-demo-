@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, ShieldCheck } from 'lucide-react';
+import { Mail, ShieldCheck, ChevronDown, ChevronUp, MoreHorizontal } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import { useTheme } from '../context/ThemeContext';
 
@@ -42,6 +43,7 @@ function GitHubIcon({ className }: { className?: string }) {
 export default function LoginOptionsPage() {
   const navigate = useNavigate();
   const { t } = useTheme();
+  const [showMore, setShowMore] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-4 font-sans antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
@@ -63,21 +65,6 @@ export default function LoginOptionsPage() {
             </div>
           </button>
 
-          <button className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors">
-            <GoogleIcon className="w-5 h-5 mr-4" />
-            <span className="text-[15px] text-[#F3F4F6] font-normal">Continue with Google</span>
-          </button>
-
-          <button className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors">
-            <AppleIcon className="w-5 h-5 text-white mr-4" />
-            <span className="text-[15px] text-[#F3F4F6] font-normal">Continue with Apple</span>
-          </button>
-
-          <button className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors">
-            <GitHubIcon className="w-5 h-5 text-white mr-4" />
-            <span className="text-[15px] text-[#F3F4F6] font-normal">Continue with GitHub</span>
-          </button>
-
           <button
             onClick={() => navigate('/login')}
             className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
@@ -85,6 +72,49 @@ export default function LoginOptionsPage() {
             <Mail className="w-5 h-5 text-white mr-4" strokeWidth={1.5} />
             <span className="text-[15px] text-[#F3F4F6] font-normal">Email magic link</span>
           </button>
+
+          {/* More Options Button */}
+          <button
+            onClick={() => setShowMore(!showMore)}
+            className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
+          >
+            <div className="w-5 h-5 border-2 border-white rounded-full flex items-center justify-center mr-4">
+              <MoreHorizontal className="w-3.5 h-3.5 text-white" strokeWidth={3} />
+            </div>
+            <span className="text-[15px] text-[#F3F4F6] font-normal">More options</span>
+            <div className="ml-auto">
+              {showMore ? <ChevronUp className="w-5 h-5 text-[#7A818E]" /> : <ChevronDown className="w-5 h-5 text-[#7A818E]" />}
+            </div>
+          </button>
+
+          {/* Expandable Social Login Options */}
+          {showMore && (
+            <div className="flex flex-col gap-[10px] animate-in">
+              <button
+                onClick={() => navigate('/auth/google')}
+                className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
+              >
+                <GoogleIcon className="w-5 h-5 mr-4" />
+                <span className="text-[15px] text-[#F3F4F6] font-normal">Continue with Google</span>
+              </button>
+
+              <button
+                onClick={() => navigate('/auth/apple')}
+                className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
+              >
+                <AppleIcon className="w-5 h-5 text-white mr-4" />
+                <span className="text-[15px] text-[#F3F4F6] font-normal">Continue with Apple</span>
+              </button>
+
+              <button
+                onClick={() => navigate('/auth/github')}
+                className="flex items-center w-full h-[56px] px-4 bg-[#0D111A] border border-[#1C212D] rounded-[14px] hover:bg-[#121722] transition-colors"
+              >
+                <GitHubIcon className="w-5 h-5 text-white mr-4" />
+                <span className="text-[15px] text-[#F3F4F6] font-normal">Continue with GitHub</span>
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 mb-7 flex justify-center">
