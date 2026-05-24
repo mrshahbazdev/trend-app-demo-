@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BarChart3, User, Headphones } from 'lucide-react';
+import { BarChart3, User, MessageSquare } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 function HomeNavIcon({ className }: { className?: string }) {
@@ -27,7 +27,7 @@ function LiveNavIcon({ className }: { className?: string }) {
 const tabs = [
   { key: 'home', label: 'Home', path: '/home', Icon: HomeNavIcon },
   { key: 'markets', label: 'Markets', path: '/markets', Icon: BarChart3 },
-  { key: 'podcasts', label: 'Podcasts', path: '/podcasts', Icon: Headphones },
+  { key: 'chats', label: 'Chats', path: '/chats', Icon: MessageSquare },
   { key: 'live', label: 'Live', path: '/live', Icon: LiveNavIcon },
   { key: 'profile', label: 'Profile', path: '/profile', Icon: User },
 ];
