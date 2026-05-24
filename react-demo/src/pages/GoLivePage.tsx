@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Camera, Mic, MicOff, Video, VideoOff, MessageCircle, Zap, X, Send, Smile, Eye, Share, Heart } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 type LiveStep = 'setup' | 'preview' | 'live' | 'ended';
 
@@ -18,6 +19,7 @@ const liveChatMsgs = [
 
 export default function GoLivePage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [step, setStep] = useState<LiveStep>('setup');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -100,7 +102,7 @@ export default function GoLivePage() {
   // Setup Screen
   if (step === 'setup') {
     return (
-      <div className="min-h-screen bg-[#040508] text-white font-sans antialiased flex flex-col">
+      <div className="min-h-screen font-sans antialiased flex flex-col" style={{ backgroundColor: t.bg, color: t.text }}>
         <header className="sticky top-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
           <button onClick={() => navigate(-1)}><ArrowLeft className="w-6 h-6 text-[#F3F4F6]" /></button>
           <h1 className="text-[18px] font-bold">Go Live</h1>
@@ -189,7 +191,7 @@ export default function GoLivePage() {
   // Preview Screen
   if (step === 'preview') {
     return (
-      <div className="min-h-screen bg-[#040508] text-white font-sans antialiased flex flex-col">
+      <div className="min-h-screen font-sans antialiased flex flex-col" style={{ backgroundColor: t.bg, color: t.text }}>
         <header className="sticky top-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
           <button onClick={() => setStep('setup')}><ArrowLeft className="w-6 h-6 text-[#F3F4F6]" /></button>
           <h1 className="text-[18px] font-bold">Preview</h1>
@@ -242,7 +244,7 @@ export default function GoLivePage() {
   // Live Stream Screen
   if (step === 'live') {
     return (
-      <div className="min-h-screen bg-[#040508] text-white font-sans antialiased flex flex-col relative">
+      <div className="min-h-screen font-sans antialiased flex flex-col relative" style={{ backgroundColor: t.bg, color: t.text }}>
         {/* Video Area */}
         <div className="relative w-full aspect-[4/3] bg-[#0A0D12]">
           {cameraOn ? (
@@ -365,7 +367,7 @@ export default function GoLivePage() {
 
   // Ended Screen
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans antialiased flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen font-sans antialiased flex flex-col items-center justify-center p-6" style={{ backgroundColor: t.bg, color: t.text }}>
       <div className="w-20 h-20 rounded-full bg-[#2ECC71]/20 flex items-center justify-center mb-5">
         <Zap className="w-10 h-10 text-[#2ECC71]" />
       </div>

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Heart, UserPlus, MessageCircle, AtSign } from 'lucide-react';
 import { notifications } from '../data/mockData';
+import { useTheme } from '../context/ThemeContext';
 
 const typeIcons = {
   like: Heart,
@@ -9,25 +10,26 @@ const typeIcons = {
   mention: AtSign,
 };
 
-const typeColors = {
-  like: 'text-[#FF3B30]',
-  follow: 'text-[#2ECC71]',
-  comment: 'text-[#4A9EFF]',
-  mention: 'text-[#A770EF]',
-};
-
 export default function NotificationsPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
+
+  const typeColors: Record<string, string> = {
+    like: t.red,
+    follow: t.green,
+    comment: t.blue,
+    mention: t.purple,
+  };
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans antialiased">
-      <header className="sticky top-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-[#121419]">
+    <div className="min-h-screen font-sans antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
+      <header className="sticky top-0 w-full z-50 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4" style={{ backgroundColor: t.backdrop, borderBottom: `1px solid ${t.border}` }}>
         <button onClick={() => navigate(-1)}>
-          <ArrowLeft className="w-6 h-6 text-[#F3F4F6]" />
+          <ArrowLeft className="w-6 h-6" style={{ color: t.textSec }} />
         </button>
-        <h1 className="text-[23px] font-bold">Notifications</h1>
-        <div className="ml-auto bg-[#FF3B30] w-6 h-6 rounded-full flex items-center justify-center">
-          <span className="text-[11px] font-bold">{notifications.length}</span>
+        <h1 className="text-[23px] font-bold" style={{ color: t.text }}>Notifications</h1>
+        <div className="ml-auto w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: t.red }}>
+          <span className="text-[11px] font-bold text-white">{notifications.length}</span>
         </div>
       </header>
 
@@ -40,21 +42,21 @@ export default function NotificationsPage() {
               if (n.type === 'follow') navigate('/profile');
               else if (n.type === 'like' || n.type === 'comment') navigate('/home');
               else if (n.type === 'mention') navigate('/home');
-            }} className="flex items-center gap-4 px-4 py-4 border-b border-[#121419] hover:bg-[#0A0D12] transition-colors cursor-pointer active:bg-[#121419]">
+            }} className="flex items-center gap-4 px-4 py-4 transition-colors cursor-pointer" style={{ borderBottom: `1px solid ${t.border}` }}>
               <div className="relative">
                 <img src={n.avatar} className="w-[48px] h-[48px] rounded-full object-cover" alt={n.user} />
-                <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#040508] border-2 border-[#040508] flex items-center justify-center`}>
-                  <div className="w-5 h-5 rounded-full bg-[#121419] flex items-center justify-center">
-                    <Icon className={`w-3 h-3 ${color}`} strokeWidth={2} />
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: t.bg, border: `2px solid ${t.bg}` }}>
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: t.bgTer }}>
+                    <Icon className="w-3 h-3" strokeWidth={2} style={{ color }} />
                   </div>
                 </div>
               </div>
               <div className="flex-1">
                 <p className="text-[15px]">
-                  <span className="font-bold text-[#F3F4F6]">{n.user}</span>
-                  <span className="text-[#8B8D93] ml-1.5">{n.text}</span>
+                  <span className="font-bold" style={{ color: t.textSec }}>{n.user}</span>
+                  <span className="ml-1.5" style={{ color: t.textMuted }}>{n.text}</span>
                 </p>
-                <span className="text-[#6A6C73] text-[13px]">{n.time} ago</span>
+                <span className="text-[13px]" style={{ color: t.textDim }}>{n.time} ago</span>
               </div>
             </div>
           );

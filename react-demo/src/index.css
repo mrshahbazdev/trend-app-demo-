@@ -1,12 +1,72 @@
 @import "tailwindcss";
 
 @layer base {
+  :root,
+  [data-theme="dark"] {
+    --bg-primary: #040508;
+    --bg-secondary: #0A0D12;
+    --bg-tertiary: #121419;
+    --bg-card: #0A0D12;
+    --bg-input: #121419;
+    --bg-hover: #1A1D24;
+    --border-primary: #121419;
+    --border-secondary: #1C1E23;
+    --border-tertiary: #23252A;
+    --text-primary: #FFFFFF;
+    --text-secondary: #F3F4F6;
+    --text-tertiary: #E5E7EB;
+    --text-muted: #8B8D93;
+    --text-dimmed: #6A6C73;
+    --text-subtle: #A0A2A8;
+    --accent-green: #2ECC71;
+    --accent-green-hover: #27ae60;
+    --accent-blue: #2979FF;
+    --accent-red: #FF3B30;
+    --accent-orange: #FF7A00;
+    --accent-gold: #F1D683;
+    --accent-purple: #A770EF;
+    --overlay: rgba(0, 0, 0, 0.6);
+    --shadow: rgba(0, 0, 0, 0.3);
+    --backdrop: rgba(4, 5, 8, 0.95);
+  }
+
+  [data-theme="light"] {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F6F8;
+    --bg-tertiary: #EBEDF0;
+    --bg-card: #FFFFFF;
+    --bg-input: #F0F1F3;
+    --bg-hover: #E8E9EC;
+    --border-primary: #E5E7EB;
+    --border-secondary: #D1D5DB;
+    --border-tertiary: #C4C8CF;
+    --text-primary: #111318;
+    --text-secondary: #1F2128;
+    --text-tertiary: #374151;
+    --text-muted: #6B7280;
+    --text-dimmed: #9CA3AF;
+    --text-subtle: #4B5563;
+    --accent-green: #16A34A;
+    --accent-green-hover: #15803D;
+    --accent-blue: #2563EB;
+    --accent-red: #DC2626;
+    --accent-orange: #EA580C;
+    --accent-gold: #CA8A04;
+    --accent-purple: #7C3AED;
+    --overlay: rgba(0, 0, 0, 0.3);
+    --shadow: rgba(0, 0, 0, 0.1);
+    --backdrop: rgba(255, 255, 255, 0.95);
+  }
+
   body {
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
   }
 
   * {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, Eye, EyeOff, ShieldCheck, Wallet, MoreHorizontal, ChevronDown } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
+import { useTheme } from '../context/ThemeContext';
 
 function AppleIcon({ className }: { className?: string }) {
   return (
@@ -23,6 +24,7 @@ function GoogleIcon({ className }: { className?: string }) {
 }
 
 export default function RegisterPage() {
+  const { t } = useTheme();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -44,7 +46,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white flex flex-col items-center py-10 px-4 font-sans relative overflow-hidden antialiased">
+    <div className="min-h-screen flex flex-col items-center py-10 px-4 font-sans relative overflow-hidden antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
       <div className="absolute top-[-5%] left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[#1a2b4c]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="flex flex-col items-center mb-8 z-10 mt-4">

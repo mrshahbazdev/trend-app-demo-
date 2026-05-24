@@ -20,11 +20,13 @@ import StoryViewerPage from './pages/StoryViewerPage';
 import MarketDetailPage from './pages/MarketDetailPage';
 import AboutPage from './pages/AboutPage';
 import GoLivePage from './pages/GoLivePage';
+import { useTheme } from './context/ThemeContext';
 
 export default function App() {
+  const { t } = useTheme();
   return (
     <HashRouter>
-      <div className="max-w-[430px] mx-auto min-h-screen bg-[#040508] relative shadow-2xl">
+      <div className="max-w-[430px] mx-auto min-h-screen relative shadow-2xl" style={{ backgroundColor: t.bg }}>
         <Routes>
           <Route path="/" element={<SplashScreen />} />
           <Route path="/welcome" element={<LoginOptionsPage />} />

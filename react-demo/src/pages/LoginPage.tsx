@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, Eye, EyeOff, ShieldCheck, Wallet, MoreHorizontal, ChevronDown, ChevronRight, Check } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
+import { useTheme } from '../context/ThemeContext';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberUser, setRememberUser] = useState(false);
   const [rememberPass, setRememberPass] = useState(false);
@@ -23,7 +25,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020305] text-white flex flex-col items-center py-10 px-4 font-sans relative overflow-hidden antialiased">
+    <div className="min-h-screen flex flex-col items-center py-10 px-4 font-sans relative overflow-hidden antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
       <div className="absolute top-[-5%] left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[#1a2b4c]/15 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="flex flex-col items-center mb-8 z-10 mt-4">

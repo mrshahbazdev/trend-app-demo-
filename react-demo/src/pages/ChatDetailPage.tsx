@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Phone, Video, MoreVertical, Smile, Plus, Send, CheckCircle2 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 interface Message {
   id: number;
@@ -58,6 +59,7 @@ const roomData: Record<string, { name: string; members: string; initials: string
 };
 
 export default function ChatDetailPage() {
+  const { t } = useTheme();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get('room') || 'default';
@@ -97,7 +99,7 @@ export default function ChatDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans flex flex-col">
+    <div className="min-h-screen font-sans flex flex-col" style={{ backgroundColor: t.bg, color: t.text }}>
       <header className="sticky top-0 w-full z-50 bg-[#040508]/90 backdrop-blur-xl pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/chats')}>

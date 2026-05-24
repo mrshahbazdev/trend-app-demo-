@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Mail, ShieldCheck } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
+import { useTheme } from '../context/ThemeContext';
 
 function WalletIcon({ className }: { className?: string }) {
   return (
@@ -40,9 +41,10 @@ function GitHubIcon({ className }: { className?: string }) {
 
 export default function LoginOptionsPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
 
   return (
-    <div className="min-h-screen bg-[#07090E] text-white flex flex-col justify-center items-center p-4 font-sans antialiased">
+    <div className="min-h-screen flex flex-col justify-center items-center p-4 font-sans antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
       <div className="flex flex-col items-center mb-8">
         <NewLogo className="w-[80px] h-[80px] mb-2" />
         <h1 className="text-[28px] font-bold tracking-tight mt-1">TrendUpLive</h1>

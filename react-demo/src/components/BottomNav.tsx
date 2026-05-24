@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BarChart3, User } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 function HomeNavIcon({ className }: { className?: string }) {
   return (
@@ -41,11 +42,15 @@ const tabs = [
 export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTheme();
 
   const activeTab = tabs.find(t => location.pathname.startsWith(t.path))?.key ?? 'home';
 
   return (
-    <div className="fixed bottom-0 left-0 w-full h-[88px] bg-[#040508]/95 backdrop-blur-xl border-t border-[#121419] flex justify-between items-start px-[18px] pt-3 pb-6 z-50">
+    <div
+      className="fixed bottom-0 left-0 w-full h-[88px] backdrop-blur-xl flex justify-between items-start px-[18px] pt-3 pb-6 z-50"
+      style={{ backgroundColor: t.navBg, borderTop: `1px solid ${t.border}` }}
+    >
       {tabs.map(({ key, label, path, Icon }) => {
         const active = activeTab === key;
         return (
@@ -54,12 +59,12 @@ export default function BottomNav() {
             onClick={() => navigate(path)}
             className="flex flex-col items-center gap-1.5 min-w-[56px]"
           >
-            <Icon className={`w-[24px] h-[24px] ${active ? 'text-[#2ECC71]' : 'text-[#8B8D93]'}`} strokeWidth={2} />
-            <span className={`text-[11px] font-semibold ${active ? 'text-[#2ECC71] font-bold' : 'text-[#8B8D93]'}`}>{label}</span>
+            <Icon className="w-[24px] h-[24px]" strokeWidth={2} style={{ color: active ? t.green : t.textMuted }} />
+            <span className="text-[11px] font-semibold" style={{ color: active ? t.green : t.textMuted, fontWeight: active ? 700 : 600 }}>{label}</span>
           </button>
         );
       })}
-      <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-[#FFFFFF] rounded-full"></div>
+      <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[134px] h-[5px] rounded-full" style={{ backgroundColor: t.text }}></div>
     </div>
   );
 }

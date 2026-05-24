@@ -4,6 +4,7 @@ import { Search, Bell, Maximize, Volume2, Flame, Star, ThumbsUp, Plus, Smile, Se
 import NewLogo from '../components/NewLogo';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
+import { useTheme } from '../context/ThemeContext';
 
 function SquarePenIcon({ className }: { className?: string }) {
   return (
@@ -58,6 +59,7 @@ const reactionEmojis = [
 
 export default function LiveStreamPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [activeTab, setActiveTab] = useState('Live Chat');
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<ChatMsg[]>(initialChat);
@@ -110,7 +112,7 @@ export default function LiveStreamPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans relative pb-[200px] antialiased">
+    <div className="min-h-screen font-sans relative pb-[200px] antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
       <header className="sticky top-0 left-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
         <div className="flex items-center gap-2.5">
           <NewLogo className="w-[38px] h-[38px]" />

@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Search, Bell, SquarePen, ChevronLeft, ChevronRight } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import BottomNav from '../components/BottomNav';
+import { useTheme } from '../context/ThemeContext';
 
 export default function VoteMarketPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [voteYes, setVoteYes] = useState(62);
   const [hasVoted, setHasVoted] = useState(false);
   const [activeFilter, setActiveFilter] = useState('Vote');
@@ -26,7 +28,7 @@ export default function VoteMarketPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08090C] text-white font-sans relative overflow-hidden pb-[100px]">
+    <div className="min-h-screen font-sans relative overflow-hidden pb-[100px]" style={{ backgroundColor: t.bg, color: t.text }}>
       <header className="flex items-center justify-between px-4 pt-4 pb-4 sticky top-0 bg-[#08090C]/95 backdrop-blur-md z-50">
         <div className="flex items-center gap-2.5">
           <NewLogo className="w-9 h-9" />

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, Bell, ArrowUpRight, ArrowDownRight, BarChart3 } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import BottomNav from '../components/BottomNav';
+import { useTheme } from '../context/ThemeContext';
 
 const allMarkets = [
   { name: "S&P 500", ticker: "SPX", price: "5,234.12", change: "+0.85%", trend: "up" as const, category: "stocks" },
@@ -23,6 +24,7 @@ const watchlist = ['SPX', 'BTC', 'XAU', 'AAPL', 'NVDA', 'ETH'];
 
 export default function MarketsPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [activeTab, setActiveTab] = useState('Watchlist');
 
   const filteredMarkets = activeTab === 'Watchlist'
@@ -38,56 +40,57 @@ export default function MarketsPage() {
     : { label: 'Global Sentiment', value: 'Bullish', change: '+1.4%' };
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans pb-[88px] antialiased">
-      <header className="sticky top-0 left-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
+    <div className="min-h-screen font-sans pb-[88px] antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
+      <header className="sticky top-0 left-0 w-full z-50 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between" style={{ backgroundColor: t.backdrop, borderBottom: `1px solid ${t.border}` }}>
         <div className="flex items-center gap-2.5">
           <NewLogo className="w-[38px] h-[38px]" />
-          <h1 className="text-[23px] font-bold tracking-tight text-[#FFFFFF]">Markets</h1>
+          <h1 className="text-[23px] font-bold tracking-tight" style={{ color: t.text }}>Markets</h1>
         </div>
         <div className="flex items-center gap-3.5">
-          <button onClick={() => navigate('/search')}><Search className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} /></button>
-          <button onClick={() => navigate('/notifications')} className="relative"><Bell className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} /><span className="absolute top-[-2px] right-[-2px] w-[9px] h-[9px] bg-[#FF3B30] rounded-full border-[2px] border-[#040508]"></span></button>
+          <button onClick={() => navigate('/search')}><Search className="w-[24px] h-[24px]" strokeWidth={2.5} style={{ color: t.textSec }} /></button>
+          <button onClick={() => navigate('/notifications')} className="relative"><Bell className="w-[24px] h-[24px]" strokeWidth={2.5} style={{ color: t.textSec }} /><span className="absolute top-[-2px] right-[-2px] w-[9px] h-[9px] rounded-full" style={{ backgroundColor: t.red, border: `2px solid ${t.bg}` }}></span></button>
         </div>
       </header>
 
       <div className="p-4">
-        <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[16px] p-5 shadow-lg">
-          <p className="text-[#A0A2A8] text-[12px] font-bold uppercase tracking-widest mb-1.5">{sentiment.label}</p>
+        <div className="rounded-[16px] p-5 shadow-lg" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+          <p className="text-[12px] font-bold uppercase tracking-widest mb-1.5" style={{ color: t.textSubtle }}>{sentiment.label}</p>
           <div className="flex items-end gap-3">
-            <h2 className="text-[32px] font-extrabold text-white tracking-tight">{sentiment.value}</h2>
-            <span className={`text-[16px] font-extrabold pb-1.5 ${sentiment.change.startsWith('+') ? 'text-[#2ECC71]' : 'text-[#FF3B30]'}`}>{sentiment.change}</span>
+            <h2 className="text-[32px] font-extrabold tracking-tight" style={{ color: t.text }}>{sentiment.value}</h2>
+            <span className={`text-[16px] font-extrabold pb-1.5`} style={{ color: sentiment.change.startsWith('+') ? t.green : t.red }}>{sentiment.change}</span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-8 px-5 pt-1 pb-0 border-b border-[#1A1C22]">
+      <div className="flex items-center gap-8 px-5 pt-1 pb-0" style={{ borderBottom: `1px solid ${t.border}` }}>
         {['Watchlist', 'Crypto', 'Stocks', 'Forex'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`text-[15.5px] font-bold pb-2.5 ${activeTab === tab ? 'text-[#FFFFFF] border-b-[3px] border-[#2ECC71]' : 'text-[#A0A2A8] hover:text-white transition-colors'}`}
+            className="text-[15.5px] font-bold pb-2.5 transition-colors"
+            style={{ color: activeTab === tab ? t.text : t.textSubtle, borderBottom: activeTab === tab ? `3px solid ${t.green}` : 'none' }}
           >
             {tab}
           </button>
         ))}
       </div>
 
-      {/* Vote Market Banner */}
       <div className="px-4 pt-4 pb-2">
         <button
           onClick={() => navigate('/vote-market')}
-          className="w-full bg-gradient-to-r from-[#FF7A00]/20 to-[#F1D683]/20 border border-[#FF7A00]/30 rounded-[14px] p-4 flex items-center justify-between hover:border-[#FF7A00]/50 transition-colors"
+          className="w-full rounded-[14px] p-4 flex items-center justify-between transition-colors"
+          style={{ background: `linear-gradient(to right, ${t.orange}20, ${t.gold}20)`, border: `1px solid ${t.orange}30` }}
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#FF7A00]/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: `${t.orange}20` }}>
               <span className="text-[20px]">🗳️</span>
             </div>
             <div className="text-left">
-              <p className="text-[#F1D683] text-[15px] font-bold">Vote Market</p>
-              <p className="text-[#8B8D93] text-[12px]">Predict outcomes & earn rewards</p>
+              <p className="text-[15px] font-bold" style={{ color: t.gold }}>Vote Market</p>
+              <p className="text-[12px]" style={{ color: t.textMuted }}>Predict outcomes & earn rewards</p>
             </div>
           </div>
-          <span className="text-[#FF7A00] text-[13px] font-bold">Vote Now →</span>
+          <span className="text-[13px] font-bold" style={{ color: t.orange }}>Vote Now →</span>
         </button>
       </div>
 
@@ -96,20 +99,21 @@ export default function MarketsPage() {
           <div
             key={m.ticker}
             onClick={() => navigate(`/market-detail?ticker=${m.ticker}`)}
-            className="flex items-center justify-between bg-[#0A0D12] p-4 rounded-[14px] border border-[#1C1E23] hover:border-[#2A2D35] transition-colors cursor-pointer active:scale-[0.98]"
+            className="flex items-center justify-between p-4 rounded-[14px] transition-colors cursor-pointer active:scale-[0.98]"
+            style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-[40px] h-[40px] rounded-[10px] bg-[#121419] border border-[#1C1E23] flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-[#A0A2A8]" strokeWidth={1.5} />
+              <div className="w-[40px] h-[40px] rounded-[10px] flex items-center justify-center" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}` }}>
+                <BarChart3 className="w-5 h-5" strokeWidth={1.5} style={{ color: t.textSubtle }} />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-[15px] text-[#F3F4F6]">{m.name}</span>
-                <span className="text-[#8B8D93] text-[12px] font-semibold">{m.ticker}</span>
+                <span className="font-bold text-[15px]" style={{ color: t.textSec }}>{m.name}</span>
+                <span className="text-[12px] font-semibold" style={{ color: t.textMuted }}>{m.ticker}</span>
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <span className="font-bold text-[15px] text-[#F3F4F6]">{m.price}</span>
-              <div className={`flex items-center gap-0.5 text-[12.5px] font-bold ${m.trend === 'up' ? 'text-[#2ECC71]' : 'text-[#FF3B30]'}`}>
+              <span className="font-bold text-[15px]" style={{ color: t.textSec }}>{m.price}</span>
+              <div className="flex items-center gap-0.5 text-[12.5px] font-bold" style={{ color: m.trend === 'up' ? t.green : t.red }}>
                 {m.trend === 'up' ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                 {m.change}
               </div>

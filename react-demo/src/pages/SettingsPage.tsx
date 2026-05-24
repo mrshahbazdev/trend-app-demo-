@@ -1,22 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Bell, Shield, Wallet, Moon, ChevronRight, LogOut, User, Globe, HelpCircle, Check } from 'lucide-react';
+import { ArrowLeft, Bell, Shield, Wallet, Moon, ChevronRight, LogOut, User, Globe, HelpCircle, Check, Sun } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
+  const { t } = useTheme();
   return (
-    <button onClick={onToggle} className={`w-[44px] h-[24px] rounded-full p-[2px] transition-colors ${on ? 'bg-[#2ECC71]' : 'bg-[#2A2E36]'}`}>
+    <button onClick={onToggle} className="w-[44px] h-[24px] rounded-full p-[2px] transition-colors" style={{ backgroundColor: on ? t.green : t.border3 }}>
       <div className={`w-[20px] h-[20px] rounded-full bg-white transition-transform ${on ? 'translate-x-[20px]' : 'translate-x-0'}`} />
     </button>
   );
 }
 
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = { User, Wallet, Shield, Bell, Moon, Globe, HelpCircle };
+const iconMap: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = { User, Wallet, Shield, Bell, Moon, Sun, Globe, HelpCircle };
 
 const languages = ['English', 'Urdu', 'Arabic', 'Spanish', 'Chinese'];
 
 export default function SettingsPage() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(true);
+  const { t, isDark, toggleTheme } = useTheme();
   const [notifications, setNotifications] = useState(true);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showBilling, setShowBilling] = useState(false);
@@ -50,7 +52,7 @@ export default function SettingsPage() {
       title: "Preferences",
       items: [
         { icon: "Bell", label: "Notifications" },
-        { icon: "Moon", label: "Dark Mode" },
+        { icon: isDark ? "Moon" : "Sun", label: isDark ? "Dark Mode" : "Light Mode" },
         { icon: "Globe", label: "Language" },
       ]
     },
@@ -64,72 +66,75 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans p-4 antialiased">
+    <div className="min-h-screen font-sans p-4 antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
       <header className="pt-4 pb-6 flex items-center gap-4">
         <button onClick={() => navigate(-1)}>
-          <ArrowLeft className="w-6 h-6 text-[#F3F4F6]" />
+          <ArrowLeft className="w-6 h-6" style={{ color: t.textSec }} />
         </button>
-        <h1 className="text-[23px] font-bold">Settings</h1>
+        <h1 className="text-[23px] font-bold" style={{ color: t.text }}>Settings</h1>
       </header>
 
       <div className="flex flex-col gap-8">
         {settingSections.map((section, idx) => (
           <div key={idx}>
-            <h2 className="text-[12px] font-bold text-[#A0A2A8] uppercase tracking-widest mb-3 ml-1">{section.title}</h2>
-            <div className="bg-[#0A0D12] rounded-[16px] border border-[#1C1E23] overflow-hidden">
+            <h2 className="text-[12px] font-bold uppercase tracking-widest mb-3 ml-1" style={{ color: t.textSubtle }}>{section.title}</h2>
+            <div className="rounded-[16px] overflow-hidden" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
               {section.items.map((item, i) => {
                 const Icon = iconMap[item.icon] ?? User;
-                const isToggle = item.label === 'Dark Mode' || item.label === 'Notifications';
-                const toggleVal = item.label === 'Dark Mode' ? darkMode : notifications;
-                const onToggle = item.label === 'Dark Mode' ? () => setDarkMode(!darkMode) : () => setNotifications(!notifications);
+                const isThemeToggle = item.label === 'Dark Mode' || item.label === 'Light Mode';
+                const isNotifToggle = item.label === 'Notifications';
+                const isToggle = isThemeToggle || isNotifToggle;
+                const toggleVal = isThemeToggle ? isDark : notifications;
+                const onToggle = isThemeToggle ? toggleTheme : () => setNotifications(!notifications);
 
                 return (
                   <div key={i}>
                     <div
                       onClick={() => !isToggle && handleItemClick(item.label)}
-                      className={`flex items-center justify-between p-4 cursor-pointer hover:bg-[#121419] transition-colors ${i !== section.items.length - 1 || (item.label === 'Edit Profile' && showEditProfile) || (item.label === 'Language' && showLanguage) ? 'border-b border-[#1C1E23]' : ''}`}
+                      className="flex items-center justify-between p-4 cursor-pointer transition-colors"
+                      style={{ borderBottom: i !== section.items.length - 1 ? `1px solid ${t.border2}` : undefined }}
                     >
                       <div className="flex items-center gap-4">
-                        <Icon className="w-5 h-5 text-[#8B8D93]" />
-                        <span className="text-[15px] font-semibold">{item.label}</span>
+                        <Icon className="w-5 h-5" style={{ color: t.textMuted }} />
+                        <span className="text-[15px] font-semibold" style={{ color: t.text }}>{item.label}</span>
                       </div>
-                      {isToggle ? <Toggle on={toggleVal} onToggle={onToggle} /> : <ChevronRight className="w-5 h-5 text-[#8B8D93]" />}
+                      {isToggle ? <Toggle on={toggleVal} onToggle={onToggle} /> : <ChevronRight className="w-5 h-5" style={{ color: t.textMuted }} />}
                     </div>
 
                     {item.label === 'Edit Profile' && showEditProfile && (
-                      <div className="p-4 bg-[#0D1117] border-b border-[#1C1E23]">
+                      <div className="p-4" style={{ backgroundColor: t.bgTer, borderBottom: `1px solid ${t.border2}` }}>
                         <div className="flex flex-col gap-3">
                           <div>
-                            <label className="text-[12px] text-[#8B8D93] font-medium mb-1 block">Display Name</label>
-                            <input value={profileName} onChange={e => setProfileName(e.target.value)} className="w-full bg-[#121419] border border-[#1C1E23] rounded-[10px] px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#2ECC71]" />
+                            <label className="text-[12px] font-medium mb-1 block" style={{ color: t.textMuted }}>Display Name</label>
+                            <input value={profileName} onChange={e => setProfileName(e.target.value)} className="w-full rounded-[10px] px-3 py-2.5 text-[14px] outline-none" style={{ backgroundColor: t.bgInput, border: `1px solid ${t.border2}`, color: t.text }} />
                           </div>
                           <div>
-                            <label className="text-[12px] text-[#8B8D93] font-medium mb-1 block">Bio</label>
-                            <textarea value={profileBio} onChange={e => setProfileBio(e.target.value)} rows={2} className="w-full bg-[#121419] border border-[#1C1E23] rounded-[10px] px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#2ECC71] resize-none" />
+                            <label className="text-[12px] font-medium mb-1 block" style={{ color: t.textMuted }}>Bio</label>
+                            <textarea value={profileBio} onChange={e => setProfileBio(e.target.value)} rows={2} className="w-full rounded-[10px] px-3 py-2.5 text-[14px] outline-none resize-none" style={{ backgroundColor: t.bgInput, border: `1px solid ${t.border2}`, color: t.text }} />
                           </div>
-                          <button className="bg-[#2ECC71] text-[#040508] font-bold text-[14px] py-2.5 rounded-[10px]">Save Changes</button>
+                          <button className="font-bold text-[14px] py-2.5 rounded-[10px]" style={{ backgroundColor: t.green, color: t.bg }}>Save Changes</button>
                         </div>
                       </div>
                     )}
 
                     {item.label === 'Billing & Subscription' && showBilling && (
-                      <div className="p-4 bg-[#0D1117] border-b border-[#1C1E23]">
-                        <div className="bg-gradient-to-r from-[#2ECC71]/20 to-[#2979FF]/20 border border-[#2ECC71]/30 rounded-[12px] p-4 mb-3">
+                      <div className="p-4" style={{ backgroundColor: t.bgTer, borderBottom: `1px solid ${t.border2}` }}>
+                        <div className="rounded-[12px] p-4 mb-3" style={{ background: `linear-gradient(to right, ${t.green}20, ${t.blue}20)`, border: `1px solid ${t.green}30` }}>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-[#2ECC71] font-bold text-[14px]">Pro Plan</span>
-                            <span className="text-[#F3F4F6] font-bold text-[16px]">$9.99/mo</span>
+                            <span className="font-bold text-[14px]" style={{ color: t.green }}>Pro Plan</span>
+                            <span className="font-bold text-[16px]" style={{ color: t.textSec }}>$9.99/mo</span>
                           </div>
-                          <p className="text-[#8B8D93] text-[13px]">Next billing: June 15, 2026</p>
+                          <p className="text-[13px]" style={{ color: t.textMuted }}>Next billing: June 15, 2026</p>
                         </div>
                         <div className="flex gap-3">
-                          <button className="flex-1 bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[13px] py-2.5 rounded-[10px]">Change Plan</button>
-                          <button className="flex-1 bg-[#121419] border border-[#FF3B30]/30 text-[#FF3B30] font-bold text-[13px] py-2.5 rounded-[10px]">Cancel</button>
+                          <button className="flex-1 font-bold text-[13px] py-2.5 rounded-[10px]" style={{ backgroundColor: t.bgInput, border: `1px solid ${t.border2}`, color: t.textSec }}>Change Plan</button>
+                          <button className="flex-1 font-bold text-[13px] py-2.5 rounded-[10px]" style={{ backgroundColor: t.bgInput, border: `1px solid ${t.red}30`, color: t.red }}>Cancel</button>
                         </div>
                       </div>
                     )}
 
                     {item.label === 'Privacy & Security' && showPrivacy && (
-                      <div className="p-4 bg-[#0D1117] border-b border-[#1C1E23]">
+                      <div className="p-4" style={{ backgroundColor: t.bgTer, borderBottom: `1px solid ${t.border2}` }}>
                         <div className="flex flex-col gap-3">
                           {[
                             { label: "Private Account", desc: "Only approved followers can see your posts", on: false },
@@ -143,25 +148,26 @@ export default function SettingsPage() {
                     )}
 
                     {item.label === 'Language' && showLanguage && (
-                      <div className="bg-[#0D1117] border-b border-[#1C1E23]">
+                      <div style={{ backgroundColor: t.bgTer, borderBottom: `1px solid ${t.border2}` }}>
                         {languages.map(lang => (
                           <button
                             key={lang}
                             onClick={() => setSelectedLang(lang)}
-                            className="flex items-center justify-between w-full px-4 py-3 hover:bg-[#121419] transition-colors border-b border-[#1C1E23] last:border-b-0"
+                            className="flex items-center justify-between w-full px-4 py-3 transition-colors"
+                            style={{ borderBottom: `1px solid ${t.border2}` }}
                           >
-                            <span className={`text-[14px] ${selectedLang === lang ? 'text-[#2ECC71] font-bold' : 'text-[#F3F4F6]'}`}>{lang}</span>
-                            {selectedLang === lang && <Check className="w-5 h-5 text-[#2ECC71]" />}
+                            <span className="text-[14px]" style={{ color: selectedLang === lang ? t.green : t.textSec, fontWeight: selectedLang === lang ? 700 : 400 }}>{lang}</span>
+                            {selectedLang === lang && <Check className="w-5 h-5" style={{ color: t.green }} />}
                           </button>
                         ))}
                       </div>
                     )}
 
                     {item.label === 'Help Center' && showHelp && (
-                      <div className="p-4 bg-[#0D1117] border-b border-[#1C1E23]">
+                      <div className="p-4" style={{ backgroundColor: t.bgTer, borderBottom: `1px solid ${t.border2}` }}>
                         <div className="flex flex-col gap-2">
                           {['FAQ', 'Contact Support', 'Report a Bug', 'Terms of Service', 'Privacy Policy'].map(link => (
-                            <button key={link} className="text-left py-2.5 px-3 text-[14px] text-[#E5E7EB] hover:bg-[#121419] rounded-[8px] transition-colors">{link}</button>
+                            <button key={link} className="text-left py-2.5 px-3 text-[14px] rounded-[8px] transition-colors" style={{ color: t.textTer }}>{link}</button>
                           ))}
                         </div>
                       </div>
@@ -175,7 +181,8 @@ export default function SettingsPage() {
 
         <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="flex items-center gap-4 p-4 text-[#FF3B30] font-bold border border-[#1C1E23] rounded-[16px] bg-[#0A0D12]"
+          className="flex items-center gap-4 p-4 font-bold rounded-[16px]"
+          style={{ color: t.red, backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}
         >
           <LogOut className="w-5 h-5" />
           Log Out
@@ -183,13 +190,13 @@ export default function SettingsPage() {
       </div>
 
       {showLogoutConfirm && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[20px] p-6 max-w-[320px] w-full">
-            <h3 className="text-[18px] font-bold text-center mb-2">Log Out?</h3>
-            <p className="text-[#8B8D93] text-[14px] text-center mb-6">Are you sure you want to log out of TrendUpLive?</p>
+        <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-6" style={{ backgroundColor: t.overlay }}>
+          <div className="rounded-[20px] p-6 max-w-[320px] w-full" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+            <h3 className="text-[18px] font-bold text-center mb-2" style={{ color: t.text }}>Log Out?</h3>
+            <p className="text-[14px] text-center mb-6" style={{ color: t.textMuted }}>Are you sure you want to log out of TrendUpLive?</p>
             <div className="flex flex-col gap-3">
-              <button onClick={() => navigate('/welcome')} className="bg-[#FF3B30] text-white font-bold text-[15px] py-3 rounded-[12px]">Yes, Log Out</button>
-              <button onClick={() => setShowLogoutConfirm(false)} className="bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">Cancel</button>
+              <button onClick={() => navigate('/welcome')} className="text-white font-bold text-[15px] py-3 rounded-[12px]" style={{ backgroundColor: t.red }}>Yes, Log Out</button>
+              <button onClick={() => setShowLogoutConfirm(false)} className="font-bold text-[15px] py-3 rounded-[12px]" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}`, color: t.textSec }}>Cancel</button>
             </div>
           </div>
         </div>
@@ -199,12 +206,13 @@ export default function SettingsPage() {
 }
 
 function PrivacyToggle({ label, desc, defaultOn }: { label: string; desc: string; defaultOn: boolean }) {
+  const { t } = useTheme();
   const [on, setOn] = useState(defaultOn);
   return (
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-[14px] font-semibold text-[#F3F4F6]">{label}</p>
-        <p className="text-[12px] text-[#8B8D93]">{desc}</p>
+        <p className="text-[14px] font-semibold" style={{ color: t.textSec }}>{label}</p>
+        <p className="text-[12px]" style={{ color: t.textMuted }}>{desc}</p>
       </div>
       <Toggle on={on} onToggle={() => setOn(!on)} />
     </div>

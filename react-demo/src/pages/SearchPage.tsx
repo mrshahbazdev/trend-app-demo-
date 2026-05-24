@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, TrendingUp, Hash, Users } from 'lucide-react';
 import VerifiedBadge from '../components/VerifiedBadge';
+import { useTheme } from '../context/ThemeContext';
 
 const trendingTopics = [
   { tag: "#Bitcoin", posts: "12.4K posts", trend: "+24%" },
@@ -25,6 +26,7 @@ const allResults = [
 
 export default function SearchPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [query, setQuery] = useState('');
   const [activeTab, setActiveTab] = useState('Top');
 
@@ -37,7 +39,7 @@ export default function SearchPage() {
     : [];
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans antialiased">
+    <div className="min-h-screen font-sans antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
       <header className="sticky top-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-3 border-b border-[#121419]">
         <button onClick={() => navigate(-1)}>
           <ArrowLeft className="w-6 h-6 text-[#F3F4F6]" />

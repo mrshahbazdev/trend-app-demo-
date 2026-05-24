@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 export default function SplashScreen() {
   const navigate = useNavigate();
+  const { t } = useTheme();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -12,7 +14,7 @@ export default function SplashScreen() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-[#000000] flex flex-col items-center justify-center font-sans antialiased">
+    <div className="min-h-screen flex flex-col items-center justify-center font-sans antialiased" style={{ backgroundColor: t.bg }}>
       <img
         src="/logo.gif"
         alt="TrendUpLive"

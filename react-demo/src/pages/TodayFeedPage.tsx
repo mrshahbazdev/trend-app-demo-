@@ -5,6 +5,7 @@ import NewLogo from '../components/NewLogo';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
 import { stories, feedPosts, newsPosts, marketTrendPosts } from '../data/mockData';
+import { useTheme } from '../context/ThemeContext';
 
 function SquarePenIcon({ className }: { className?: string }) {
   return (
@@ -39,6 +40,7 @@ const mockComments = [
 
 function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolean; onToggleLike: () => void }) {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [showComments, setShowComments] = useState(false);
   const [showRepost, setShowRepost] = useState(false);
   const [showShare, setShowShare] = useState(false);
@@ -71,41 +73,40 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
 
   return (
     <>
-    <article className="flex flex-col px-4 pt-5 pb-3 border-b border-[#121419]">
+    <article className="flex flex-col px-4 pt-5 pb-3" style={{ borderBottom: `1px solid ${t.border}` }}>
       <div className="flex justify-between items-start mb-3">
         <div className="flex gap-3">
           <img onClick={() => navigate('/profile')} src={post.avatar} className="w-[44px] h-[44px] rounded-full object-cover cursor-pointer" alt="Avatar" />
           <div className="flex flex-col">
             <div className="flex items-center gap-1 mt-[2px]">
-              <span onClick={() => navigate('/profile')} className="font-bold text-[16px] cursor-pointer hover:underline">{post.user}</span>
-              {post.verified && <VerifiedBadge className="w-[16px] h-[16px] text-[#2ECC71]" />}
-              <span className="text-[#8B8D93] text-[14px] ml-1">{post.handle}</span>
-              <span className="text-[#8B8D93] text-[14px] px-0.5">·</span>
-              <span className="text-[#8B8D93] text-[14px]">{post.time}</span>
+              <span onClick={() => navigate('/profile')} className="font-bold text-[16px] cursor-pointer hover:underline" style={{ color: t.text }}>{post.user}</span>
+              {post.verified && <VerifiedBadge className="w-[16px] h-[16px]" style={{ color: t.green }} />}
+              <span className="text-[14px] ml-1" style={{ color: t.textMuted }}>{post.handle}</span>
+              <span className="text-[14px] px-0.5" style={{ color: t.textMuted }}>·</span>
+              <span className="text-[14px]" style={{ color: t.textMuted }}>{post.time}</span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {post.badge && (
-            <span className={`text-[11px] font-bold px-[8px] py-[4px] rounded-md tracking-wide ${
-              post.badge === 'News' ? 'bg-[#1A2332] text-[#4A9EFF]' :
-              post.badge === 'Analyst' ? 'bg-[#1A3322] text-[#2ECC71]' :
-              'bg-[#24133D] text-[#A770EF]'
-            }`}>{post.badge}</span>
+            <span className="text-[11px] font-bold px-[8px] py-[4px] rounded-md tracking-wide" style={{
+              backgroundColor: post.badge === 'News' ? t.badgeNews : post.badge === 'Analyst' ? t.badgeAnalyst : t.badgeCreator,
+              color: post.badge === 'News' ? t.badgeNewsText : post.badge === 'Analyst' ? t.badgeAnalystText : t.badgeCreatorText,
+            }}>{post.badge}</span>
           )}
-          <button onClick={() => setShowMenu(!showMenu)} className="text-[#8B8D93] hover:text-white transition-colors relative">
+          <button onClick={() => setShowMenu(!showMenu)} className="transition-colors relative" style={{ color: t.textMuted }}>
             <MoreHorizontal className="w-5 h-5" />
           </button>
         </div>
       </div>
       <div className="pl-[56px]">
-        <p className="text-[15px] text-[#E5E7EB] leading-[1.5] mb-3">{post.content}</p>
+        <p className="text-[15px] leading-[1.5] mb-3" style={{ color: t.textTer }}>{post.content}</p>
         {post.image && (
-          <div className="rounded-[16px] overflow-hidden mb-3 border border-[#16181D]">
+          <div className="rounded-[16px] overflow-hidden mb-3" style={{ border: `1px solid ${t.border}` }}>
             <img src={post.image} alt="Post" className="w-full h-auto object-cover max-h-[220px]" />
           </div>
         )}
-        <div className="flex items-center justify-between text-[#8B8D93] pr-4 mt-2">
+        <div className="flex items-center justify-between pr-4 mt-2" style={{ color: t.textMuted }}>
           <button
             onClick={onToggleLike}
             className={`flex items-center gap-1.5 text-[13px] font-medium hover:text-[#FF3B30] transition-colors ${liked ? 'text-[#FF3B30]' : ''}`}
@@ -131,14 +132,15 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
     {/* 3-dot Menu */}
     {showMenu && (
       <div className="fixed inset-0 z-50" onClick={() => setShowMenu(false)}>
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] p-2 pb-8 z-50" onClick={e => e.stopPropagation()}>
-          <div className="w-10 h-1 bg-[#2A2E36] rounded-full mx-auto mb-3 mt-1" />
+        <div className="absolute inset-0" style={{ backgroundColor: t.overlay }} />
+        <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto rounded-t-[24px] p-2 pb-8 z-50" style={{ backgroundColor: t.bgSec, borderTop: `1px solid ${t.border2}` }} onClick={e => e.stopPropagation()}>
+          <div className="w-10 h-1 rounded-full mx-auto mb-3 mt-1" style={{ backgroundColor: t.border3 }} />
           {menuItems.map((item, i) => (
             <button
               key={i}
               onClick={item.action}
-              className={`flex items-center gap-4 w-full px-4 py-3.5 rounded-[12px] transition-colors hover:bg-[#121419] ${item.danger ? 'text-[#FF3B30]' : 'text-[#F3F4F6]'}`}
+              className="flex items-center gap-4 w-full px-4 py-3.5 rounded-[12px] transition-colors"
+              style={{ color: item.danger ? t.red : t.textSec }}
             >
               <item.icon className="w-5 h-5" strokeWidth={1.5} />
               <span className="text-[15px] font-semibold">{item.label}</span>
@@ -157,11 +159,11 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
 
     {/* Comments Sheet */}
     {showComments && (
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center">
-        <div className="bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] w-full max-w-[430px] max-h-[70vh] flex flex-col">
-          <div className="flex items-center justify-between p-4 border-b border-[#1C1E23]">
-            <h3 className="text-[17px] font-bold">Comments ({comments.length})</h3>
-            <button onClick={() => setShowComments(false)} className="text-[#8B8D93] text-[14px] font-bold">Close</button>
+      <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-end justify-center" style={{ backgroundColor: t.overlay }}>
+        <div className="rounded-t-[24px] w-full max-w-[430px] max-h-[70vh] flex flex-col" style={{ backgroundColor: t.bgSec, borderTop: `1px solid ${t.border2}` }}>
+          <div className="flex items-center justify-between p-4" style={{ borderBottom: `1px solid ${t.border2}` }}>
+            <h3 className="text-[17px] font-bold" style={{ color: t.text }}>Comments ({comments.length})</h3>
+            <button onClick={() => setShowComments(false)} className="text-[14px] font-bold" style={{ color: t.textMuted }}>Close</button>
           </div>
           <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
             {comments.map((c, i) => (
@@ -238,6 +240,7 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
 
 export default function TodayFeedPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [activeTab, setActiveTab] = useState('Today');
   const [activeFilter, setActiveFilter] = useState('All');
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
@@ -254,19 +257,19 @@ export default function TodayFeedPage() {
   const filters = ['All', 'Topics', 'Creators'];
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans relative pb-[90px] antialiased">
-      <header className="sticky top-0 left-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
+    <div className="min-h-screen font-sans relative pb-[90px] antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
+      <header className="sticky top-0 left-0 w-full z-50 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between" style={{ backgroundColor: t.backdrop, borderBottom: `1px solid ${t.border}` }}>
         <div className="flex items-center gap-2.5">
           <NewLogo className="w-[38px] h-[38px]" />
-          <h1 className="text-[22px] font-bold tracking-tight text-[#FFFFFF]">TrendUpLive</h1>
+          <h1 className="text-[22px] font-bold tracking-tight" style={{ color: t.text }}>TrendUpLive</h1>
         </div>
         <div className="flex items-center gap-3.5">
-          <button onClick={() => navigate('/search')} className="hover:text-gray-300 transition-colors">
-            <Search className="w-[22px] h-[22px] text-[#F3F4F6]" strokeWidth={2} />
+          <button onClick={() => navigate('/search')} className="transition-colors">
+            <Search className="w-[22px] h-[22px]" strokeWidth={2} style={{ color: t.textSec }} />
           </button>
-          <button onClick={() => navigate('/notifications')} className="relative hover:text-gray-300 transition-colors">
-            <Bell className="w-[22px] h-[22px] text-[#F3F4F6]" strokeWidth={2} />
-            <span className="absolute top-[-2px] right-[-2px] w-[9px] h-[9px] bg-[#FF3B30] rounded-full border-[2px] border-[#040508]"></span>
+          <button onClick={() => navigate('/notifications')} className="relative transition-colors">
+            <Bell className="w-[22px] h-[22px]" strokeWidth={2} style={{ color: t.textSec }} />
+            <span className="absolute top-[-2px] right-[-2px] w-[9px] h-[9px] rounded-full" style={{ backgroundColor: t.red, border: `2px solid ${t.bg}` }}></span>
           </button>
           <button onClick={() => navigate('/create-post')} className="w-[34px] h-[34px] rounded-full bg-[#00D1B2] flex items-center justify-center hover:bg-[#00B59A] transition-colors shadow-[0_0_15px_rgba(0,209,178,0.3)]">
             <SquarePenIcon className="w-[18px] h-[18px] text-[#042F24]" />
@@ -274,12 +277,17 @@ export default function TodayFeedPage() {
         </div>
       </header>
 
-      <div className="flex items-center justify-between px-8 pt-4 pb-0 border-b border-[#1A1C22]">
+      <div className="flex items-center justify-between px-8 pt-4 pb-0" style={{ borderBottom: `1px solid ${t.border}` }}>
         {['Today', 'News', 'Market Trend'].map(tab => (
           <button
             key={tab}
             onClick={() => { setActiveTab(tab); if (tab === 'Market Trend') navigate('/vote-market'); }}
-            className={`text-[15px] pb-3 px-1 ${activeTab === tab ? 'font-bold text-[#FFFFFF] border-b-[3px] border-[#2ECC71]' : 'font-medium text-[#8B8D93] hover:text-gray-300 transition-colors'}`}
+            className="text-[15px] pb-3 px-1"
+            style={{
+              fontWeight: activeTab === tab ? 700 : 500,
+              color: activeTab === tab ? t.text : t.textMuted,
+              borderBottom: activeTab === tab ? `3px solid ${t.green}` : 'none',
+            }}
           >
             {tab}
           </button>
@@ -291,22 +299,24 @@ export default function TodayFeedPage() {
           <button
             key={pill}
             onClick={() => setActiveFilter(pill)}
-            className={`px-5 py-[6px] rounded-full text-[14px] font-medium whitespace-nowrap transition-colors ${
-              activeFilter === pill
-                ? 'bg-transparent border border-[#2ECC71] text-[#2ECC71]'
-                : 'bg-[#121419] border border-[#23252A] text-[#E0E0E0]'
-            }`}
+            className="px-5 py-[6px] rounded-full text-[14px] font-medium whitespace-nowrap transition-colors"
+            style={{
+              backgroundColor: activeFilter === pill ? 'transparent' : t.bgTer,
+              border: `1px solid ${activeFilter === pill ? t.green : t.border3}`,
+              color: activeFilter === pill ? t.green : t.textTer,
+            }}
           >
             {pill}
           </button>
         ))}
         <button
           onClick={() => setActiveFilter('Near You')}
-          className={`px-4 py-[6px] rounded-full text-[14px] font-medium whitespace-nowrap flex items-center gap-1.5 transition-colors ${
-            activeFilter === 'Near You'
-              ? 'bg-transparent border border-[#2ECC71] text-[#2ECC71]'
-              : 'bg-[#121419] border border-[#23252A] text-[#E0E0E0]'
-          }`}
+          className="px-4 py-[6px] rounded-full text-[14px] font-medium whitespace-nowrap flex items-center gap-1.5 transition-colors"
+          style={{
+            backgroundColor: activeFilter === 'Near You' ? 'transparent' : t.bgTer,
+            border: `1px solid ${activeFilter === 'Near You' ? t.green : t.border3}`,
+            color: activeFilter === 'Near You' ? t.green : t.textTer,
+          }}
         >
           <MapPin className="w-[14px] h-[14px]" strokeWidth={2} />
           Near You
@@ -314,7 +324,7 @@ export default function TodayFeedPage() {
       </div>
 
       {activeTab === 'Today' && (
-        <div className="flex items-start gap-4 px-4 pb-4 border-b border-[#121419] overflow-x-auto">
+        <div className="flex items-start gap-4 px-4 pb-4 overflow-x-auto" style={{ borderBottom: `1px solid ${t.border}` }}>
           {stories.map((s, i) => (
             <div key={i} onClick={() => navigate(`/story?idx=${i}`)} className="flex flex-col items-center gap-1.5 min-w-[72px] cursor-pointer">
               <div className="relative">
@@ -325,19 +335,19 @@ export default function TodayFeedPage() {
                   s.ring === 'gradient-orange' ? 'bg-gradient-to-tr from-[#FFB300] to-[#FF1744] p-[2.5px]' :
                   'border-[2px] border-[#23252A]'
                 }`}>
-                  <div className={`w-full h-full rounded-full overflow-hidden ${s.ring !== 'green' && s.ring !== 'default' ? 'bg-[#040508] border-[2px] border-[#040508]' : ''}`}>
+                  <div className={`w-full h-full rounded-full overflow-hidden`} style={{ backgroundColor: s.ring !== 'green' && s.ring !== 'default' ? t.bg : undefined, borderColor: s.ring !== 'green' && s.ring !== 'default' ? t.bg : undefined, borderWidth: s.ring !== 'green' && s.ring !== 'default' ? 2 : undefined }}>
                     <img src={s.img} className="w-full h-full rounded-full object-cover" alt={s.name} />
                   </div>
                 </div>
                 {s.verified && (
-                  <div className="absolute bottom-0 right-0 border-[2px] border-[#040508] rounded-full bg-[#040508]">
-                    <VerifiedBadge className="w-[16px] h-[16px] text-[#2ECC71]" />
+                  <div className="absolute bottom-0 right-0 rounded-full" style={{ border: `2px solid ${t.bg}`, backgroundColor: t.bg }}>
+                    <VerifiedBadge className="w-[16px] h-[16px]" style={{ color: t.green }} />
                   </div>
                 )}
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-[11px] font-bold text-white text-center leading-tight">{s.name}</span>
-                <span className="text-[10px] text-[#8B8D93]">{s.followers}</span>
+                <span className="text-[11px] font-bold text-center leading-tight" style={{ color: t.text }}>{s.name}</span>
+                <span className="text-[10px]" style={{ color: t.textMuted }}>{s.followers}</span>
               </div>
             </div>
           ))}

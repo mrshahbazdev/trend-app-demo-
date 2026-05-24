@@ -1,11 +1,13 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, Image, BarChart3, MapPin, Smile, Hash, Camera, Film, Trash2 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 const emojiList = ['😀', '🔥', '🚀', '💎', '📈', '📉', '🐂', '🐻', '💰', '🎯', '💡', '👏'];
 
 export default function CreatePostPage() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [text, setText] = useState('');
   const [posted, setPosted] = useState(false);
   const [images, setImages] = useState<string[]>([]);
@@ -43,8 +45,8 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans antialiased flex flex-col">
-      <header className="sticky top-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
+    <div className="min-h-screen font-sans antialiased flex flex-col" style={{ backgroundColor: t.bg, color: t.text }}>
+      <header className="sticky top-0 w-full z-50 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between" style={{ backgroundColor: t.backdrop, borderBottom: `1px solid ${t.border}` }}>
         <button onClick={() => navigate(-1)} className="hover:text-gray-300 transition-colors">
           <X className="w-6 h-6 text-[#F3F4F6]" />
         </button>

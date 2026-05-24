@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Star, Bell, Share, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { markets } from '../data/mockData';
+import { useTheme } from '../context/ThemeContext';
 
 const timeframes = ['1H', '1D', '1W', '1M', '3M', '1Y'];
 
@@ -19,6 +20,7 @@ function MiniChart({ trend }: { trend: 'up' | 'down' }) {
 }
 
 export default function MarketDetailPage() {
+  const { t } = useTheme();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const ticker = searchParams.get('ticker') || 'BTC';
@@ -38,7 +40,7 @@ export default function MarketDetailPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#040508] text-white font-sans antialiased">
+    <div className="min-h-screen font-sans antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
       <header className="sticky top-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate(-1)}>
