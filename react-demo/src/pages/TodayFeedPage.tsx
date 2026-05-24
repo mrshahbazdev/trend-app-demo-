@@ -1,20 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, MapPin, MoreHorizontal, Heart, MessageCircle, Repeat, Share, Bookmark, Flag, VolumeX, Ban, EyeOff, Link, X } from 'lucide-react';
+import { Search, Bell, MapPin, MoreHorizontal, Heart, MessageCircle, Repeat, Share, Bookmark, Flag, VolumeX, Ban, EyeOff, Link, X, MessageSquare } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
 import { stories, feedPosts, newsPosts, marketTrendPosts, livePosts } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
-
-function SquarePenIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-      <path d="M18.375 2.625a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z" />
-    </svg>
-  );
-}
 
 interface PostData {
   id: number;
@@ -271,8 +262,8 @@ export default function TodayFeedPage() {
             <Bell className="w-[22px] h-[22px]" strokeWidth={2} style={{ color: t.textSec }} />
             <span className="absolute top-[-2px] right-[-2px] w-[9px] h-[9px] rounded-full" style={{ backgroundColor: t.red, border: `2px solid ${t.bg}` }}></span>
           </button>
-          <button onClick={() => navigate('/create-post')} className="w-[34px] h-[34px] rounded-full bg-[#00D1B2] flex items-center justify-center hover:bg-[#00B59A] transition-colors shadow-[0_0_15px_rgba(0,209,178,0.3)]">
-            <SquarePenIcon className="w-[18px] h-[18px] text-[#042F24]" />
+          <button onClick={() => navigate('/chats')} className="transition-colors">
+            <MessageSquare className="w-[22px] h-[22px]" strokeWidth={2} style={{ color: t.textSec }} />
           </button>
         </div>
       </header>

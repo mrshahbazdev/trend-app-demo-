@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BarChart3, User, MessageSquare } from 'lucide-react';
+import { BarChart3, User, Plus } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 function HomeNavIcon({ className }: { className?: string }) {
@@ -24,10 +24,10 @@ function LiveNavIcon({ className }: { className?: string }) {
   );
 }
 
-const tabs = [
+const tabs: Array<{ key: string; label: string; path: string; Icon: React.ComponentType<{ className?: string; strokeWidth?: number; style?: React.CSSProperties }>; isCreate?: boolean }> = [
   { key: 'home', label: 'Home', path: '/home', Icon: HomeNavIcon },
   { key: 'markets', label: 'Markets', path: '/markets', Icon: BarChart3 },
-  { key: 'chats', label: 'Chats', path: '/chats', Icon: MessageSquare },
+  { key: 'create', label: '', path: '/create-post', Icon: Plus, isCreate: true },
   { key: 'live', label: 'Live', path: '/live', Icon: LiveNavIcon },
   { key: 'profile', label: 'Profile', path: '/profile', Icon: User },
 ];
@@ -37,14 +37,27 @@ export default function BottomNav() {
   const location = useLocation();
   const { t } = useTheme();
 
-  const activeTab = tabs.find(t => location.pathname.startsWith(t.path))?.key ?? 'home';
+  const activeTab = tabs.find(tab => !tab.isCreate && location.pathname.startsWith(tab.path))?.key ?? 'home';
 
   return (
     <div
       className="fixed bottom-0 left-0 w-full h-[88px] backdrop-blur-xl flex justify-between items-start px-[18px] pt-3 pb-6 z-50"
       style={{ backgroundColor: t.navBg, borderTop: `1px solid ${t.border}` }}
     >
-      {tabs.map(({ key, label, path, Icon }) => {
+      {tabs.map(({ key, label, path, Icon, isCreate }) => {
+        if (isCreate) {
+          return (
+            <button
+              key={key}
+              onClick={() => navigate(path)}
+              className="flex flex-col items-center gap-1 min-w-[56px] -mt-4"
+            >
+              <div className="w-[46px] h-[46px] rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: t.green, boxShadow: `0 0 18px ${t.green}40` }}>
+                <Icon className="w-[26px] h-[26px]" strokeWidth={2.5} style={{ color: '#fff' }} />
+              </div>
+            </button>
+          );
+        }
         const active = activeTab === key;
         return (
           <button

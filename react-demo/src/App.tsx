@@ -23,6 +23,8 @@ import PodcastsPage from './pages/PodcastsPage';
 import GoLivePage from './pages/GoLivePage';
 import DiscoverPage from './pages/DiscoverPage';
 import OAuthLoginPage from './pages/OAuthLoginPage';
+import PodcastLivePage from './pages/PodcastLivePage';
+import AudioLivePage from './pages/AudioLivePage';
 import { useTheme } from './context/ThemeContext';
 
 export default function App() {
@@ -55,6 +57,8 @@ export default function App() {
           <Route path="/discover" element={<DiscoverPage />} />
           <Route path="/auth/:provider" element={<OAuthLoginPage />} />
           <Route path="/podcasts" element={<PodcastsPage />} />
+          <Route path="/podcast-live" element={<PodcastLivePage />} />
+          <Route path="/audio-live" element={<AudioLivePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

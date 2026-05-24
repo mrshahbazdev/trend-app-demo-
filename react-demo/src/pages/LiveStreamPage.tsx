@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, Maximize, Volume2, Flame, Star, ThumbsUp, Smile, Send, Eye, MoreHorizontal, HelpCircle, Sparkles, Gift, DollarSign } from 'lucide-react';
+import { Search, Bell, Maximize, Volume2, Flame, Star, ThumbsUp, Smile, Send, Eye, MoreHorizontal, HelpCircle, Sparkles, Gift, DollarSign, Headphones } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
@@ -383,6 +383,35 @@ export default function LiveStreamPage() {
           </div>
         </div>
       )}
+
+      {/* Live Sub-categories */}
+      <div className="px-4 py-4">
+        <span className="text-[15px] font-bold block mb-3" style={{ color: t.text }}>More Live</span>
+        <div className="flex gap-3">
+          <button onClick={() => navigate('/podcast-live')} className="flex-1 rounded-[14px] p-4 flex flex-col items-center gap-2" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+            <div className="w-[48px] h-[48px] rounded-full flex items-center justify-center" style={{ backgroundColor: `${t.purple}20` }}>
+              <Headphones className="w-6 h-6" style={{ color: t.purple }} />
+            </div>
+            <span className="text-[13px] font-bold" style={{ color: t.text }}>Podcast</span>
+            <span className="text-[11px] text-center" style={{ color: t.textMuted }}>2-4 speakers live</span>
+            <div className="flex items-center gap-1 mt-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-[10px] font-semibold text-red-500">3 Live Now</span>
+            </div>
+          </button>
+          <button onClick={() => navigate('/audio-live')} className="flex-1 rounded-[14px] p-4 flex flex-col items-center gap-2" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+            <div className="w-[48px] h-[48px] rounded-full flex items-center justify-center" style={{ backgroundColor: `${t.green}20` }}>
+              <Volume2 className="w-6 h-6" style={{ color: t.green }} />
+            </div>
+            <span className="text-[13px] font-bold" style={{ color: t.text }}>Audio Live</span>
+            <span className="text-[11px] text-center" style={{ color: t.textMuted }}>Solo audio stream</span>
+            <div className="flex items-center gap-1 mt-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-[10px] font-semibold text-red-500">5 Live Now</span>
+            </div>
+          </button>
+        </div>
+      </div>
 
       {/* Go Live Button */}
       <div className="fixed bottom-[100px] right-4 z-30">
