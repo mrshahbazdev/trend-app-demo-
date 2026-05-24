@@ -167,6 +167,51 @@ export const marketTrendPosts = [
   },
 ];
 
+export const livePosts = [
+  {
+    id: 301,
+    user: "Jason Lin",
+    handle: "@jasonlin",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop",
+    verified: true,
+    badge: "Live" as const,
+    time: "LIVE",
+    content: "🔴 LIVE NOW: Morning Market Briefing — Breaking down pre-market movers, Fed expectations, and your top questions. Join the stream!",
+    image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800&auto=format&fit=crop",
+    likes: 342,
+    comments: 128,
+    reposts: 87,
+  },
+  {
+    id: 302,
+    user: "Crypto Queen",
+    handle: "@cryptoqueen",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+    verified: true,
+    badge: "Live" as const,
+    time: "LIVE",
+    content: "🔴 Going LIVE in the DeFi Lab — Yield farming strategies for the current market. Bring your questions!",
+    image: null,
+    likes: 198,
+    comments: 76,
+    reposts: 45,
+  },
+  {
+    id: 303,
+    user: "Market Pulse",
+    handle: "@marketpulse",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
+    verified: true,
+    badge: "Live" as const,
+    time: "2h ago",
+    content: "Replay: S&P 500 Technical Analysis Live Session — We called the breakout at 5,250. Watch the full replay for chart setups.",
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop",
+    likes: 456,
+    comments: 92,
+    reposts: 134,
+  },
+];
+
 export const notifications = [
   { id: 1, type: "like" as const, user: "Alex Morgan", text: "liked your post", time: "2m", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" },
   { id: 2, type: "follow" as const, user: "Jason Lin", text: "started following you", time: "15m", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" },

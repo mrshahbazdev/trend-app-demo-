@@ -1,19 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, Maximize, Volume2, Flame, Star, ThumbsUp, Plus, Smile, Send, Eye, MoreHorizontal, HelpCircle, Sparkles } from 'lucide-react';
+import { Search, Bell, Maximize, Volume2, Flame, Star, ThumbsUp, Smile, Send, Eye, MoreHorizontal, HelpCircle, Sparkles, Gift, DollarSign } from 'lucide-react';
 import NewLogo from '../components/NewLogo';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
 import { useTheme } from '../context/ThemeContext';
-
-function SquarePenIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-      <path d="M18.375 2.625a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z" />
-    </svg>
-  );
-}
 
 interface ChatMsg {
   user: string;
@@ -57,6 +48,15 @@ const reactionEmojis = [
   { emoji: "💰", count: 89, label: "Money" },
 ];
 
+const giftItems = [
+  { emoji: "🌟", name: "Star", coins: 10 },
+  { emoji: "💎", name: "Diamond", coins: 50 },
+  { emoji: "🏆", name: "Trophy", coins: 100 },
+  { emoji: "🚀", name: "Rocket", coins: 200 },
+  { emoji: "👑", name: "Crown", coins: 500 },
+  { emoji: "🔥", name: "Fire", coins: 20 },
+];
+
 export default function LiveStreamPage() {
   const navigate = useNavigate();
   const { t } = useTheme();
@@ -68,6 +68,8 @@ export default function LiveStreamPage() {
   const [qaUpvoted, setQaUpvoted] = useState<Set<number>>(new Set());
   const [reactions, setReactions] = useState(reactionEmojis);
   const [muted, setMuted] = useState(false);
+  const [showGifting, setShowGifting] = useState(false);
+  const [giftSent, setGiftSent] = useState('');
 
   const sendChat = () => {
     if (!chatInput.trim()) return;
@@ -84,270 +86,313 @@ export default function LiveStreamPage() {
   };
 
   const toggleLike = (i: number) => {
-    setLikedMsgs(prev => {
-      const next = new Set(prev);
-      if (next.has(i)) next.delete(i); else next.add(i);
-      return next;
-    });
+    setLikedMsgs(prev => { const next = new Set(prev); next.has(i) ? next.delete(i) : next.add(i); return next; });
   };
-
   const toggleFire = (i: number) => {
-    setFiredMsgs(prev => {
-      const next = new Set(prev);
-      if (next.has(i)) next.delete(i); else next.add(i);
-      return next;
-    });
+    setFiredMsgs(prev => { const next = new Set(prev); next.has(i) ? next.delete(i) : next.add(i); return next; });
   };
-
   const toggleQaUpvote = (i: number) => {
-    setQaUpvoted(prev => {
-      const next = new Set(prev);
-      if (next.has(i)) next.delete(i); else next.add(i);
-      return next;
-    });
+    setQaUpvoted(prev => { const next = new Set(prev); next.has(i) ? next.delete(i) : next.add(i); return next; });
   };
-
   const addReaction = (idx: number) => {
     setReactions(prev => prev.map((r, i) => i === idx ? { ...r, count: r.count + 1 } : r));
   };
+  const sendGift = (gift: typeof giftItems[0]) => {
+    setGiftSent(`${gift.emoji} ${gift.name} sent!`);
+    setShowGifting(false);
+    setTimeout(() => setGiftSent(''), 2000);
+  };
+
+  const tabs = ['Live Chat', 'Q&A', 'Highlights', 'Reactions'];
 
   return (
-    <div className="min-h-screen font-sans relative pb-[200px] antialiased" style={{ backgroundColor: t.bg, color: t.text }}>
-      <header className="sticky top-0 left-0 w-full z-50 bg-[#040508]/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between border-b border-[#121419]">
+    <div className="min-h-screen font-sans relative pb-[88px] antialiased flex flex-col" style={{ backgroundColor: t.bg, color: t.text }}>
+      {/* Header */}
+      <header className="sticky top-0 left-0 w-full z-50 backdrop-blur-md pt-4 pb-3 px-4 flex items-center justify-between" style={{ backgroundColor: t.backdrop, borderBottom: `1px solid ${t.border}` }}>
         <div className="flex items-center gap-2.5">
           <NewLogo className="w-[38px] h-[38px]" />
-          <h1 className="text-[23px] font-bold tracking-tight text-[#FFFFFF]">TrendUpLive</h1>
+          <h1 className="text-[23px] font-bold tracking-tight" style={{ color: t.text }}>TrendUpLive</h1>
         </div>
         <div className="flex items-center gap-3.5">
-          <button onClick={() => navigate('/search')}><Search className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} /></button>
-          <button onClick={() => navigate('/notifications')} className="relative"><Bell className="w-[24px] h-[24px] text-[#F3F4F6]" strokeWidth={2.5} /><span className="absolute top-[-2px] right-[-2px] w-[10px] h-[10px] bg-[#FF3B30] rounded-full border-[2px] border-[#040508]"></span></button>
-          <button onClick={() => navigate('/create-post')} className="w-[36px] h-[36px] rounded-full bg-[#00D1B2] flex items-center justify-center hover:bg-[#00B59A] transition-colors shadow-[0_0_15px_rgba(0,209,178,0.3)]">
-            <SquarePenIcon className="w-[18px] h-[18px] text-[#042F24]" />
-          </button>
+          <button onClick={() => navigate('/search')}><Search className="w-[24px] h-[24px]" strokeWidth={2.5} style={{ color: t.textSec }} /></button>
+          <button onClick={() => navigate('/notifications')} className="relative"><Bell className="w-[24px] h-[24px]" strokeWidth={2.5} style={{ color: t.textSec }} /><span className="absolute top-[-2px] right-[-2px] w-[9px] h-[9px] rounded-full" style={{ backgroundColor: t.red, border: `2px solid ${t.bg}` }}></span></button>
         </div>
       </header>
 
-      <div className="relative w-full aspect-[4/3] bg-[#0A0D12]">
+      {/* Video Section - Compact */}
+      <div className="relative w-full" style={{ height: '200px' }}>
         <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1000&auto=format&fit=crop" alt="Live Stream" className="w-full h-full object-cover" />
-        <div className="absolute top-3 left-3 flex items-center gap-2">
-          <div className="bg-[#E63946] text-white text-[12px] font-bold px-2.5 py-1 rounded-[6px] flex items-center gap-1.5 shadow-md tracking-wide">
-            <div className="w-[6px] h-[6px] bg-white rounded-full animate-pulse"></div>LIVE
+        <div className="absolute top-2 left-2 flex items-center gap-2">
+          <div className="bg-[#E63946] text-white text-[11px] font-bold px-2 py-0.5 rounded-[5px] flex items-center gap-1 shadow-md">
+            <div className="w-[5px] h-[5px] bg-white rounded-full animate-pulse"></div>LIVE
           </div>
-          <div className="bg-[#000000]/60 backdrop-blur-sm text-white text-[12px] font-semibold px-2.5 py-1 rounded-[6px] flex items-center gap-1.5">
-            <Eye className="w-4 h-4" strokeWidth={2.5} />1.2K
+          <div className="bg-black/60 backdrop-blur-sm text-white text-[11px] font-semibold px-2 py-0.5 rounded-[5px] flex items-center gap-1">
+            <Eye className="w-3.5 h-3.5" />1.2K
           </div>
         </div>
-        <div className="absolute top-3 right-3 flex items-center gap-2">
-          <button onClick={() => setMuted(!muted)} className="w-9 h-9 rounded-full bg-[#000000]/60 backdrop-blur-sm flex items-center justify-center">
-            <Volume2 className={`w-[18px] h-[18px] ${muted ? 'text-[#FF3B30]' : 'text-white'}`} strokeWidth={2} />
+        <div className="absolute top-2 right-2 flex items-center gap-1.5">
+          <button onClick={() => setMuted(!muted)} className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center">
+            <Volume2 className={`w-4 h-4 ${muted ? 'text-[#FF3B30]' : 'text-white'}`} />
           </button>
-          <button className="w-9 h-9 rounded-full bg-[#000000]/60 backdrop-blur-sm flex items-center justify-center">
-            <Maximize className="w-[16px] h-[16px] text-white" strokeWidth={2} />
+          <button className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center">
+            <Maximize className="w-4 h-4 text-white" />
           </button>
         </div>
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#040508] via-[#040508]/90 to-transparent pt-14 pb-4 px-4">
-          <h2 className="text-[28px] font-extrabold text-white leading-tight mb-1.5 tracking-tight">Morning Market<br/>Briefing</h2>
-          <p className="text-[#D1D5DB] text-[15px] font-medium mb-4">Daily insights. Global impact.</p>
+        {/* Gifting button on right */}
+        <button
+          onClick={() => setShowGifting(true)}
+          className="absolute bottom-2 right-2 w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+          style={{ backgroundColor: '#FFB300', border: '2px solid rgba(255,255,255,0.3)' }}
+        >
+          <Gift className="w-5 h-5 text-white" />
+        </button>
+        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent pt-10 pb-2 px-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" className="w-[38px] h-[38px] rounded-full object-cover border border-[#23252A]" alt="Jason" />
-              <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" className="w-[30px] h-[30px] rounded-full object-cover border border-white/20" alt="Jason" />
+              <div>
                 <div className="flex items-center gap-1">
-                  <span className="font-bold text-[15px] text-white">Jason Lin</span>
-                  <VerifiedBadge className="w-4 h-4 text-[#2ECC71]" />
+                  <span className="font-bold text-[13px] text-white">Jason Lin</span>
+                  <VerifiedBadge className="w-3.5 h-3.5 text-[#2ECC71]" />
                 </div>
-                <span className="text-[#A0A2A8] text-[13px] font-medium">Tech & Markets Analyst</span>
+                <span className="text-white/60 text-[11px]">Morning Market Briefing</span>
               </div>
             </div>
-            <div className="flex items-center gap-1.5 text-[#2ECC71] text-[12px] font-bold tracking-widest mr-2">
-              <div className="w-[8px] h-[8px] bg-[#2ECC71] rounded-full"></div>LIVE
+            <div className="flex items-center gap-1 text-[#2ECC71] text-[11px] font-bold">
+              <div className="w-[6px] h-[6px] bg-[#2ECC71] rounded-full animate-pulse"></div>LIVE
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-between px-5 pt-3 pb-0 border-b border-[#1A1C22]">
-        {['Live Chat', 'Q&A', 'Highlights', 'Reactions'].map(tab => (
+      {/* Tabs - properly spaced */}
+      <div className="flex items-center px-2 pt-2" style={{ borderBottom: `1px solid ${t.border}` }}>
+        {tabs.map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`text-[15.5px] pb-2.5 flex items-center gap-1.5 ${activeTab === tab ? 'font-bold text-[#FFFFFF] border-b-[3px] border-[#2ECC71]' : 'font-semibold text-[#A0A2A8] hover:text-white transition-colors'}`}
+            className="flex-1 text-center text-[13px] pb-2 flex items-center justify-center gap-1"
+            style={{
+              fontWeight: activeTab === tab ? 700 : 600,
+              color: activeTab === tab ? t.text : t.textMuted,
+              borderBottom: activeTab === tab ? `3px solid ${t.green}` : '3px solid transparent',
+            }}
           >
             {tab}
-            {tab === 'Q&A' && <span className="bg-[#1A1C22] text-[#E0E0E0] text-[11px] font-bold px-1.5 py-0.5 rounded">{qaList.length}</span>}
-            {tab === 'Reactions' && (
-              <>
-                <Flame className="w-4 h-4 text-[#FF9800] fill-[#FF9800]" />
-                <span className="text-[#E0E0E0] text-[13px] font-bold ml-0.5">{reactions.reduce((a, r) => a + r.count, 0)}</span>
-              </>
-            )}
+            {tab === 'Q&A' && <span className="text-[10px] font-bold px-1 py-0.5 rounded" style={{ backgroundColor: t.bgTer, color: t.textMuted }}>{qaList.length}</span>}
+            {tab === 'Reactions' && <Flame className="w-3 h-3" style={{ color: '#FF9800', fill: '#FF9800' }} />}
           </button>
         ))}
       </div>
 
-      {activeTab === 'Live Chat' && (
-        <div className="p-3 flex flex-col gap-3.5">
-          <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[14px] p-3.5 relative">
-            <div className="flex items-center gap-1.5 text-[#A0A2A8] text-[12px] font-bold tracking-wide mb-2.5">
-              <Star className="w-4 h-4 fill-[#A0A2A8]" />Pinned by Host
-            </div>
-            <div className="flex justify-between items-start mb-2">
-              <div className="flex gap-2.5">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" className="w-[32px] h-[32px] rounded-full object-cover" alt="Jason" />
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1">
-                    <span className="font-bold text-[14.5px] text-[#F3F4F6]">Jason Lin</span>
-                    <VerifiedBadge className="w-4 h-4 text-[#2ECC71]" />
-                    <span className="text-[#A0A2A8] text-[12px] font-medium ml-0.5">Host</span>
-                  </div>
-                  <span className="text-[#8B8D93] text-[12px] font-medium mt-[-1px]">2m ago</span>
-                </div>
+      {/* Tab Content - Scrollable area */}
+      <div className="flex-1 overflow-y-auto" style={{ maxHeight: activeTab === 'Live Chat' ? 'calc(100vh - 200px - 56px - 44px - 88px - 56px)' : 'calc(100vh - 200px - 56px - 44px - 88px)' }}>
+        {activeTab === 'Live Chat' && (
+          <div className="p-3 flex flex-col gap-3">
+            {/* Pinned message */}
+            <div className="rounded-[12px] p-3 relative" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+              <div className="flex items-center gap-1.5 text-[11px] font-bold tracking-wide mb-2" style={{ color: t.textMuted }}>
+                <Star className="w-3.5 h-3.5" style={{ fill: t.textMuted }} />Pinned by Host
               </div>
-              <MoreHorizontal className="w-5 h-5 text-[#A0A2A8]" />
-            </div>
-            <p className="text-[#E5E7EB] text-[14.5px] leading-[1.45] font-medium">
-              Good morning everyone! Markets are reacting to inflation data and rate cut expectations. What are you watching most closely today?
-            </p>
-          </div>
-
-          {chatMessages.map((msg, i) => (
-            <div key={i} className="flex gap-3 pl-1">
-              <div className="relative shrink-0">
-                <img src={msg.avatar} className="w-[34px] h-[34px] rounded-full object-cover" alt={msg.user} />
-                {msg.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#2ECC71] border-[2px] border-[#040508] rounded-full"></div>}
-              </div>
-              <div className="flex flex-col flex-1">
-                <div className="flex items-baseline gap-2 mb-0.5">
-                  <span className="font-bold text-[14.5px] text-[#F3F4F6]">{msg.user}</span>
-                  <span className="text-[#8B8D93] text-[12px] font-medium">{msg.time}</span>
-                </div>
-                <p className="text-[#D1D5DB] text-[15px] leading-snug mb-2 font-medium">{msg.text}</p>
+              <div className="flex justify-between items-start mb-1.5">
                 <div className="flex gap-2">
-                  <button onClick={() => toggleLike(i)} className={`bg-[#121419] rounded-full px-2.5 py-1 flex items-center gap-1.5 border ${likedMsgs.has(i) ? 'border-[#2ECC71]' : 'border-[#1A1C22]'}`}>
-                    <ThumbsUp className={`w-3.5 h-3.5 ${likedMsgs.has(i) ? 'text-[#2ECC71] fill-[#2ECC71]' : 'text-[#8B8D93]'}`} />
-                    <span className="text-[12px] font-bold text-[#D1D5DB]">{msg.likes + (likedMsgs.has(i) ? 1 : 0)}</span>
-                  </button>
-                  <button onClick={() => toggleFire(i)} className={`bg-[#121419] rounded-full px-2.5 py-1 flex items-center gap-1.5 border ${firedMsgs.has(i) ? 'border-[#FF9800]' : 'border-[#1A1C22]'}`}>
-                    <Flame className={`w-3.5 h-3.5 ${firedMsgs.has(i) ? 'text-[#FF9800] fill-[#FF9800]' : 'text-[#8B8D93]'}`} />
-                    <span className="text-[12px] font-bold text-[#D1D5DB]">{msg.fires + (firedMsgs.has(i) ? 1 : 0)}</span>
-                  </button>
-                  <div className="bg-[#121419] rounded-full w-[26px] h-[26px] flex items-center justify-center border border-[#1A1C22]">
-                    <Plus className="w-4 h-4 text-[#A0A2A8]" />
+                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" className="w-[28px] h-[28px] rounded-full object-cover" alt="Jason" />
+                  <div>
+                    <div className="flex items-center gap-1">
+                      <span className="font-bold text-[13px]" style={{ color: t.text }}>Jason Lin</span>
+                      <VerifiedBadge className="w-3.5 h-3.5" style={{ color: t.green }} />
+                      <span className="text-[11px] font-medium ml-0.5" style={{ color: t.textMuted }}>Host</span>
+                    </div>
+                  </div>
+                </div>
+                <MoreHorizontal className="w-4 h-4" style={{ color: t.textMuted }} />
+              </div>
+              <p className="text-[13px] leading-[1.4] font-medium" style={{ color: t.textSec }}>
+                Good morning! Markets reacting to inflation data and rate cut expectations. What are you watching today?
+              </p>
+            </div>
+
+            {/* Chat messages */}
+            {chatMessages.map((msg, i) => (
+              <div key={i} className="flex gap-2.5 pl-1">
+                <div className="relative shrink-0">
+                  <img src={msg.avatar} className="w-[30px] h-[30px] rounded-full object-cover" alt={msg.user} />
+                  {msg.online && <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full" style={{ backgroundColor: t.green, border: `2px solid ${t.bg}` }}></div>}
+                </div>
+                <div className="flex flex-col flex-1">
+                  <div className="flex items-baseline gap-1.5 mb-0.5">
+                    <span className="font-bold text-[13px]" style={{ color: t.text }}>{msg.user}</span>
+                    <span className="text-[11px]" style={{ color: t.textDim }}>{msg.time}</span>
+                  </div>
+                  <p className="text-[13px] leading-snug mb-1.5" style={{ color: t.textSec }}>{msg.text}</p>
+                  <div className="flex gap-1.5">
+                    <button onClick={() => toggleLike(i)} className="rounded-full px-2 py-0.5 flex items-center gap-1" style={{ backgroundColor: t.bgTer, border: `1px solid ${likedMsgs.has(i) ? t.green : t.border2}` }}>
+                      <ThumbsUp className="w-3 h-3" style={{ color: likedMsgs.has(i) ? t.green : t.textMuted, fill: likedMsgs.has(i) ? t.green : 'none' }} />
+                      <span className="text-[11px] font-bold" style={{ color: t.textSec }}>{msg.likes + (likedMsgs.has(i) ? 1 : 0)}</span>
+                    </button>
+                    <button onClick={() => toggleFire(i)} className="rounded-full px-2 py-0.5 flex items-center gap-1" style={{ backgroundColor: t.bgTer, border: `1px solid ${firedMsgs.has(i) ? '#FF9800' : t.border2}` }}>
+                      <Flame className="w-3 h-3" style={{ color: firedMsgs.has(i) ? '#FF9800' : t.textMuted, fill: firedMsgs.has(i) ? '#FF9800' : 'none' }} />
+                      <span className="text-[11px] font-bold" style={{ color: t.textSec }}>{msg.fires + (firedMsgs.has(i) ? 1 : 0)}</span>
+                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {activeTab === 'Q&A' && (
-        <div className="p-3 flex flex-col gap-3">
-          {qaList.map((qa, i) => (
-            <div key={i} className="bg-[#0A0D12] border border-[#1C1E23] rounded-[14px] p-4">
-              <div className="flex gap-3 mb-3">
-                <img src={qa.avatar} className="w-[32px] h-[32px] rounded-full object-cover" alt={qa.user} />
-                <div className="flex-1">
-                  <div className="flex items-center gap-1 mb-1">
-                    <HelpCircle className="w-4 h-4 text-[#4A9EFF]" />
-                    <span className="font-bold text-[14px] text-[#F3F4F6]">{qa.user}</span>
-                  </div>
-                  <p className="text-[#E5E7EB] text-[14.5px] leading-relaxed">{qa.question}</p>
-                </div>
-              </div>
-              {qa.answered && (
-                <div className="bg-[#0D1117] border border-[#1C1E23] rounded-[10px] p-3 ml-10 mb-3">
-                  <div className="flex items-center gap-1 mb-1">
-                    <VerifiedBadge className="w-4 h-4 text-[#2ECC71]" />
-                    <span className="text-[13px] font-bold text-[#2ECC71]">Jason Lin (Host)</span>
-                  </div>
-                  <p className="text-[#D1D5DB] text-[13px] leading-relaxed">{qa.answer}</p>
-                </div>
-              )}
-              <div className="flex items-center justify-between ml-10">
-                <button
-                  onClick={() => toggleQaUpvote(i)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-bold transition-colors ${
-                    qaUpvoted.has(i) ? 'bg-[#2ECC71]/20 text-[#2ECC71] border border-[#2ECC71]/30' : 'bg-[#121419] text-[#8B8D93] border border-[#1C1E23]'
-                  }`}
-                >
-                  <ThumbsUp className="w-3.5 h-3.5" />
-                  {qa.upvotes + (qaUpvoted.has(i) ? 1 : 0)}
-                </button>
-                {!qa.answered && <span className="text-[#FF9800] text-[12px] font-bold">Awaiting answer</span>}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {activeTab === 'Highlights' && (
-        <div className="p-3 flex flex-col gap-3">
-          {highlights.map((h, i) => (
-            <div key={i} className="bg-[#0A0D12] border border-[#1C1E23] rounded-[14px] p-4 flex gap-4 cursor-pointer hover:border-[#2A2D35] transition-colors">
-              <div className="w-[60px] h-[60px] rounded-[10px] bg-[#121419] border border-[#1C1E23] flex items-center justify-center shrink-0">
-                <Sparkles className="w-6 h-6 text-[#F1D683]" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[#2ECC71] text-[12px] font-bold bg-[#2ECC71]/10 px-2 py-0.5 rounded">{h.time}</span>
-                </div>
-                <h3 className="font-bold text-[15px] text-[#F3F4F6] mb-1">{h.title}</h3>
-                <p className="text-[#8B8D93] text-[13px] leading-relaxed">{h.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {activeTab === 'Reactions' && (
-        <div className="p-4">
-          <p className="text-[#A0A2A8] text-[13px] font-medium text-center mb-4">Tap to react! Your reactions are live.</p>
-          <div className="grid grid-cols-4 gap-3">
-            {reactions.map((r, i) => (
-              <button
-                key={i}
-                onClick={() => addReaction(i)}
-                className="bg-[#0A0D12] border border-[#1C1E23] rounded-[16px] p-4 flex flex-col items-center gap-2 hover:border-[#2ECC71] transition-all active:scale-95"
-              >
-                <span className="text-[32px]">{r.emoji}</span>
-                <span className="text-[#F3F4F6] text-[14px] font-bold">{r.count}</span>
-                <span className="text-[#8B8D93] text-[11px]">{r.label}</span>
-              </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
 
+        {activeTab === 'Q&A' && (
+          <div className="p-3 flex flex-col gap-2.5">
+            {qaList.map((qa, i) => (
+              <div key={i} className="rounded-[12px] p-3" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+                <div className="flex gap-2.5 mb-2">
+                  <img src={qa.avatar} className="w-[28px] h-[28px] rounded-full object-cover" alt={qa.user} />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-1 mb-1">
+                      <HelpCircle className="w-3.5 h-3.5" style={{ color: t.blue }} />
+                      <span className="font-bold text-[13px]" style={{ color: t.text }}>{qa.user}</span>
+                    </div>
+                    <p className="text-[13px] leading-relaxed" style={{ color: t.textSec }}>{qa.question}</p>
+                  </div>
+                </div>
+                {qa.answered && (
+                  <div className="rounded-[8px] p-2.5 ml-9 mb-2" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}` }}>
+                    <div className="flex items-center gap-1 mb-1">
+                      <VerifiedBadge className="w-3.5 h-3.5" style={{ color: t.green }} />
+                      <span className="text-[12px] font-bold" style={{ color: t.green }}>Jason Lin (Host)</span>
+                    </div>
+                    <p className="text-[12px] leading-relaxed" style={{ color: t.textSec }}>{qa.answer}</p>
+                  </div>
+                )}
+                <div className="flex items-center justify-between ml-9">
+                  <button
+                    onClick={() => toggleQaUpvote(i)}
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold transition-colors"
+                    style={{
+                      backgroundColor: qaUpvoted.has(i) ? `${t.green}20` : t.bgTer,
+                      color: qaUpvoted.has(i) ? t.green : t.textMuted,
+                      border: `1px solid ${qaUpvoted.has(i) ? `${t.green}40` : t.border2}`,
+                    }}
+                  >
+                    <ThumbsUp className="w-3 h-3" />{qa.upvotes + (qaUpvoted.has(i) ? 1 : 0)}
+                  </button>
+                  {!qa.answered && <span className="text-[11px] font-bold" style={{ color: '#FF9800' }}>Awaiting answer</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Highlights' && (
+          <div className="p-3 flex flex-col gap-2.5">
+            {highlights.map((h, i) => (
+              <div key={i} className="rounded-[12px] p-3 flex gap-3 cursor-pointer transition-colors" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+                <div className="w-[50px] h-[50px] rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}` }}>
+                  <Sparkles className="w-5 h-5 text-[#F1D683]" />
+                </div>
+                <div className="flex-1">
+                  <span className="text-[11px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: `${t.green}15`, color: t.green }}>{h.time}</span>
+                  <h3 className="font-bold text-[14px] mt-1" style={{ color: t.text }}>{h.title}</h3>
+                  <p className="text-[12px] leading-relaxed" style={{ color: t.textMuted }}>{h.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Reactions' && (
+          <div className="p-3">
+            <p className="text-[12px] font-medium text-center mb-3" style={{ color: t.textMuted }}>Tap to react! Your reactions are live.</p>
+            <div className="grid grid-cols-4 gap-2">
+              {reactions.map((r, i) => (
+                <button
+                  key={i}
+                  onClick={() => addReaction(i)}
+                  className="rounded-[12px] p-3 flex flex-col items-center gap-1.5 transition-all active:scale-95"
+                  style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}
+                >
+                  <span className="text-[26px]">{r.emoji}</span>
+                  <span className="text-[13px] font-bold" style={{ color: t.text }}>{r.count}</span>
+                  <span className="text-[10px]" style={{ color: t.textMuted }}>{r.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Chat Input - fixed at bottom above nav */}
       {activeTab === 'Live Chat' && (
-        <div className="fixed bottom-[88px] left-0 w-full p-3 bg-[#040508] border-t border-[#121419] z-40">
-          <div className="flex items-center gap-3 max-w-[430px] mx-auto">
-            <div className="flex-1 bg-[#121419] rounded-[24px] flex items-center px-4 py-3 border border-[#1C1E23] focus-within:border-[#2ECC71] transition-colors">
+        <div className="fixed bottom-[88px] left-0 w-full p-2 z-40" style={{ backgroundColor: t.bg, borderTop: `1px solid ${t.border}` }}>
+          <div className="flex items-center gap-2 max-w-[430px] mx-auto">
+            <div className="flex-1 rounded-full flex items-center px-3 py-2 transition-colors" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
               <input
                 value={chatInput}
                 onChange={e => setChatInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && sendChat()}
                 placeholder="Say something..."
-                className="bg-transparent flex-1 outline-none text-[14px] placeholder:text-[#8B8D93] text-white"
+                className="bg-transparent flex-1 outline-none text-[13px]"
+                style={{ color: t.text }}
               />
-              <Smile className="w-5 h-5 text-[#A0A2A8] ml-2" />
+              <Smile className="w-4 h-4 ml-1.5" style={{ color: t.textMuted }} />
             </div>
-            <button onClick={sendChat} className="bg-[#2ECC71] p-3 rounded-full shadow-[0_0_15px_rgba(46,204,113,0.3)]">
-              <Send className="w-5 h-5 text-[#040508]" />
+            <button onClick={() => setShowGifting(true)} className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB300' }}>
+              <Gift className="w-4 h-4 text-white" />
+            </button>
+            <button onClick={sendChat} className="w-9 h-9 rounded-full flex items-center justify-center shadow-md" style={{ backgroundColor: t.green }}>
+              <Send className="w-4 h-4" style={{ color: t.bg }} />
             </button>
           </div>
         </div>
       )}
 
+      {/* Gift Toast */}
+      {giftSent && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[60] text-[14px] font-bold px-5 py-2.5 rounded-full shadow-lg animate-bounce" style={{ backgroundColor: '#FFB300', color: '#040508' }}>
+          {giftSent}
+        </div>
+      )}
+
+      {/* Gifting Modal */}
+      {showGifting && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ backgroundColor: t.overlay }}>
+          <div className="rounded-t-[20px] w-full max-w-[430px] p-4" style={{ backgroundColor: t.bgSec, borderTop: `1px solid ${t.border2}` }} onClick={e => e.stopPropagation()}>
+            <div className="w-10 h-1 rounded-full mx-auto mb-3" style={{ backgroundColor: t.border3 }} />
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-[16px] font-bold flex items-center gap-2" style={{ color: t.text }}><Gift className="w-5 h-5 text-[#FFB300]" />Send a Gift</h3>
+              <button onClick={() => setShowGifting(false)} className="text-[13px] font-bold" style={{ color: t.textMuted }}>Close</button>
+            </div>
+            <div className="flex items-center gap-2 mb-3 px-1">
+              <DollarSign className="w-4 h-4" style={{ color: t.gold }} />
+              <span className="text-[13px] font-bold" style={{ color: t.gold }}>Balance: 1,250 coins</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {giftItems.map((gift, i) => (
+                <button
+                  key={i}
+                  onClick={() => sendGift(gift)}
+                  className="rounded-[12px] p-3 flex flex-col items-center gap-1 transition-all active:scale-95"
+                  style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}` }}
+                >
+                  <span className="text-[28px]">{gift.emoji}</span>
+                  <span className="text-[12px] font-bold" style={{ color: t.text }}>{gift.name}</span>
+                  <span className="text-[10px] font-medium flex items-center gap-0.5" style={{ color: t.gold }}><DollarSign className="w-3 h-3" />{gift.coins}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Go Live Button */}
-      <div className="fixed bottom-[100px] right-4 z-40">
+      <div className="fixed bottom-[100px] right-4 z-30">
         <button
           onClick={() => navigate('/go-live')}
-          className="w-14 h-14 rounded-full bg-[#E63946] flex items-center justify-center shadow-[0_0_20px_rgba(230,57,70,0.4)] hover:bg-[#d32836] transition-all"
+          className="w-12 h-12 rounded-full bg-[#E63946] flex items-center justify-center shadow-[0_0_15px_rgba(230,57,70,0.4)] hover:bg-[#d32836] transition-all"
         >
           <div className="flex flex-col items-center">
-            <div className="w-3 h-3 bg-white rounded-full mb-0.5 animate-pulse" />
-            <span className="text-[8px] text-white font-bold">LIVE</span>
+            <div className="w-2.5 h-2.5 bg-white rounded-full mb-0.5 animate-pulse" />
+            <span className="text-[7px] text-white font-bold">LIVE</span>
           </div>
         </button>
       </div>

@@ -4,7 +4,7 @@ import { Search, Bell, MapPin, MoreHorizontal, Heart, MessageCircle, Repeat, Sha
 import NewLogo from '../components/NewLogo';
 import VerifiedBadge from '../components/VerifiedBadge';
 import BottomNav from '../components/BottomNav';
-import { stories, feedPosts, newsPosts, marketTrendPosts } from '../data/mockData';
+import { stories, feedPosts, newsPosts, marketTrendPosts, livePosts } from '../data/mockData';
 import { useTheme } from '../context/ThemeContext';
 
 function SquarePenIcon({ className }: { className?: string }) {
@@ -180,9 +180,9 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
               </div>
             ))}
           </div>
-          <div className="p-3 border-t border-[#1C1E23] flex gap-3">
-            <input value={commentText} onChange={e => setCommentText(e.target.value)} onKeyDown={e => e.key === 'Enter' && addComment()} placeholder="Add a comment..." className="flex-1 bg-[#121419] border border-[#1C1E23] rounded-full px-4 py-2.5 text-[14px] text-white outline-none focus:border-[#2ECC71]" />
-            <button onClick={addComment} className="bg-[#2ECC71] text-[#040508] font-bold text-[13px] px-4 rounded-full">Post</button>
+          <div className="p-3 flex gap-3" style={{ borderTop: `1px solid ${t.border2}` }}>
+            <input value={commentText} onChange={e => setCommentText(e.target.value)} onKeyDown={e => e.key === 'Enter' && addComment()} placeholder="Add a comment..." className="flex-1 rounded-full px-4 py-2.5 text-[14px] outline-none" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}`, color: t.text }} />
+            <button onClick={addComment} className="font-bold text-[13px] px-4 rounded-full" style={{ backgroundColor: t.green, color: '#040508' }}>Post</button>
           </div>
         </div>
       </div>
@@ -190,14 +190,14 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
 
     {/* Repost Modal */}
     {showRepost && (
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-        <div className="bg-[#0A0D12] border border-[#1C1E23] rounded-[20px] p-6 max-w-[320px] w-full">
-          <h3 className="text-[17px] font-bold text-center mb-2">Repost?</h3>
-          <p className="text-[#8B8D93] text-[14px] text-center mb-5">Share this post with your followers?</p>
+      <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-6" style={{ backgroundColor: t.overlay }}>
+        <div className="rounded-[20px] p-6 max-w-[320px] w-full" style={{ backgroundColor: t.bgSec, border: `1px solid ${t.border2}` }}>
+          <h3 className="text-[17px] font-bold text-center mb-2" style={{ color: t.text }}>Repost?</h3>
+          <p className="text-[14px] text-center mb-5" style={{ color: t.textMuted }}>Share this post with your followers?</p>
           <div className="flex flex-col gap-3">
-            <button onClick={() => { setReposted(true); setShowRepost(false); }} className="bg-[#2979FF] text-white font-bold text-[15px] py-3 rounded-[12px]">Repost</button>
-            <button onClick={() => setShowRepost(false)} className="bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">Quote Repost</button>
-            <button onClick={() => setShowRepost(false)} className="text-[#8B8D93] font-bold text-[14px] py-2">Cancel</button>
+            <button onClick={() => { setReposted(true); setShowRepost(false); }} className="text-white font-bold text-[15px] py-3 rounded-[12px]" style={{ backgroundColor: t.blue }}>Repost</button>
+            <button onClick={() => setShowRepost(false)} className="font-bold text-[15px] py-3 rounded-[12px]" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}`, color: t.textSec }}>Quote Repost</button>
+            <button onClick={() => setShowRepost(false)} className="font-bold text-[14px] py-2" style={{ color: t.textMuted }}>Cancel</button>
           </div>
         </div>
       </div>
@@ -205,32 +205,32 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
 
     {/* Share Sheet */}
     {showShare && (
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center">
-        <div className="bg-[#0A0D12] border-t border-[#1C1E23] rounded-t-[24px] w-full max-w-[430px] p-5">
+      <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-end justify-center" style={{ backgroundColor: t.overlay }}>
+        <div className="rounded-t-[24px] w-full max-w-[430px] p-5" style={{ backgroundColor: t.bgSec, borderTop: `1px solid ${t.border2}` }}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[17px] font-bold">Share</h3>
-            <button onClick={() => setShowShare(false)}><X className="w-5 h-5 text-[#8B8D93]" /></button>
+            <h3 className="text-[17px] font-bold" style={{ color: t.text }}>Share</h3>
+            <button onClick={() => setShowShare(false)}><X className="w-5 h-5" style={{ color: t.textMuted }} /></button>
           </div>
           <div className="grid grid-cols-4 gap-4 mb-4">
             {[
-              { name: 'Copy Link', icon: '🔗' },
-              { name: 'Twitter', icon: '𝕏' },
-              { name: 'Telegram', icon: '✈️' },
-              { name: 'WhatsApp', icon: '💬' },
-              { name: 'Instagram', icon: '📷' },
-              { name: 'Email', icon: '📧' },
-              { name: 'Messages', icon: '💌' },
-              { name: 'More', icon: '⋯' },
+              { name: 'Copy Link', icon: '🔗', color: t.textMuted },
+              { name: 'Twitter', icon: '𝕏', color: '#1DA1F2' },
+              { name: 'Telegram', icon: '✈️', color: '#0088CC' },
+              { name: 'WhatsApp', icon: '💬', color: '#25D366' },
+              { name: 'Instagram', icon: '📷', color: '#E4405F' },
+              { name: 'Email', icon: '📧', color: t.textMuted },
+              { name: 'Messages', icon: '💌', color: t.green },
+              { name: 'More', icon: '⋯', color: t.textMuted },
             ].map(s => (
               <button key={s.name} onClick={() => handleShare(s.name)} className="flex flex-col items-center gap-2">
-                <div className="w-14 h-14 rounded-full bg-[#121419] border border-[#1C1E23] flex items-center justify-center text-[20px] hover:border-[#2ECC71] transition-colors">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center text-[20px] transition-colors" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}` }}>
                   {s.icon}
                 </div>
-                <span className="text-[11px] text-[#8B8D93]">{s.name}</span>
+                <span className="text-[11px]" style={{ color: t.textMuted }}>{s.name}</span>
               </button>
             ))}
           </div>
-          <button onClick={() => setShowShare(false)} className="w-full bg-[#121419] border border-[#1C1E23] text-[#F3F4F6] font-bold text-[15px] py-3 rounded-[12px]">Cancel</button>
+          <button onClick={() => setShowShare(false)} className="w-full font-bold text-[15px] py-3 rounded-[12px]" style={{ backgroundColor: t.bgTer, border: `1px solid ${t.border2}`, color: t.textSec }}>Cancel</button>
         </div>
       </div>
     )}
@@ -253,7 +253,7 @@ export default function TodayFeedPage() {
     });
   };
 
-  const currentPosts = activeTab === 'News' ? newsPosts : activeTab === 'Market Trend' ? marketTrendPosts : feedPosts;
+  const currentPosts = activeTab === 'News' ? newsPosts : activeTab === 'Market Trend' ? marketTrendPosts : activeTab === 'Live' ? livePosts : feedPosts;
   const filters = ['All', 'Topics', 'Creators'];
 
   return (
@@ -278,7 +278,7 @@ export default function TodayFeedPage() {
       </header>
 
       <div className="flex items-center justify-between px-8 pt-4 pb-0" style={{ borderBottom: `1px solid ${t.border}` }}>
-        {['Today', 'News', 'Market Trend'].map(tab => (
+        {['Today', 'News', 'Live', 'Market Trend'].map(tab => (
           <button
             key={tab}
             onClick={() => { setActiveTab(tab); if (tab === 'Market Trend') navigate('/vote-market'); }}
@@ -323,7 +323,7 @@ export default function TodayFeedPage() {
         </button>
       </div>
 
-      {activeTab === 'Today' && (
+      {(activeTab === 'Today' || activeTab === 'Live') && (
         <div className="flex items-start gap-4 px-4 pb-4 overflow-x-auto" style={{ borderBottom: `1px solid ${t.border}` }}>
           {stories.map((s, i) => (
             <div key={i} onClick={() => navigate(`/story?idx=${i}`)} className="flex flex-col items-center gap-1.5 min-w-[72px] cursor-pointer">
