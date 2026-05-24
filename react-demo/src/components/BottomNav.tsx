@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BarChart3, User } from 'lucide-react';
+import { BarChart3, User, Headphones } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 function HomeNavIcon({ className }: { className?: string }) {
@@ -11,13 +11,6 @@ function HomeNavIcon({ className }: { className?: string }) {
   );
 }
 
-function ChatsNavIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
-  );
-}
 
 function LiveNavIcon({ className }: { className?: string }) {
   return (
@@ -34,7 +27,7 @@ function LiveNavIcon({ className }: { className?: string }) {
 const tabs = [
   { key: 'home', label: 'Home', path: '/home', Icon: HomeNavIcon },
   { key: 'markets', label: 'Markets', path: '/markets', Icon: BarChart3 },
-  { key: 'chats', label: 'Chats', path: '/chats', Icon: ChatsNavIcon },
+  { key: 'podcasts', label: 'Podcasts', path: '/podcasts', Icon: Headphones },
   { key: 'live', label: 'Live', path: '/live', Icon: LiveNavIcon },
   { key: 'profile', label: 'Profile', path: '/profile', Icon: User },
 ];

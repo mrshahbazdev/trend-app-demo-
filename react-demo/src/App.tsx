@@ -19,6 +19,7 @@ import SearchPage from './pages/SearchPage';
 import StoryViewerPage from './pages/StoryViewerPage';
 import MarketDetailPage from './pages/MarketDetailPage';
 import AboutPage from './pages/AboutPage';
+import PodcastsPage from './pages/PodcastsPage';
 import GoLivePage from './pages/GoLivePage';
 import { useTheme } from './context/ThemeContext';
 
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="/story" element={<StoryViewerPage />} />
           <Route path="/market-detail" element={<MarketDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/podcasts" element={<PodcastsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
