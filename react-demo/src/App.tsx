@@ -22,6 +22,7 @@ import AboutPage from './pages/AboutPage';
 import PodcastsPage from './pages/PodcastsPage';
 import GoLivePage from './pages/GoLivePage';
 import DiscoverPage from './pages/DiscoverPage';
+import OAuthLoginPage from './pages/OAuthLoginPage';
 import { useTheme } from './context/ThemeContext';
 
 export default function App() {
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="/market-detail" element={<MarketDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/auth/:provider" element={<OAuthLoginPage />} />
           <Route path="/podcasts" element={<PodcastsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

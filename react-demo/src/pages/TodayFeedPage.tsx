@@ -81,10 +81,10 @@ function PostCard({ post, liked, onToggleLike }: { post: PostData; liked: boolea
             <div className="flex items-center gap-1 mt-[2px]">
               <span onClick={() => navigate('/profile')} className="font-bold text-[16px] cursor-pointer hover:underline" style={{ color: t.text }}>{post.user}</span>
               {post.verified && <VerifiedBadge className="w-[16px] h-[16px]" style={{ color: t.green }} />}
-              <span className="text-[14px] ml-1" style={{ color: t.textMuted }}>{post.handle}</span>
-              <span className="text-[14px] px-0.5" style={{ color: t.textMuted }}>·</span>
+              <span className="text-[14px] px-0.5 ml-auto" style={{ color: t.textMuted }}>·</span>
               <span className="text-[14px]" style={{ color: t.textMuted }}>{post.time}</span>
             </div>
+            <span className="text-[13px]" style={{ color: t.textMuted }}>{post.handle}</span>
           </div>
         </div>
         <div className="flex items-center gap-3">
